@@ -5,9 +5,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 
 
-# =========================
-# DATABASE CONNECTION
-# =========================
 
 def get_database():
     connection = sqlite3.connect("agriconnect.db")
@@ -15,18 +12,12 @@ def get_database():
     return connection
 
 
-# =========================
-# HOME
-# =========================
 
 @app.route("/")
 def home():
     return "AgriConnect backend is running!"
 
 
-# =========================
-# GET ALL PRODUCTS
-# =========================
 
 @app.route("/products", methods=["GET"])
 def get_products():
@@ -53,9 +44,6 @@ def get_products():
     return jsonify([dict(product) for product in products])
 
 
-# =========================
-# ADD PRODUCT
-# =========================
 
 @app.route("/products", methods=["POST"])
 def add_product():
@@ -124,9 +112,6 @@ def add_product():
     }), 201
 
 
-# =========================
-# CREATE USER
-# =========================
 
 @app.route("/users", methods=["POST"])
 def add_user():
@@ -185,9 +170,6 @@ def add_user():
     }), 201
 
 
-# =========================
-# LOGIN
-# =========================
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -237,10 +219,6 @@ def login():
         }
     }), 200
 
-
-# =========================
-# SEARCH AND FILTER
-# =========================
 
 @app.route("/search", methods=["GET"])
 def search_products():
@@ -335,10 +313,6 @@ def search_products():
     return jsonify([dict(product) for product in products])
 
 
-# =========================
-# BUYER INTEREST
-# =========================
-
 @app.route("/interests", methods=["POST"])
 def add_interest():
 
@@ -409,9 +383,6 @@ def add_interest():
     }), 201
 
 
-# =========================
-# START SERVER
-# =========================
 
 if __name__ == "__main__":
     app.run(debug=True)
