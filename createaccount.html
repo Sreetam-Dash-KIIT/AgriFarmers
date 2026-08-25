@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect - Create Account</title>
+  <style>
+    :root {
+      --bg-color: #f4f7f4;
+      --card-bg: #ffffff;
+      --primary: #2d5a27;
+      --primary-hover: #1e3e1a;
+      --text-main: #1d211d;
+      --text-muted: #667060;
+      --border: #dce3dc;
+      --icon-color: #4a6b40;
+      --error-color: #d32f2f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 24px 20px;
+    }
+
+    .signup-container {
+      background-color: var(--card-bg);
+      width: 100%;
+      max-width: 420px;
+      padding: 36px 28px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      text-align: center;
+    }
+
+    .brand {
+      margin-bottom: 24px;
+    }
+
+    .brand-logo {
+      width: 85px;
+      height: 85px;
+      margin-bottom: 8px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .brand h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+
+    .tagline {
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--text-muted);
+      margin-top: 2px;
+      margin-bottom: 12px;
+    }
+
+    /* Extra spacing added above Create Account heading */
+    .page-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-top: 26px; 
+      position: relative;
+      display: inline-block;
+      padding-bottom: 6px;
+    }
+
+    .page-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 32px;
+      height: 3px;
+      background-color: var(--primary);
+      border-radius: 2px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper svg.left-icon {
+      position: absolute;
+      left: 14px;
+      width: 18px;
+      height: 18px;
+      fill: var(--icon-color);
+      pointer-events: none;
+    }
+
+    .input-wrapper svg.right-icon {
+      position: absolute;
+      right: 14px;
+      width: 18px;
+      height: 18px;
+      fill: var(--icon-color);
+      cursor: pointer;
+    }
+
+    .input-wrapper input, 
+    .input-wrapper select {
+      width: 100%;
+      padding: 12px 42px 12px 42px;
+      font-size: 0.92rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      background-color: #fff;
+      color: var(--text-main);
+      appearance: none;
+      -webkit-appearance: none;
+      transition: all 0.2s ease;
+    }
+
+    .input-wrapper select {
+      padding-right: 40px;
+    }
+
+    .input-wrapper input:focus,
+    .input-wrapper select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.12);
+    }
+
+    /* Location Toggle Styling */
+    .location-btn {
+      background: none;
+      border: none;
+      padding: 4px;
+      position: absolute;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.2s ease;
+    }
+
+    .location-btn:hover {
+      background-color: #eaf2ea;
+    }
+
+    .location-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--primary);
+    }
+
+    .location-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      margin-left: 4px;
+      display: none;
+    }
+
+    .confirm-wrapper {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.3s ease, margin-bottom 0.3s ease;
+      margin-bottom: 0;
+    }
+
+    .confirm-wrapper.show {
+      max-height: 70px;
+      opacity: 1;
+      margin-bottom: 14px;
+    }
+
+    .input-wrapper input.error {
+      border-color: var(--error-color);
+      box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.12);
+    }
+
+    .error-text {
+      color: var(--error-color);
+      font-size: 0.78rem;
+      margin-top: 4px;
+      margin-left: 4px;
+      display: none;
+    }
+
+    .terms-group {
+      margin-top: 16px;
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .terms-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .terms-group input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .terms-group label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      line-height: 1.3;
+    }
+
+    .terms-toggle-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.82rem;
+      cursor: pointer;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .terms-toggle-btn:hover {
+      text-decoration: underline;
+    }
+
+    .terms-arrow {
+      width: 12px;
+      height: 12px;
+      fill: var(--primary);
+      transition: transform 0.2s ease;
+    }
+
+    .terms-arrow.open {
+      transform: rotate(180deg);
+    }
+
+    .terms-dropdown-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, margin-top 0.3s ease, padding 0.3s ease;
+      background-color: #f8faf8;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      text-align: left;
+    }
+
+    .terms-dropdown-content.open {
+      max-height: 180px;
+      overflow-y: auto;
+      margin-top: 10px;
+      padding: 10px 12px;
+    }
+
+    .terms-dropdown-content h4 {
+      font-size: 0.8rem;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .terms-dropdown-content p {
+      margin-bottom: 6px;
+    }
+
+    .terms-dropdown-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 13px;
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.98rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .login-redirect {
+      margin-top: 18px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .login-redirect a {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .login-redirect a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <main class="signup-container">
+    <header class="brand">
+      <img src="logo.png.jpeg" alt="AgriConnect Logo" class="brand-logo">
+      <h1>AgriConnect</h1>
+      <p class="tagline">"From Harvest to Home"</p>
+      <h2 class="page-title">Create Account</h2>
+    </header>
+
+    <form id="signupForm" action="#" method="POST">
+      <!-- 1. Name -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <svg class="left-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          <input type="text" id="fullName" name="fullName" placeholder="Enter your name" required autocomplete="name">
+        </div>
+      </div>
+
+      <!-- 2. Email / Phone No -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <svg class="left-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          <input type="text" id="contactInfo" name="contactInfo" placeholder="Enter your email or phone number" required autocomplete="username">
+        </div>
+      </div>
+
+      <!-- 3. Create Password -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <svg class="left-icon" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+          <input type="password" id="password" name="password" placeholder="Create a password" required autocomplete="new-password">
+          <svg class="right-icon toggle-password" data-target="password" viewBox="0 0 24 24">
+            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- 4. Confirm Password Dropdown -->
+      <div id="confirmGroup" class="form-group confirm-wrapper">
+        <div class="input-wrapper">
+          <svg class="left-icon" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" autocomplete="new-password">
+          <svg class="right-icon toggle-password" data-target="confirmPassword" viewBox="0 0 24 24">
+            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+          </svg>
+        </div>
+        <div id="passwordError" class="error-text">Passwords do not match.</div>
+      </div>
+
+      <!-- 5. Select Role -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <svg class="left-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          <select id="role" name="role" required>
+            <option value="" disabled selected>Select your role</option>
+            <option value="farmer">Farmer</option>
+            <option value="consumer">Consumer</option>
+          </select>
+          <svg class="right-icon" viewBox="0 0 24 24" style="pointer-events: none;"><path d="M7 10l5 5 5-5z"/></svg>
+        </div>
+      </div>
+
+      <!-- 6. Location Input with Working GPS Toggle -->
+      <div class="form-group">
+        <div class="input-wrapper">
+          <svg class="left-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <input type="text" id="location" name="location" placeholder="Enter your location" required autocomplete="address-level2">
+          
+          <button type="button" id="locateBtn" class="location-btn" title="Detect Current Location">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
+            </svg>
+          </button>
+        </div>
+        <div id="locationStatus" class="location-status">Fetching location...</div>
+      </div>
+
+      <!-- Terms Checkbox with Accordion Dropdown -->
+      <div class="terms-group">
+        <div class="terms-checkbox-label">
+          <input type="checkbox" id="terms" name="terms" required>
+          <label for="terms">
+            I agree to the 
+            <button type="button" class="terms-toggle-btn" id="toggleTerms">
+              Terms & Conditions
+              <svg class="terms-arrow" id="termsArrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+            </button>
+          </label>
+        </div>
+
+        <div class="terms-dropdown-content" id="termsContent">
+          <h4>Platform Terms</h4>
+          <p>• Transact accurately, communicate respectfully, and process all payments through AgriConnect.</p>
+          <p>• Fulfill orders on schedule and report damaged or missing produce within 24 hours of receipt.</p>
+          
+          <h4 style="margin-top: 8px;">Personal Privacy & Safety</h4>
+          <p>• Your personal data, contact details, and precise location are encrypted and strictly used to fulfill local orders.</p>
+          <p>• Personal details will never be sold, leased, or shared with third-party advertisers.</p>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn-submit">Create Account</button>
+    </form>
+
+    <p class="login-redirect">
+      Already have an account? <a href="login.html">Login</a>
+    </p>
+  </main>
+
+  <script>
+    const form = document.getElementById('signupForm');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const confirmGroup = document.getElementById('confirmGroup');
+    const passwordError = document.getElementById('passwordError');
+
+    const toggleTermsBtn = document.getElementById('toggleTerms');
+    const termsContent = document.getElementById('termsContent');
+    const termsArrow = document.getElementById('termsArrow');
+
+    const locateBtn = document.getElementById('locateBtn');
+    const locationInput = document.getElementById('location');
+    const locationStatus = document.getElementById('locationStatus');
+
+    // Working Location Toggle (Geolocation API)
+    locateBtn.addEventListener('click', function () {
+      if (!navigator.geolocation) {
+        locationStatus.style.display = 'block';
+        locationStatus.style.color = 'var(--error-color)';
+        locationStatus.textContent = 'Geolocation is not supported by your browser.';
+        return;
+      }
+
+      locationStatus.style.display = 'block';
+      locationStatus.style.color = 'var(--text-muted)';
+      locationStatus.textContent = 'Detecting your location...';
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          try {
+            // Reverse geocoding via OpenStreetMap API
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);
+            const data = await response.json();
+
+            if (data && data.address) {
+              const city = data.address.city || data.address.town || data.address.village || data.address.county || '';
+              const state = data.address.state || '';
+              const formattedLocation = city && state ? `${city}, ${state}` : data.display_name.split(',').slice(0, 2).join(',');
+              
+              locationInput.value = formattedLocation;
+              locationStatus.style.color = 'var(--primary)';
+              locationStatus.textContent = 'Location detected successfully!';
+            } else {
+              locationInput.value = `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+              locationStatus.style.color = 'var(--primary)';
+              locationStatus.textContent = 'Coordinates detected!';
+            }
+          } catch (err) {
+            locationInput.value = `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+            locationStatus.style.color = 'var(--primary)';
+            locationStatus.textContent = 'Coordinates detected!';
+          }
+        },
+        (error) => {
+          locationStatus.style.display = 'block';
+          locationStatus.style.color = 'var(--error-color)';
+          switch(error.code) {
+            case error.PERMISSION_DENIED:
+              locationStatus.textContent = 'Location permission denied.';
+              break;
+            case error.POSITION_UNAVAILABLE:
+              locationStatus.textContent = 'Location information unavailable.';
+              break;
+            case error.TIMEOUT:
+              locationStatus.textContent = 'Location request timed out.';
+              break;
+            default:
+              locationStatus.textContent = 'An error occurred fetching location.';
+          }
+        }
+      );
+    });
+
+    // Toggle T&C Dropdown Accordion
+    toggleTermsBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      termsContent.classList.toggle('open');
+      termsArrow.classList.toggle('open');
+    });
+
+    // Slide down Confirm Password field when typing starts
+    password.addEventListener('input', function () {
+      if (password.value.trim().length > 0) {
+        confirmGroup.classList.add('show');
+        confirmPassword.setAttribute('required', 'true');
+      } else {
+        confirmGroup.classList.remove('show');
+        confirmPassword.removeAttribute('required');
+        confirmPassword.value = '';
+        passwordError.style.display = 'none';
+        password.classList.remove('error');
+        confirmPassword.classList.remove('error');
+      }
+    });
+
+    // Toggle password visibility
+    document.querySelectorAll('.toggle-password').forEach(icon => {
+      icon.addEventListener('click', function () {
+        const targetId = this.getAttribute('data-target');
+        const inputField = document.getElementById(targetId);
+
+        if (inputField.type === 'password') {
+          inputField.type = 'text';
+          this.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2z"/>';
+        } else {
+          inputField.type = 'password';
+          this.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+        }
+      });
+    });
+
+    // Validate password match on form submission
+    form.addEventListener('submit', function (event) {
+      if (password.value.trim().length > 0 && password.value !== confirmPassword.value) {
+        event.preventDefault();
+        password.classList.add('error');
+        confirmPassword.classList.add('error');
+        passwordError.style.display = 'block';
+      }
+    });
+
+    // Clear error highlights when passwords match
+    confirmPassword.addEventListener('input', function () {
+      if (password.value === confirmPassword.value) {
+        password.classList.remove('error');
+        confirmPassword.classList.remove('error');
+        passwordError.style.display = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>
