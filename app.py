@@ -7,7 +7,6 @@ app = Flask(__name__)
 CORS(app)
 
 
-
 def get_database():
     connection = sqlite3.connect("agriconnect.db")
     connection.row_factory = sqlite3.Row
