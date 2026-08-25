@@ -18,6 +18,10 @@ def get_database():
 def home():
     return "AgriConnect backend is running!"
 
+@app.route("/createaccount.html")
+def create_account_page():
+    return send_from_directory(".", "createaccount.html")
+
 
 
 @app.route("/products", methods=["GET"])
