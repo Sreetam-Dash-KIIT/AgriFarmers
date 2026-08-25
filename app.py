@@ -23,6 +23,10 @@ def home():
 def create_account_page():
     return send_from_directory(".", "createaccount.html")
 
+@app.route("/login.html")
+def login_page():
+    return send_from_directory(".", "login.html")
+
 
 @app.route("/logo.png.jpeg")
 def logo():
