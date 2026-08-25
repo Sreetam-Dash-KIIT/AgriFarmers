@@ -22,6 +22,10 @@ def home():
 def create_account_page():
     return send_from_directory(".", "createaccount.html")
 
+@app.route("/logo.png.jpeg")
+def logo():
+    return send_from_directory(".", "logo.png.jpeg")
+
 
 
 @app.route("/products", methods=["GET"])
