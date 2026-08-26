@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect - Buyer Dashboard</title>
+  <style>
+    :root {
+      --bg-color: #f4f7f4;
+      --card-bg: #ffffff;
+      --primary: #2d5a27;
+      --primary-hover: #1e3e1a;
+      --accent: #e8f0e6;
+      --text-main: #1d211d;
+      --text-muted: #667060;
+      --border: #dce3dc;
+      --danger: #c93b2b;
+      --success: #28a745;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    /* Header */
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-logo-group img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--border);
+    }
+
+    .brand-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .welcome-text {
+      font-weight: 600;
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    .btn-logout {
+      padding: 6px 14px;
+      background: #fde8e8;
+      color: var(--danger);
+      border: 1px solid #f8b4b4;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-logout:hover {
+      background: var(--danger);
+      color: #ffffff;
+    }
+
+    /* Main Layout */
+    .dashboard-container {
+      max-width: 800px;
+      margin: 28px auto 0;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .dashboard-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .section-header {
+      font-size: 1.15rem;
+      color: var(--primary);
+      margin-bottom: 18px;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Search Form */
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .form-group input[type="text"] {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: var(--bg-color);
+      outline: none;
+    }
+
+    .form-group input[type="text"]:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+    }
+
+    /* Price Controls */
+    .price-control-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .price-input-box {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: var(--bg-color);
+      outline: none;
+    }
+
+    .price-input-box:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .button-group {
+      grid-column: span 2;
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .btn-search {
+      flex: 2;
+      padding: 12px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .btn-search:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-reset {
+      flex: 1;
+      padding: 12px;
+      background: var(--bg-color);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    /* Listings Display */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .product-card {
+      background: var(--bg-color);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .product-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .product-detail {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .product-detail strong {
+      color: var(--text-main);
+    }
+
+    .btn-interest {
+      width: 100%;
+      padding: 8px 12px;
+      background: var(--accent);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+
+    .btn-interest:hover {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-interest:disabled {
+      background: var(--border);
+      color: var(--text-muted);
+      border-color: var(--border);
+      cursor: not-allowed;
+    }
+
+    .message-banner {
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-align: center;
+      display: none;
+    }
+
+    .message-banner.error {
+      background: #fde8e8;
+      color: var(--danger);
+      display: block;
+    }
+
+    .message-banner.success {
+      background: #e6f4ea;
+      color: var(--success);
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <div class="header-left">
+        <a href="#" class="brand-logo-group">
+          <img src="logo.png.jpeg" alt="AgriConnect Logo" onerror="this.style.display='none'">
+          <span class="brand-name">AgriConnect</span>
+        </a>
+      </div>
+      <div class="header-right">
+        <span class="welcome-text" id="welcome-message">Welcome, Buyer 👋</span>
+        <button class="btn-logout" onclick="handleLogout()">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-container">
+
+    <div id="status-message" class="message-banner"></div>
+
+    <!-- Filter Form -->
+    <section class="dashboard-card">
+      <h2 class="section-header">Search Harvest Listings</h2>
+      <form id="search-form" class="filter-grid">
+        <div class="form-group">
+          <label for="crop">Crop Name</label>
+          <input type="text" id="crop" placeholder="e.g. Tomato or Rice">
+        </div>
+
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" id="location" placeholder="e.g. Bhubaneswar">
+        </div>
+
+        <!-- Min Price (Box + Slider) -->
+        <div class="form-group">
+          <label for="min_price_input">Min Price (₹/kg)</label>
+          <div class="price-control-wrapper">
+            <input 
+              type="number" 
+              id="min_price_input" 
+              class="price-input-box" 
+              value="0" 
+              min="0" 
+              max="500000" 
+              onfocus="if(this.value=='0') this.value='';" 
+              onblur="if(this.value=='') { this.value='0'; syncMinSlider(0); }"
+              oninput="syncMinSlider(this.value)"
+            >
+            <input type="range" id="min_price_slider" value="0" min="0" max="500000" step="10" oninput="syncMinInput(this.value)">
+          </div>
+        </div>
+
+        <!-- Max Price (Box + Slider) -->
+        <div class="form-group">
+          <label for="max_price_input">Max Price (₹/kg)</label>
+          <div class="price-control-wrapper">
+            <input 
+              type="number" 
+              id="max_price_input" 
+              class="price-input-box" 
+              value="500000" 
+              min="0" 
+              max="500000" 
+              onfocus="if(this.value=='500000') this.value='';" 
+              onblur="if(this.value=='') { this.value='500000'; syncMaxSlider(500000); }"
+              oninput="syncMaxSlider(this.value)"
+            >
+            <input type="range" id="max_price_slider" value="500000" min="0" max="500000" step="10" oninput="syncMaxInput(this.value)">
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn-search">SEARCH PRODUCTS</button>
+          <button type="button" class="btn-reset" onclick="resetSearch()">RESET</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Product Grid -->
+    <section class="dashboard-card">
+      <h2 class="section-header">Available Listings</h2>
+      <div class="product-grid" id="product-container">
+        <!-- Products populated here -->
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    const API_BASE = "http://127.0.0.1:5000";
+
+    const currentUser = JSON.parse(localStorage.getItem('user')) || {
+      id: 1,
+      name: "Buyer",
+      role: "buyer"
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (currentUser && currentUser.name) {
+        document.getElementById('welcome-message').innerText = `Welcome, ${currentUser.name} 👋`;
+      }
+      fetchProducts();
+    });
+
+    // Two-Way Price Sync Handlers
+    function syncMinInput(val) {
+      document.getElementById('min_price_input').value = val;
+    }
+
+    function syncMinSlider(val) {
+      document.getElementById('min_price_slider').value = val || 0;
+    }
+
+    function syncMaxInput(val) {
+      document.getElementById('max_price_input').value = val;
+    }
+
+    function syncMaxSlider(val) {
+      document.getElementById('max_price_slider').value = val || 500000;
+    }
+
+   // Logout Functionality
+    function handleLogout() {
+      // Clear session dynamic data
+      localStorage.clear();
+      sessionStorage.clear();
+      
+      // Redirect to login page
+      window.location.href = 'login.html';
+    }
+
+
+    function showMessage(msg, isError = false) {
+      const banner = document.getElementById("status-message");
+      banner.innerText = msg;
+      banner.className = `message-banner ${isError ? 'error' : 'success'}`;
+      setTimeout(() => {
+        banner.className = "message-banner";
+      }, 4000);
+    }
+
+    async function fetchProducts() {
+        try {
+            const response = await fetch(`${API_BASE}/products`);
+            const data = await response.json();
+    
+            if (!response.ok) {
+            showMessage(data.error || "Failed to fetch products", true);
+            return;
+            }
+    
+            renderProducts(data);
+        } catch (err) {
+            showMessage("Error connecting to product service", true);
+        }
+    }
+
+    document.getElementById('search-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const crop = document.getElementById('crop').value.trim();
+      const location = document.getElementById('location').value.trim();
+      const min_price = document.getElementById('min_price_input').value;
+      const max_price = document.getElementById('max_price_input').value;
+
+      const params = new URLSearchParams();
+      if (crop) params.append('crop', crop);
+      if (location) params.append('location', location);
+      if (min_price > 0) params.append('min_price', min_price);
+      if (max_price < 500000) params.append('max_price', max_price);
+
+      try {
+        const response = await fetch(`${API_BASE}/search?${params.toString()}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+          showMessage(data.error || "Search failed", true);
+          return;
+        }
+
+        renderProducts(data);
+      } catch (err) {
+        showMessage("Error connecting to search service", true);
+      }
+    });
+
+    function resetSearch() {
+      document.getElementById('search-form').reset();
+      document.getElementById('min_price_input').value = 0;
+      document.getElementById('min_price_slider').value = 0;
+      document.getElementById('max_price_input').value = 500000;
+      document.getElementById('max_price_slider').value = 500000;
+      fetchProducts();
+    }
+
+    function renderProducts(products) {
+      const container = document.getElementById('product-container');
+      container.innerHTML = "";
+
+      if (products.length === 0) {
+        container.innerHTML = `<p style="color: var(--text-muted); grid-column: 1/-1;">No listings found matching your criteria.</p>`;
+        return;
+      }
+
+      products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+
+        card.innerHTML = `
+          <div>
+            <div class="product-title">🌱 ${product.crop}</div>
+            <div class="product-detail">Quantity: <strong>${product.quantity} kg</strong></div>
+            <div class="product-detail">Price: <strong>₹${product.price}/kg</strong></div>
+            <div class="product-detail">Location: 📍 <strong>${product.location}</strong></div>
+            <div class="product-detail" style="margin-top: 6px;">Farmer: <strong>${product.farmer_name || 'Unknown'}</strong></div>
+          </div>
+          <button class="btn-interest" onclick="expressInterest(${product.id}, this)">I'm Interested</button>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    async function expressInterest(productId, btnElement) {
+      if (!currentUser || !currentUser.id) {
+        showMessage("Please login as a buyer to express interest", true);
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/interests`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            buyer_id: currentUser.id,
+            product_id: productId
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          showMessage(data.error || "Could not record interest", true);
+          return;
+        }
+
+        showMessage(data.message, false);
+        btnElement.innerText = "Interest Recorded ✓";
+        btnElement.disabled = true;
+
+      } catch (err) {
+        showMessage("Server connection error", true);
+      }
+    }
+  </script>
+</body>
+</html>
