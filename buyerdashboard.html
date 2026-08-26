@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AgriConnect - Buyer Dashboard</title>
+
   <style>
     :root {
       --bg-color: #f4f7f4;
@@ -22,7 +23,8 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
     }
 
     body {
@@ -32,7 +34,6 @@
       padding-bottom: 60px;
     }
 
-    /* Header */
     header {
       background: var(--card-bg);
       border-bottom: 1px solid var(--border);
@@ -92,8 +93,6 @@
       font-weight: 600;
       font-size: 0.85rem;
       cursor: pointer;
-      text-decoration: none;
-      transition: all 0.2s ease;
     }
 
     .btn-logout:hover {
@@ -101,7 +100,6 @@
       color: #ffffff;
     }
 
-    /* Main Layout */
     .dashboard-container {
       max-width: 800px;
       margin: 28px auto 0;
@@ -116,7 +114,7 @@
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 24px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     }
 
     .section-header {
@@ -129,7 +127,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* Search Form */
     .filter-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -148,7 +145,8 @@
       color: var(--text-muted);
     }
 
-    .form-group input[type="text"] {
+    .form-group input {
+      width: 100%;
       padding: 10px 14px;
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -157,37 +155,9 @@
       outline: none;
     }
 
-    .form-group input[type="text"]:focus {
+    .form-group input:focus {
       border-color: var(--primary);
       background: #ffffff;
-    }
-
-    /* Price Controls */
-    .price-control-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .price-input-box {
-      width: 100%;
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.95rem;
-      background: var(--bg-color);
-      outline: none;
-    }
-
-    .price-input-box:focus {
-      border-color: var(--primary);
-      background: #ffffff;
-    }
-
-    input[type="range"] {
-      width: 100%;
-      accent-color: var(--primary);
-      cursor: pointer;
     }
 
     .button-group {
@@ -225,7 +195,6 @@
       cursor: pointer;
     }
 
-    /* Listings Display */
     .product-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -247,13 +216,13 @@
       font-size: 1.1rem;
       font-weight: 700;
       color: var(--primary);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .product-detail {
       font-size: 0.9rem;
       color: var(--text-muted);
-      margin-bottom: 2px;
+      margin-bottom: 3px;
     }
 
     .product-detail strong {
@@ -304,267 +273,568 @@
       color: var(--success);
       display: block;
     }
+
+    @media (max-width: 600px) {
+      .filter-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .button-group {
+        grid-column: span 1;
+      }
+
+      .nav-container {
+        padding: 14px 16px;
+      }
+
+      .welcome-text {
+        display: none;
+      }
+    }
   </style>
 </head>
+
 <body>
 
-  <!-- Header -->
   <header>
     <div class="nav-container">
-      <div class="header-left">
-        <a href="#" class="brand-logo-group">
-          <img src="logo.png.jpeg" alt="AgriConnect Logo" onerror="this.style.display='none'">
-          <span class="brand-name">AgriConnect</span>
-        </a>
-      </div>
+
+      <a href="#" class="brand-logo-group">
+        <img
+          src="/logo.png.jpeg"
+          alt="AgriConnect Logo"
+          onerror="this.style.display='none'"
+        >
+        <span class="brand-name">AgriConnect</span>
+      </a>
+
       <div class="header-right">
-        <span class="welcome-text" id="welcome-message">Welcome, Buyer 👋</span>
-        <button class="btn-logout" onclick="handleLogout()">Logout</button>
+        <span class="welcome-text" id="welcomeMessage">
+          Welcome!
+        </span>
+
+        <button class="btn-logout" id="logoutBtn">
+          Logout
+        </button>
       </div>
+
     </div>
   </header>
 
-  <div class="dashboard-container">
 
-    <div id="status-message" class="message-banner"></div>
+  <main class="dashboard-container">
 
-    <!-- Filter Form -->
+    <div id="statusMessage" class="message-banner"></div>
+
+
+    <!-- Search / Filter -->
     <section class="dashboard-card">
-      <h2 class="section-header">Search Harvest Listings</h2>
-      <form id="search-form" class="filter-grid">
-        <div class="form-group">
-          <label for="crop">Crop Name</label>
-          <input type="text" id="crop" placeholder="e.g. Tomato or Rice">
-        </div>
+
+      <h2 class="section-header">
+        Search Harvest Listings
+      </h2>
+
+      <form id="searchForm" class="filter-grid">
 
         <div class="form-group">
-          <label for="location">Location</label>
-          <input type="text" id="location" placeholder="e.g. Bhubaneswar">
+          <label for="crop">
+            Crop Name
+          </label>
+
+          <input
+            type="text"
+            id="crop"
+            placeholder="e.g. Tomato or Rice"
+          >
         </div>
 
-        <!-- Min Price (Box + Slider) -->
+
         <div class="form-group">
-          <label for="min_price_input">Min Price (₹/kg)</label>
-          <div class="price-control-wrapper">
-            <input 
-              type="number" 
-              id="min_price_input" 
-              class="price-input-box" 
-              value="0" 
-              min="0" 
-              max="500000" 
-              onfocus="if(this.value=='0') this.value='';" 
-              onblur="if(this.value=='') { this.value='0'; syncMinSlider(0); }"
-              oninput="syncMinSlider(this.value)"
-            >
-            <input type="range" id="min_price_slider" value="0" min="0" max="500000" step="10" oninput="syncMinInput(this.value)">
-          </div>
+          <label for="location">
+            Location
+          </label>
+
+          <input
+            type="text"
+            id="location"
+            placeholder="e.g. Bhubaneswar"
+          >
         </div>
 
-        <!-- Max Price (Box + Slider) -->
+
         <div class="form-group">
-          <label for="max_price_input">Max Price (₹/kg)</label>
-          <div class="price-control-wrapper">
-            <input 
-              type="number" 
-              id="max_price_input" 
-              class="price-input-box" 
-              value="500000" 
-              min="0" 
-              max="500000" 
-              onfocus="if(this.value=='500000') this.value='';" 
-              onblur="if(this.value=='') { this.value='500000'; syncMaxSlider(500000); }"
-              oninput="syncMaxSlider(this.value)"
-            >
-            <input type="range" id="max_price_slider" value="500000" min="0" max="500000" step="10" oninput="syncMaxInput(this.value)">
-          </div>
+          <label for="minPrice">
+            Minimum Price (₹/kg)
+          </label>
+
+          <input
+            type="number"
+            id="minPrice"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 20"
+          >
         </div>
+
+
+        <div class="form-group">
+          <label for="maxPrice">
+            Maximum Price (₹/kg)
+          </label>
+
+          <input
+            type="number"
+            id="maxPrice"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 100"
+          >
+        </div>
+
 
         <div class="button-group">
-          <button type="submit" class="btn-search">SEARCH PRODUCTS</button>
-          <button type="button" class="btn-reset" onclick="resetSearch()">RESET</button>
+
+          <button
+            type="submit"
+            class="btn-search"
+          >
+            SEARCH PRODUCTS
+          </button>
+
+          <button
+            type="button"
+            class="btn-reset"
+            id="resetBtn"
+          >
+            RESET
+          </button>
+
         </div>
+
       </form>
+
     </section>
 
-    <!-- Product Grid -->
+
+    <!-- Available Products -->
     <section class="dashboard-card">
-      <h2 class="section-header">Available Listings</h2>
-      <div class="product-grid" id="product-container">
-        <!-- Products populated here -->
+
+      <h2 class="section-header">
+        Available Listings
+      </h2>
+
+      <div
+        class="product-grid"
+        id="productContainer"
+      >
+        <p>
+          Loading products...
+        </p>
       </div>
+
     </section>
 
-  </div>
+  </main>
+
 
   <script>
-    const API_BASE = "http://127.0.0.1:5000";
 
-    const currentUser = JSON.parse(localStorage.getItem('user')) || {
-      id: 1,
-      name: "Buyer",
-      role: "buyer"
-    };
+    // Get logged-in user
+    const currentUser = JSON.parse(
+      localStorage.getItem('agriconnect_user')
+    );
 
-    document.addEventListener("DOMContentLoaded", () => {
-      if (currentUser && currentUser.name) {
-        document.getElementById('welcome-message').innerText = `Welcome, ${currentUser.name} 👋`;
-      }
-      fetchProducts();
-    });
 
-    // Two-Way Price Sync Handlers
-    function syncMinInput(val) {
-      document.getElementById('min_price_input').value = val;
-    }
+    // Require login
+    if (!currentUser) {
 
-    function syncMinSlider(val) {
-      document.getElementById('min_price_slider').value = val || 0;
-    }
+      window.location.href = '/login.html';
 
-    function syncMaxInput(val) {
-      document.getElementById('max_price_input').value = val;
-    }
-
-    function syncMaxSlider(val) {
-      document.getElementById('max_price_slider').value = val || 500000;
-    }
-
-   // Logout Functionality
-    function handleLogout() {
-      // Clear session dynamic data
-      localStorage.clear();
-      sessionStorage.clear();
-      
-      // Redirect to login page
-      window.location.href = 'login.html';
     }
 
 
-    function showMessage(msg, isError = false) {
-      const banner = document.getElementById("status-message");
-      banner.innerText = msg;
-      banner.className = `message-banner ${isError ? 'error' : 'success'}`;
+    // Only buyers can access this dashboard
+    if (
+      currentUser &&
+      currentUser.role !== 'buyer'
+    ) {
+
+      alert('Access denied. Buyer account required.');
+      window.location.href = '/login.html';
+
+    }
+
+
+    // Display buyer name
+    if (currentUser) {
+
+      document.getElementById('welcomeMessage').textContent =
+        `Welcome, ${currentUser.name} 👋`;
+
+    }
+
+
+    const productContainer =
+      document.getElementById('productContainer');
+
+    const searchForm =
+      document.getElementById('searchForm');
+
+    const statusMessage =
+      document.getElementById('statusMessage');
+
+
+    // Show status message
+    function showMessage(message, isError = false) {
+
+      statusMessage.textContent = message;
+
+      statusMessage.className =
+        `message-banner ${isError ? 'error' : 'success'}`;
+
       setTimeout(() => {
-        banner.className = "message-banner";
+
+        statusMessage.className =
+          'message-banner';
+
       }, 4000);
+
     }
 
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener(
+      'click',
+      function () {
+
+        localStorage.removeItem('agriconnect_user');
+        sessionStorage.clear();
+
+        window.location.href = '/login.html';
+
+      }
+    );
+
+
+    // Load all available products
     async function fetchProducts() {
-        try {
-            const response = await fetch(`${API_BASE}/products`);
-            const data = await response.json();
-    
-            if (!response.ok) {
-            showMessage(data.error || "Failed to fetch products", true);
-            return;
-            }
-    
-            renderProducts(data);
-        } catch (err) {
-            showMessage("Error connecting to product service", true);
-        }
-    }
-
-    document.getElementById('search-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const crop = document.getElementById('crop').value.trim();
-      const location = document.getElementById('location').value.trim();
-      const min_price = document.getElementById('min_price_input').value;
-      const max_price = document.getElementById('max_price_input').value;
-
-      const params = new URLSearchParams();
-      if (crop) params.append('crop', crop);
-      if (location) params.append('location', location);
-      if (min_price > 0) params.append('min_price', min_price);
-      if (max_price < 500000) params.append('max_price', max_price);
 
       try {
-        const response = await fetch(`${API_BASE}/search?${params.toString()}`);
+
+        const response = await fetch('/products');
+
         const data = await response.json();
 
         if (!response.ok) {
-          showMessage(data.error || "Search failed", true);
+
+          showMessage(
+            data.error || 'Failed to load products.',
+            true
+          );
+
           return;
         }
 
         renderProducts(data);
-      } catch (err) {
-        showMessage("Error connecting to search service", true);
-      }
-    });
 
-    function resetSearch() {
-      document.getElementById('search-form').reset();
-      document.getElementById('min_price_input').value = 0;
-      document.getElementById('min_price_slider').value = 0;
-      document.getElementById('max_price_input').value = 500000;
-      document.getElementById('max_price_slider').value = 500000;
-      fetchProducts();
+      } catch (error) {
+
+        console.error(
+          'Error loading products:',
+          error
+        );
+
+        showMessage(
+          'Could not connect to the AgriConnect server.',
+          true
+        );
+
+      }
+
     }
 
+
+    // Search products
+    searchForm.addEventListener(
+      'submit',
+      async function (event) {
+
+        event.preventDefault();
+
+        const crop =
+          document.getElementById('crop').value.trim();
+
+        const location =
+          document.getElementById('location').value.trim();
+
+        const minPrice =
+          document.getElementById('minPrice').value;
+
+        const maxPrice =
+          document.getElementById('maxPrice').value;
+
+
+        const params = new URLSearchParams();
+
+
+        if (crop) {
+          params.append('crop', crop);
+        }
+
+        if (location) {
+          params.append('location', location);
+        }
+
+        if (minPrice) {
+          params.append('min_price', minPrice);
+        }
+
+        if (maxPrice) {
+          params.append('max_price', maxPrice);
+        }
+
+
+        try {
+
+          const queryString =
+            params.toString();
+
+          const response = await fetch(
+            `/search${queryString ? '?' + queryString : ''}`
+          );
+
+          const data = await response.json();
+
+
+          if (!response.ok) {
+
+            showMessage(
+              data.error || 'Search failed.',
+              true
+            );
+
+            return;
+
+          }
+
+
+          renderProducts(data);
+
+        } catch (error) {
+
+          console.error(
+            'Search error:',
+            error
+          );
+
+          showMessage(
+            'Could not connect to the AgriConnect server.',
+            true
+          );
+
+        }
+
+      }
+    );
+
+
+    // Reset search
+    document.getElementById('resetBtn').addEventListener(
+      'click',
+      function () {
+
+        searchForm.reset();
+        fetchProducts();
+
+      }
+    );
+
+
+    // Display products
     function renderProducts(products) {
-      const container = document.getElementById('product-container');
-      container.innerHTML = "";
+
+      productContainer.innerHTML = '';
+
 
       if (products.length === 0) {
-        container.innerHTML = `<p style="color: var(--text-muted); grid-column: 1/-1;">No listings found matching your criteria.</p>`;
+
+        productContainer.innerHTML = `
+          <p style="color: var(--text-muted); grid-column: 1/-1;">
+            No listings found matching your criteria.
+          </p>
+        `;
+
         return;
       }
 
+
       products.forEach(product => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
+
+        const card =
+          document.createElement('div');
+
+        card.className =
+          'product-card';
+
 
         card.innerHTML = `
           <div>
-            <div class="product-title">🌱 ${product.crop}</div>
-            <div class="product-detail">Quantity: <strong>${product.quantity} kg</strong></div>
-            <div class="product-detail">Price: <strong>₹${product.price}/kg</strong></div>
-            <div class="product-detail">Location: 📍 <strong>${product.location}</strong></div>
-            <div class="product-detail" style="margin-top: 6px;">Farmer: <strong>${product.farmer_name || 'Unknown'}</strong></div>
+
+            <div class="product-title">
+              🌱 ${escapeHtml(product.crop)}
+            </div>
+
+            <div class="product-detail">
+              Quantity:
+              <strong>${product.quantity} kg</strong>
+            </div>
+
+            <div class="product-detail">
+              Price:
+              <strong>₹${product.price}/kg</strong>
+            </div>
+
+            <div class="product-detail">
+              Location:
+              📍 <strong>${escapeHtml(product.location)}</strong>
+            </div>
+
+            <div class="product-detail">
+              Farmer:
+              <strong>
+                ${escapeHtml(product.farmer_name || 'Unknown')}
+              </strong>
+            </div>
+
           </div>
-          <button class="btn-interest" onclick="expressInterest(${product.id}, this)">I'm Interested</button>
+
+          <button
+            class="btn-interest"
+            onclick="expressInterest(${product.id}, this)"
+          >
+            I'm Interested
+          </button>
         `;
 
-        container.appendChild(card);
+
+        productContainer.appendChild(card);
+
       });
+
     }
 
-    async function expressInterest(productId, btnElement) {
-      if (!currentUser || !currentUser.id) {
-        showMessage("Please login as a buyer to express interest", true);
+
+    // Express interest in a product
+    async function expressInterest(
+      productId,
+      button
+    ) {
+
+      if (
+        !currentUser ||
+        currentUser.role !== 'buyer'
+      ) {
+
+        showMessage(
+          'Please log in as a buyer.',
+          true
+        );
+
         return;
+
       }
+
 
       try {
-        const response = await fetch(`${API_BASE}/interests`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            buyer_id: currentUser.id,
-            product_id: productId
-          })
-        });
 
-        const data = await response.json();
+        const response = await fetch(
+          '/interests',
+          {
+            method: 'POST',
+
+            headers: {
+              'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify({
+              buyer_id: currentUser.id,
+              product_id: productId
+            })
+          }
+        );
+
+
+        const data =
+          await response.json();
+
 
         if (!response.ok) {
-          showMessage(data.error || "Could not record interest", true);
+
+          showMessage(
+            data.error ||
+            'Could not record interest.',
+            true
+          );
+
           return;
+
         }
 
-        showMessage(data.message, false);
-        btnElement.innerText = "Interest Recorded ✓";
-        btnElement.disabled = true;
 
-      } catch (err) {
-        showMessage("Server connection error", true);
+        showMessage(
+          data.message ||
+          'Interest recorded successfully!'
+        );
+
+
+        button.textContent =
+          'Interest Recorded ✓';
+
+        button.disabled = true;
+
+
+      } catch (error) {
+
+        console.error(
+          'Interest error:',
+          error
+        );
+
+        showMessage(
+          'Could not connect to the AgriConnect server.',
+          true
+        );
+
       }
+
     }
+
+
+    // Prevent HTML injection when displaying database values
+    function escapeHtml(value) {
+
+      const div =
+        document.createElement('div');
+
+      div.textContent =
+        value == null ? '' : String(value);
+
+      return div.innerHTML;
+
+    }
+
+
+    // Load products when dashboard opens
+    if (
+      currentUser &&
+      currentUser.role === 'buyer'
+    ) {
+
+      fetchProducts();
+
+    }
+
   </script>
+
 </body>
 </html>
