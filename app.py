@@ -1,9 +1,10 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
+from flask_cors import CORS
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-
+CORS(app)
 
 
 def get_database():
@@ -17,6 +18,19 @@ def get_database():
 def home():
     return "AgriConnect backend is running!"
 
+
+@app.route("/createaccount.html")
+def create_account_page():
+    return send_from_directory(".", "createaccount.html")
+
+@app.route("/login.html")
+def login_page():
+    return send_from_directory(".", "login.html")
+
+
+@app.route("/logo.png.jpeg")
+def logo():
+    return send_from_directory(".", "logo.png.jpeg")
 
 
 @app.route("/products", methods=["GET"])
