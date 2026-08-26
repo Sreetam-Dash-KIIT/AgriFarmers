@@ -16,8 +16,7 @@ def get_database():
 
 @app.route("/")
 def home():
-    return "AgriConnect backend is running!"
-
+    return send_from_directory(".", "index.html")
 
 @app.route("/createaccount.html")
 def create_account_page():
@@ -26,6 +25,15 @@ def create_account_page():
 @app.route("/login.html")
 def login_page():
     return send_from_directory(".", "login.html")
+
+
+@app.route("/farmerdashboard.html")
+def farmer_dashboard():
+    return send_from_directory(".", "farmerdashboard.html")
+
+@app.route("/consumerdashboard.html")
+def consumer_dashboard():
+    return send_from_directory(".", "consumerdashboard.html")
 
 
 @app.route("/logo.png.jpeg")
