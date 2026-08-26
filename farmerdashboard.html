@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AgriFarmers - Farmer Dashboard</title>
+  <title>AgriConnect - Farmer Dashboard</title>
+
   <style>
     :root {
       --bg-color: #f4f7f4;
@@ -15,14 +16,14 @@
       --text-muted: #667060;
       --border: #dce3dc;
       --danger: #c93b2b;
-      --danger-hover: #a82e20;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
     }
 
     body {
@@ -32,7 +33,6 @@
       padding-bottom: 60px;
     }
 
-    /* Header Styling */
     header {
       background: var(--card-bg);
       border-bottom: 1px solid var(--border);
@@ -97,7 +97,6 @@
       font-weight: 600;
       font-size: 0.85rem;
       cursor: pointer;
-      text-decoration: none;
       transition: all 0.2s ease;
     }
 
@@ -106,7 +105,6 @@
       color: #ffffff;
     }
 
-    /* Dashboard Main Container */
     .dashboard-container {
       max-width: 650px;
       margin: 28px auto 0;
@@ -121,7 +119,7 @@
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 24px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     }
 
     .section-header {
@@ -134,17 +132,10 @@
       letter-spacing: 0.5px;
     }
 
-    /* Form Design */
     .form-grid {
       display: flex;
       flex-direction: column;
       gap: 16px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
     }
 
     .form-group {
@@ -159,7 +150,7 @@
       color: var(--text-muted);
     }
 
-    .form-group input, .form-group textarea {
+    .form-group input {
       padding: 10px 14px;
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -169,12 +160,12 @@
       transition: all 0.2s ease;
     }
 
-    .form-group input:focus, .form-group textarea:focus {
+    .form-group input:focus {
       border-color: var(--primary);
       background: #ffffff;
     }
 
-    .btn-add, .btn-save {
+    .btn-add {
       padding: 12px;
       background: var(--primary);
       color: #ffffff;
@@ -188,11 +179,10 @@
       width: 100%;
     }
 
-    .btn-add:hover, .btn-save:hover {
+    .btn-add:hover {
       background: var(--primary-hover);
     }
 
-    /* Product Listings */
     .product-list {
       display: flex;
       flex-direction: column;
@@ -204,240 +194,371 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
 
     .product-info h4 {
       font-size: 1.05rem;
       color: var(--primary);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .product-meta {
       font-size: 0.9rem;
       color: var(--text-muted);
       font-weight: 500;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
-    .action-buttons {
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn-action {
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.82rem;
-      cursor: pointer;
-      border: 1px solid transparent;
-    }
-
-    .btn-edit {
-      background: var(--accent);
-      color: var(--primary);
-      border-color: var(--border);
-    }
-
-    .btn-delete {
-      background: #fde8e8;
-      color: var(--danger);
-      border-color: #f8b4b4;
-    }
-
-    .hint {
-      font-size: 0.8rem;
+    .empty-message {
+      text-align: center;
       color: var(--text-muted);
-      margin-top: 4px;
+      font-size: 0.9rem;
+      padding: 20px 0;
     }
   </style>
 </head>
+
 <body>
 
-  <!-- Header with Logout Button -->
   <header>
     <div class="nav-container">
+
       <div class="header-left">
         <a href="#" class="brand-logo-group">
-          <img src="logo.png.jpeg" alt="AgriFarmers Logo" onerror="this.style.display='none'">
-          <span class="brand-name">AgriFarmers</span>
+          <img
+            src="/logo.png.jpeg"
+            alt="AgriConnect Logo"
+            onerror="this.style.display='none'"
+          >
+          <span class="brand-name">AgriConnect</span>
         </a>
       </div>
+
       <div class="header-right">
-        <span class="welcome-text">Welcome, Rahul 👋</span>
-        <button class="btn-logout" onclick="handleLogout()">Logout</button>
+        <span class="welcome-text" id="welcomeText">
+          Welcome!
+        </span>
+
+        <button class="btn-logout" id="logoutBtn">
+          Logout
+        </button>
       </div>
+
     </div>
   </header>
 
-  <!-- Main Container -->
-  <div class="dashboard-container">
 
-    <!-- Add Product Section -->
+  <main class="dashboard-container">
+
+    <!-- Add Product -->
     <section class="dashboard-card">
+
       <h2 class="section-header">Add Product</h2>
-      <form id="add-product-form" class="form-grid">
+
+      <form id="addProductForm" class="form-grid">
+
         <div class="form-group">
-          <label for="crop-name">Crop</label>
-          <input type="text" id="crop-name" name="crop" placeholder="e.g. Tomato" required>
+          <label for="crop">Crop</label>
+          <input
+            type="text"
+            id="crop"
+            placeholder="e.g. Tomato"
+            required
+          >
         </div>
-        
+
         <div class="form-group">
           <label for="quantity">Quantity (kg)</label>
-          <input type="number" id="quantity" name="quantity" placeholder="e.g. 500" required>
+          <input
+            type="number"
+            id="quantity"
+            placeholder="e.g. 500"
+            min="0.01"
+            step="0.01"
+            required
+          >
         </div>
-        
+
         <div class="form-group">
           <label for="price">Price (₹/kg)</label>
-          <input type="number" id="price" name="price" placeholder="e.g. 25" required>
+          <input
+            type="number"
+            id="price"
+            placeholder="e.g. 25"
+            min="0.01"
+            step="0.01"
+            required
+          >
         </div>
-        
+
         <div class="form-group">
           <label for="location">Location</label>
-          <input type="text" id="location" name="location" placeholder="e.g. Bhubaneswar" required>
+          <input
+            type="text"
+            id="location"
+            placeholder="e.g. Bhubaneswar"
+            required
+          >
         </div>
 
-        <button type="submit" class="btn-add">ADD PRODUCT</button>
+        <button type="submit" class="btn-add">
+          ADD PRODUCT
+        </button>
+
       </form>
+
     </section>
 
-    <!-- My Listings Section -->
-    <section class="dashboard-card">
-      <h2 class="section-header">My Listings</h2>
-      <div class="product-list" id="product-list">
-        
-        <div class="product-item" data-quantity="500">
-          <div class="product-info">
-            <h4>🍅 Tomato</h4>
-            <div class="product-meta">500 kg</div>
-            <div class="product-meta">₹25/kg</div>
-            <div class="product-meta">📍 Bhubaneswar</div>
-          </div>
-          <div class="action-buttons">
-            <button class="btn-action btn-edit" onclick="editProduct(this)">Edit</button>
-            <button class="btn-action btn-delete" onclick="deleteProduct(this)">Delete</button>
-          </div>
-        </div>
 
-        <div class="product-item" data-quantity="1200">
-          <div class="product-info">
-            <h4>🌾 Rice</h4>
-            <div class="product-meta">1200 kg</div>
-            <div class="product-meta">₹38/kg</div>
-            <div class="product-meta">📍 Cuttack</div>
-          </div>
-          <div class="action-buttons">
-            <button class="btn-action btn-edit" onclick="editProduct(this)">Edit</button>
-            <button class="btn-action btn-delete" onclick="deleteProduct(this)">Delete</button>
-          </div>
+    <!-- My Listings -->
+    <section class="dashboard-card">
+
+      <h2 class="section-header">My Listings</h2>
+
+      <div class="product-list" id="productList">
+
+        <div class="empty-message">
+          Loading your products...
         </div>
 
       </div>
+
     </section>
 
-    <!-- Farm Location Section -->
-    <section class="dashboard-card">
-      <h2 class="section-header">Farm Location</h2>
-      <form id="location-form" class="form-grid" onsubmit="event.preventDefault(); alert('Farm location saved successfully!');">
-        <div class="form-group">
-          <label for="address">Street / Farm Address</label>
-          <textarea id="address" rows="2" placeholder="e.g. Plot No 12, Green Valley Farms"></textarea>
-        </div>
+  </main>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="city">City / District</label>
-            <input type="text" id="city" value="Bhubaneswar">
-          </div>
-          <div class="form-group">
-            <label for="state">State</label>
-            <input type="text" id="state" value="Odisha">
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="pincode">Pincode</label>
-            <input type="text" id="pincode" value="751001">
-          </div>
-          <div class="form-group">
-            <label for="landmark">Landmark</label>
-            <input type="text" id="landmark" placeholder="Near Market Building">
-          </div>
-        </div>
-
-        <p class="hint">This location will pre-fill when adding new crops.</p>
-        <button type="submit" class="btn-save">Save Location Details</button>
-      </form>
-    </section>
-
-  </div>
 
   <script>
-    const form = document.getElementById('add-product-form');
-    const productList = document.getElementById('product-list');
 
-    // Logout Functionality
-    function handleLogout() {
-      // Clear session dynamic data
-      localStorage.clear();
-      sessionStorage.clear();
-      
-      // Redirect to login page
-      window.location.href = 'login.html';
+    // Get logged-in user
+    const loggedInUser = JSON.parse(
+      localStorage.getItem('agriconnect_user')
+    );
+
+
+    // Make sure a user is actually logged in
+    if (!loggedInUser) {
+
+      window.location.href = '/login.html';
+
     }
 
-    // Handles addition of new product
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const cropName = document.getElementById('crop-name').value;
-      const quantity = document.getElementById('quantity').value;
-      const price = document.getElementById('price').value;
-      const location = document.getElementById('location').value;
 
-      const productCard = document.createElement('div');
-      productCard.className = 'product-item';
-      productCard.setAttribute('data-quantity', quantity);
+    // Make sure only farmers can access this page
+    if (loggedInUser && loggedInUser.role !== 'farmer') {
 
-      productCard.innerHTML = `
-        <div class="product-info">
-          <h4>🌱 ${cropName}</h4>
-          <div class="product-meta">${quantity} kg</div>
-          <div class="product-meta">₹${price}/kg</div>
-          <div class="product-meta">📍 ${location}</div>
-        </div>
-        <div class="action-buttons">
-          <button class="btn-action btn-edit" onclick="editProduct(this)">Edit</button>
-          <button class="btn-action btn-delete" onclick="deleteProduct(this)">Delete</button>
-        </div>
-      `;
+      alert('Access denied. Farmer account required.');
+      window.location.href = '/login.html';
 
-      productList.prepend(productCard);
-      form.reset();
+    }
+
+
+    // Display farmer name
+    if (loggedInUser) {
+
+      document.getElementById('welcomeText').textContent =
+        `Welcome, ${loggedInUser.name} 👋`;
+
+    }
+
+
+    const form = document.getElementById('addProductForm');
+    const productList = document.getElementById('productList');
+
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener(
+      'click',
+      function () {
+
+        localStorage.removeItem('agriconnect_user');
+        sessionStorage.clear();
+
+        window.location.href = '/login.html';
+
+      }
+    );
+
+
+    // Load products belonging to logged-in farmer
+    async function loadProducts() {
+
+      try {
+
+        const response = await fetch('/products');
+
+        if (!response.ok) {
+
+          throw new Error('Failed to load products');
+
+        }
+
+        const products = await response.json();
+
+        const myProducts = products.filter(
+          product => product.farmer_id === loggedInUser.id
+        );
+
+
+        productList.innerHTML = '';
+
+
+        if (myProducts.length === 0) {
+
+          productList.innerHTML = `
+            <div class="empty-message">
+              You haven't added any products yet.
+            </div>
+          `;
+
+          return;
+        }
+
+
+        myProducts.forEach(product => {
+
+          const productItem = document.createElement('div');
+
+          productItem.className = 'product-item';
+
+          productItem.innerHTML = `
+            <div class="product-info">
+              <h4>🌱 ${escapeHtml(product.crop)}</h4>
+
+              <div class="product-meta">
+                ${product.quantity} kg
+              </div>
+
+              <div class="product-meta">
+                ₹${product.price}/kg
+              </div>
+
+              <div class="product-meta">
+                📍 ${escapeHtml(product.location)}
+              </div>
+            </div>
+          `;
+
+          productList.appendChild(productItem);
+
+        });
+
+      } catch (error) {
+
+        console.error('Error loading products:', error);
+
+        productList.innerHTML = `
+          <div class="empty-message">
+            Could not load your products.
+          </div>
+        `;
+
+      }
+
+    }
+
+
+    // Add new product
+    form.addEventListener('submit', async function (event) {
+
+      event.preventDefault();
+
+
+      const crop = document.getElementById('crop').value.trim();
+      const quantity = parseFloat(
+        document.getElementById('quantity').value
+      );
+      const price = parseFloat(
+        document.getElementById('price').value
+      );
+      const location = document.getElementById('location').value.trim();
+
+
+      if (!crop || !location || quantity <= 0 || price <= 0) {
+
+        alert('Please enter valid product details.');
+        return;
+
+      }
+
+
+      try {
+
+        const response = await fetch('/products', {
+
+          method: 'POST',
+
+          headers: {
+            'Content-Type': 'application/json'
+          },
+
+          body: JSON.stringify({
+            farmer_id: loggedInUser.id,
+            crop: crop,
+            quantity: quantity,
+            price: price,
+            location: location
+          })
+
+        });
+
+
+        const data = await response.json();
+
+
+        if (response.ok) {
+
+          alert('Product added successfully!');
+
+          form.reset();
+
+          loadProducts();
+
+        } else {
+
+          alert(
+            data.error ||
+            'Failed to add product.'
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error('Error adding product:', error);
+
+        alert(
+          'Could not connect to the AgriConnect server.'
+        );
+
+      }
+
     });
 
-    // Delete listing functionality
-    function deleteProduct(button) {
-      const item = button.closest('.product-item');
-      item.remove();
+
+    // Prevent HTML injection when displaying database values
+    function escapeHtml(value) {
+
+      const div = document.createElement('div');
+
+      div.textContent = value;
+
+      return div.innerHTML;
+
     }
 
-    // Edit quantity functionality
-    function editProduct(button) {
-      const item = button.closest('.product-item');
-      const currentQty = item.getAttribute('data-quantity');
-      const newQty = prompt("Update Quantity (kg):", currentQty);
-      
-      if (newQty !== null && newQty !== "") {
-        item.setAttribute('data-quantity', newQty);
-        const metaFields = item.querySelectorAll('.product-meta');
-        metaFields[0].innerText = `${newQty} kg`;
-      }
+
+    // Load products when page opens
+    if (
+      loggedInUser &&
+      loggedInUser.role === 'farmer'
+    ) {
+
+      loadProducts();
+
     }
+
   </script>
+
 </body>
 </html>
