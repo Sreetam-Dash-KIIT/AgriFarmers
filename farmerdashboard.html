@@ -16,6 +16,8 @@
       --text-muted: #667060;
       --border: #dce3dc;
       --danger: #c93b2b;
+      --warning: #d98b00;
+      --success: #28a745;
     }
 
     * {
@@ -42,18 +44,13 @@
     }
 
     .nav-container {
-      max-width: 650px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 14px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      gap: 15px;
     }
 
     .brand-logo-group {
@@ -61,11 +58,12 @@
       align-items: center;
       gap: 10px;
       text-decoration: none;
+      flex-shrink: 0;
     }
 
     .brand-logo-group img {
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       object-fit: cover;
     }
@@ -76,28 +74,40 @@
       color: var(--primary);
     }
 
-    .welcome-text {
-      font-weight: 600;
-      color: var(--text-main);
-      font-size: 0.95rem;
-    }
-
     .header-right {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
+    }
+
+    .welcome-text {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .language-select {
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text-main);
+      font-size: 0.82rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .language-select:focus {
+      border-color: var(--primary);
     }
 
     .btn-logout {
-      padding: 6px 14px;
+      padding: 7px 14px;
       background: #fde8e8;
       color: var(--danger);
       border: 1px solid #f8b4b4;
       border-radius: 6px;
       font-weight: 600;
-      font-size: 0.85rem;
       cursor: pointer;
-      transition: all 0.2s ease;
     }
 
     .btn-logout:hover {
@@ -106,8 +116,8 @@
     }
 
     .dashboard-container {
-      max-width: 650px;
-      margin: 28px auto 0;
+      max-width: 900px;
+      margin: 28px auto;
       padding: 0 20px;
       display: flex;
       flex-direction: column;
@@ -130,6 +140,58 @@
       padding-bottom: 6px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .stat-card {
+      background: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .profile-item {
+      background: var(--bg-color);
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .profile-label {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .profile-value {
+      font-weight: 600;
+      color: var(--text-main);
     }
 
     .form-grid {
@@ -157,7 +219,6 @@
       font-size: 0.95rem;
       background: var(--bg-color);
       outline: none;
-      transition: all 0.2s ease;
     }
 
     .form-group input:focus {
@@ -172,15 +233,45 @@
       border: none;
       border-radius: 8px;
       font-weight: 600;
-      font-size: 0.95rem;
       cursor: pointer;
       margin-top: 8px;
-      transition: background 0.2s ease;
-      width: 100%;
     }
 
     .btn-add:hover {
       background: var(--primary-hover);
+    }
+
+    .listings-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .sort-select {
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    .btn-refresh {
+      padding: 9px 14px;
+      background: var(--accent);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-refresh:hover {
+      background: var(--primary);
+      color: #ffffff;
     }
 
     .product-list {
@@ -193,7 +284,15 @@
       background: var(--bg-color);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 16px 20px;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .product-info {
+      flex: 1;
     }
 
     .product-info h4 {
@@ -205,15 +304,117 @@
     .product-meta {
       font-size: 0.9rem;
       color: var(--text-muted);
-      font-weight: 500;
       line-height: 1.5;
+    }
+
+    .stock-badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 9px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .stock-low {
+      background: #fff3cd;
+      color: var(--warning);
+    }
+
+    .stock-available {
+      background: #e6f4ea;
+      color: var(--success);
+    }
+
+    .stock-high {
+      background: var(--accent);
+      color: var(--primary);
     }
 
     .empty-message {
       text-align: center;
       color: var(--text-muted);
+      padding: 25px;
+    }
+
+    .last-updated {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-align: right;
+      margin-top: 12px;
+    }
+
+    .message {
+      display: none;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
       font-size: 0.9rem;
-      padding: 20px 0;
+    }
+
+    .message.success {
+      display: block;
+      background: #e6f4ea;
+      color: var(--success);
+    }
+
+    .message.error {
+      display: block;
+      background: #fde8e8;
+      color: var(--danger);
+    }
+
+    @media (max-width: 750px) {
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .product-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .nav-container {
+        flex-wrap: wrap;
+      }
+
+      .header-right {
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      .welcome-text {
+        display: none;
+      }
+
+    }
+
+    @media (max-width: 500px) {
+
+      .dashboard-container {
+        padding: 0 14px;
+      }
+
+      .listings-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .sort-select,
+      .btn-refresh {
+        width: 100%;
+      }
+
     }
   </style>
 </head>
@@ -221,87 +422,388 @@
 <body>
 
   <header>
+
     <div class="nav-container">
 
-      <div class="header-left">
-        <a href="#" class="brand-logo-group">
-          <img
-            src="/logo.png.jpeg"
-            alt="AgriConnect Logo"
-            onerror="this.style.display='none'"
-          >
-          <span class="brand-name">AgriConnect</span>
-        </a>
-      </div>
+      <a href="/" class="brand-logo-group">
+
+        <img
+          src="/logo.png.jpeg"
+          alt="AgriConnect Logo"
+        >
+
+        <span
+          class="brand-name"
+          data-en="AgriConnect"
+          data-hi="AgriConnect"
+        >
+          AgriConnect
+        </span>
+
+      </a>
+
 
       <div class="header-right">
-        <span class="welcome-text" id="welcomeText">
+
+        <span
+          class="welcome-text"
+          id="welcomeText"
+        >
           Welcome!
         </span>
 
-        <button class="btn-logout" id="logoutBtn">
+
+        <select
+          id="languageSelect"
+          class="language-select"
+          aria-label="Select language"
+        >
+
+          <option value="en">
+            English
+          </option>
+
+          <option value="hi">
+            हिन्दी
+          </option>
+
+        </select>
+
+
+        <button
+          class="btn-logout"
+          id="logoutBtn"
+          data-en="Logout"
+          data-hi="लॉग आउट"
+        >
           Logout
         </button>
+
       </div>
 
     </div>
+
   </header>
 
 
   <main class="dashboard-container">
 
-    <!-- Add Product -->
+
+    <!-- Dashboard Overview -->
+
     <section class="dashboard-card">
 
-      <h2 class="section-header">Add Product</h2>
+      <h2
+        class="section-header"
+        data-en="Dashboard Overview"
+        data-hi="डैशबोर्ड अवलोकन"
+      >
+        Dashboard Overview
+      </h2>
 
-      <form id="addProductForm" class="form-grid">
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <div
+            class="stat-value"
+            id="totalListings"
+          >
+            0
+          </div>
+
+          <div
+            class="stat-label"
+            data-en="Active Listings"
+            data-hi="सक्रिय सूची"
+          >
+            Active Listings
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div
+            class="stat-value"
+            id="totalQuantity"
+          >
+            0
+          </div>
+
+          <div
+            class="stat-label"
+            data-en="Total Stock (kg)"
+            data-hi="कुल स्टॉक (किग्रा)"
+          >
+            Total Stock (kg)
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div
+            class="stat-value"
+            id="averagePrice"
+          >
+            ₹0
+          </div>
+
+          <div
+            class="stat-label"
+            data-en="Average Price"
+            data-hi="औसत कीमत"
+          >
+            Average Price
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div
+            class="stat-value"
+            id="topCrop"
+          >
+            —
+          </div>
+
+          <div
+            class="stat-label"
+            data-en="Most Listed Crop"
+            data-hi="सबसे अधिक सूचीबद्ध फसल"
+          >
+            Most Listed Crop
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- Farmer Profile -->
+
+    <section class="dashboard-card">
+
+      <h2
+        class="section-header"
+        data-en="Farmer Profile"
+        data-hi="किसान प्रोफ़ाइल"
+      >
+        Farmer Profile
+      </h2>
+
+
+      <div class="profile-grid">
+
+        <div class="profile-item">
+
+          <span
+            class="profile-label"
+            data-en="Name"
+            data-hi="नाम"
+          >
+            Name
+          </span>
+
+          <span
+            class="profile-value"
+            id="profileName"
+          >
+            —
+          </span>
+
+        </div>
+
+
+        <div class="profile-item">
+
+          <span
+            class="profile-label"
+            data-en="Email"
+            data-hi="ईमेल"
+          >
+            Email
+          </span>
+
+          <span
+            class="profile-value"
+            id="profileEmail"
+          >
+            —
+          </span>
+
+        </div>
+
+
+        <div class="profile-item">
+
+          <span
+            class="profile-label"
+            data-en="Location"
+            data-hi="स्थान"
+          >
+            Location
+          </span>
+
+          <span
+            class="profile-value"
+            id="profileLocation"
+          >
+            —
+          </span>
+
+        </div>
+
+
+        <div class="profile-item">
+
+          <span
+            class="profile-label"
+            data-en="Account Type"
+            data-hi="खाता प्रकार"
+          >
+            Account Type
+          </span>
+
+          <span
+            class="profile-value"
+            data-en="Farmer"
+            data-hi="किसान"
+          >
+            Farmer
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- Add Product -->
+
+    <section class="dashboard-card">
+
+      <h2
+        class="section-header"
+        data-en="Add Product"
+        data-hi="उत्पाद जोड़ें"
+      >
+        Add Product
+      </h2>
+
+
+      <form
+        id="addProductForm"
+        class="form-grid"
+      >
 
         <div class="form-group">
-          <label for="crop">Crop</label>
+
+          <label
+            for="crop"
+            data-en="Crop"
+            data-hi="फसल"
+          >
+            Crop
+          </label>
+
           <input
             type="text"
             id="crop"
+            data-placeholder-en="e.g. Tomato"
+            data-placeholder-hi="उदाहरण: टमाटर"
             placeholder="e.g. Tomato"
             required
           >
+
         </div>
 
+
         <div class="form-group">
-          <label for="quantity">Quantity (kg)</label>
+
+          <label
+            for="quantity"
+            data-en="Quantity (kg)"
+            data-hi="मात्रा (किग्रा)"
+          >
+            Quantity (kg)
+          </label>
+
           <input
             type="number"
             id="quantity"
+            data-placeholder-en="e.g. 500"
+            data-placeholder-hi="उदाहरण: 500"
             placeholder="e.g. 500"
             min="0.01"
             step="0.01"
             required
           >
+
         </div>
 
+
         <div class="form-group">
-          <label for="price">Price (₹/kg)</label>
+
+          <label
+            for="price"
+            data-en="Price (₹/kg)"
+            data-hi="कीमत (₹/किग्रा)"
+          >
+            Price (₹/kg)
+          </label>
+
           <input
             type="number"
             id="price"
+            data-placeholder-en="e.g. 25"
+            data-placeholder-hi="उदाहरण: 25"
             placeholder="e.g. 25"
             min="0.01"
             step="0.01"
             required
           >
+
         </div>
 
+
         <div class="form-group">
-          <label for="location">Location</label>
+
+          <label
+            for="location"
+            data-en="Location"
+            data-hi="स्थान"
+          >
+            Location
+          </label>
+
           <input
             type="text"
             id="location"
+            data-placeholder-en="e.g. Bhubaneswar"
+            data-placeholder-hi="उदाहरण: भुवनेश्वर"
             placeholder="e.g. Bhubaneswar"
             required
           >
+
         </div>
 
-        <button type="submit" class="btn-add">
+
+        <button
+          type="submit"
+          class="btn-add"
+          data-en="ADD PRODUCT"
+          data-hi="उत्पाद जोड़ें"
+        >
           ADD PRODUCT
         </button>
 
@@ -310,147 +812,398 @@
     </section>
 
 
+    <div
+      id="message"
+      class="message"
+    ></div>
+
+
     <!-- My Listings -->
+
     <section class="dashboard-card">
 
-      <h2 class="section-header">My Listings</h2>
+      <h2
+        class="section-header"
+        data-en="My Listings"
+        data-hi="मेरी सूची"
+      >
+        My Listings
+      </h2>
 
-      <div class="product-list" id="productList">
 
-        <div class="empty-message">
-          Loading your products...
+      <div class="listings-toolbar">
+
+        <select
+          id="sortSelect"
+          class="sort-select"
+        >
+
+          <option
+            value="newest"
+            data-en="Newest First"
+            data-hi="नवीनतम पहले"
+          >
+            Newest First
+          </option>
+
+          <option
+            value="priceLow"
+            data-en="Price: Low to High"
+            data-hi="कीमत: कम से अधिक"
+          >
+            Price: Low to High
+          </option>
+
+          <option
+            value="priceHigh"
+            data-en="Price: High to Low"
+            data-hi="कीमत: अधिक से कम"
+          >
+            Price: High to Low
+          </option>
+
+          <option
+            value="quantityLow"
+            data-en="Quantity: Low to High"
+            data-hi="मात्रा: कम से अधिक"
+          >
+            Quantity: Low to High
+          </option>
+
+          <option
+            value="quantityHigh"
+            data-en="Quantity: High to Low"
+            data-hi="मात्रा: अधिक से कम"
+          >
+            Quantity: High to Low
+          </option>
+
+        </select>
+
+
+        <button
+          class="btn-refresh"
+          id="refreshBtn"
+          data-en="↻ Refresh Listings"
+          data-hi="↻ सूची रीफ़्रेश करें"
+        >
+          ↻ Refresh Listings
+        </button>
+
+      </div>
+
+
+      <div
+        class="product-list"
+        id="productList"
+      >
+
+        <div
+          class="empty-message"
+          data-en="Loading your listings..."
+          data-hi="आपकी सूचियां लोड हो रही हैं..."
+        >
+          Loading your listings...
         </div>
 
       </div>
 
+
+      <div
+        class="last-updated"
+        id="lastUpdated"
+      >
+        Last updated: —
+      </div>
+
     </section>
+
 
   </main>
 
 
   <script>
 
-    // Get logged-in user
-    const loggedInUser = JSON.parse(
-      localStorage.getItem('agriconnect_user')
-    );
+    const loggedInUser =
+      JSON.parse(
+        localStorage.getItem('agriconnect_user')
+      );
 
 
-    // Make sure a user is actually logged in
     if (!loggedInUser) {
 
-      window.location.href = '/login.html';
+      window.location.href =
+        '/login.html';
 
     }
 
 
-    // Make sure only farmers can access this page
-    if (loggedInUser && loggedInUser.role !== 'farmer') {
+    if (
+      loggedInUser &&
+      loggedInUser.role !== 'farmer'
+    ) {
 
-      alert('Access denied. Farmer account required.');
-      window.location.href = '/login.html';
+      alert(
+        'Access denied. Farmer account required.'
+      );
 
-    }
-
-
-    // Display farmer name
-    if (loggedInUser) {
-
-      document.getElementById('welcomeText').textContent =
-        `Welcome, ${loggedInUser.name} 👋`;
+      window.location.href =
+        '/login.html';
 
     }
 
 
-    const form = document.getElementById('addProductForm');
-    const productList = document.getElementById('productList');
+    const languageSelect =
+      document.getElementById(
+        'languageSelect'
+      );
 
 
-    // Logout
-    document.getElementById('logoutBtn').addEventListener(
-      'click',
+    function setLanguage(language) {
+
+      document
+        .querySelectorAll(
+          '[data-en][data-hi]'
+        )
+        .forEach(element => {
+
+          element.textContent =
+            element.getAttribute(
+              `data-${language}`
+            );
+
+        });
+
+
+      document
+        .querySelectorAll(
+          '[data-placeholder-en][data-placeholder-hi]'
+        )
+        .forEach(input => {
+
+          input.placeholder =
+            input.getAttribute(
+              `data-placeholder-${language}`
+            );
+
+        });
+
+
+      if (loggedInUser) {
+
+        document.getElementById(
+          'welcomeText'
+        ).textContent =
+          language === 'hi'
+            ? `स्वागत है, ${loggedInUser.name} 👋`
+            : `Welcome, ${loggedInUser.name} 👋`;
+
+      }
+
+
+      document.getElementById(
+        'lastUpdated'
+      ).textContent =
+        language === 'hi'
+          ? 'अंतिम अपडेट: —'
+          : 'Last updated: —';
+
+
+      document.documentElement.lang =
+        language === 'hi'
+          ? 'hi'
+          : 'en';
+
+
+      localStorage.setItem(
+        'agriconnect_language',
+        language
+      );
+
+    }
+
+
+    const savedLanguage =
+      localStorage.getItem(
+        'agriconnect_language'
+      ) || 'en';
+
+
+    languageSelect.value =
+      savedLanguage;
+
+
+    setLanguage(savedLanguage);
+
+
+    languageSelect.addEventListener(
+      'change',
       function () {
 
-        localStorage.removeItem('agriconnect_user');
-        sessionStorage.clear();
+        setLanguage(
+          this.value
+        );
 
-        window.location.href = '/login.html';
+        renderProducts();
 
       }
     );
 
 
-    // Load products belonging to logged-in farmer
+    if (loggedInUser) {
+
+      document.getElementById(
+        'welcomeText'
+      ).textContent =
+        `Welcome, ${loggedInUser.name} 👋`;
+
+
+      document.getElementById(
+        'profileName'
+      ).textContent =
+        loggedInUser.name;
+
+
+      document.getElementById(
+        'profileEmail'
+      ).textContent =
+        loggedInUser.email;
+
+
+      document.getElementById(
+        'profileLocation'
+      ).textContent =
+        loggedInUser.location;
+
+    }
+
+
+    const productList =
+      document.getElementById(
+        'productList'
+      );
+
+    const sortSelect =
+      document.getElementById(
+        'sortSelect'
+      );
+
+    const message =
+      document.getElementById(
+        'message'
+      );
+
+
+    let myProducts = [];
+
+
+    function showMessage(
+      text,
+      type = 'success'
+    ) {
+
+      message.textContent =
+        text;
+
+      message.className =
+        `message ${type}`;
+
+
+      setTimeout(() => {
+
+        message.className =
+          'message';
+
+      }, 4000);
+
+    }
+
+
+    document
+      .getElementById('logoutBtn')
+      .addEventListener(
+        'click',
+        function () {
+
+          localStorage.removeItem(
+            'agriconnect_user'
+          );
+
+          sessionStorage.clear();
+
+          window.location.href =
+            '/login.html';
+
+        }
+      );
+
+
     async function loadProducts() {
 
       try {
 
-        const response = await fetch('/products');
+        const response =
+          await fetch('/products');
+
 
         if (!response.ok) {
 
-          throw new Error('Failed to load products');
+          throw new Error(
+            'Failed to load products'
+          );
 
         }
 
-        const products = await response.json();
 
-        const myProducts = products.filter(
-          product => product.farmer_id === loggedInUser.id
-        );
+        const products =
+          await response.json();
 
 
-        productList.innerHTML = '';
+        myProducts =
+          products.filter(
+            product =>
+              Number(product.farmer_id) ===
+              Number(loggedInUser.id)
+          );
 
 
-        if (myProducts.length === 0) {
+        renderProducts();
 
-          productList.innerHTML = `
-            <div class="empty-message">
-              You haven't added any products yet.
-            </div>
-          `;
-
-          return;
-        }
+        updateDashboardStats();
 
 
-        myProducts.forEach(product => {
+        const now =
+          new Date();
 
-          const productItem = document.createElement('div');
 
-          productItem.className = 'product-item';
+        document.getElementById(
+          'lastUpdated'
+        ).textContent =
+          languageSelect.value === 'hi'
+            ? `अंतिम अपडेट: ${now.toLocaleTimeString()}`
+            : `Last updated: ${now.toLocaleTimeString()}`;
 
-          productItem.innerHTML = `
-            <div class="product-info">
-              <h4>🌱 ${escapeHtml(product.crop)}</h4>
-
-              <div class="product-meta">
-                ${product.quantity} kg
-              </div>
-
-              <div class="product-meta">
-                ₹${product.price}/kg
-              </div>
-
-              <div class="product-meta">
-                📍 ${escapeHtml(product.location)}
-              </div>
-            </div>
-          `;
-
-          productList.appendChild(productItem);
-
-        });
 
       } catch (error) {
 
-        console.error('Error loading products:', error);
+        console.error(
+          'Error loading products:',
+          error
+        );
+
 
         productList.innerHTML = `
+
           <div class="empty-message">
-            Could not load your products.
+
+            ${
+              languageSelect.value === 'hi'
+                ? 'आपकी सूचियां लोड नहीं हो सकीं।'
+                : 'Could not load your listings.'
+            }
+
           </div>
+
         `;
 
       }
@@ -458,97 +1211,502 @@
     }
 
 
-    // Add new product
-    form.addEventListener('submit', async function (event) {
+    function updateDashboardStats() {
 
-      event.preventDefault();
+      const totalListings =
+        myProducts.length;
 
 
-      const crop = document.getElementById('crop').value.trim();
-      const quantity = parseFloat(
-        document.getElementById('quantity').value
+      const totalQuantity =
+        myProducts.reduce(
+          (total, product) =>
+            total +
+            Number(product.quantity),
+          0
+        );
+
+
+      const averagePrice =
+        totalListings > 0
+          ? myProducts.reduce(
+              (total, product) =>
+                total +
+                Number(product.price),
+              0
+            ) / totalListings
+          : 0;
+
+
+      const cropCounts = {};
+
+
+      myProducts.forEach(
+        product => {
+
+          const crop =
+            product.crop.toLowerCase();
+
+          cropCounts[crop] =
+            (cropCounts[crop] || 0) + 1;
+
+        }
       );
-      const price = parseFloat(
-        document.getElementById('price').value
-      );
-      const location = document.getElementById('location').value.trim();
 
 
-      if (!crop || !location || quantity <= 0 || price <= 0) {
+      let mostListedCrop =
+        '—';
 
-        alert('Please enter valid product details.');
+
+      const cropNames =
+        Object.keys(cropCounts);
+
+
+      if (cropNames.length > 0) {
+
+        mostListedCrop =
+          cropNames.reduce(
+            (highest, crop) =>
+              cropCounts[crop] >
+              cropCounts[highest]
+                ? crop
+                : highest,
+            cropNames[0]
+          );
+
+
+        mostListedCrop =
+          mostListedCrop.charAt(0).toUpperCase() +
+          mostListedCrop.slice(1);
+
+      }
+
+
+      document.getElementById(
+        'totalListings'
+      ).textContent =
+        totalListings;
+
+
+      document.getElementById(
+        'totalQuantity'
+      ).textContent =
+        totalQuantity.toFixed(1);
+
+
+      document.getElementById(
+        'averagePrice'
+      ).textContent =
+        `₹${averagePrice.toFixed(2)}`;
+
+
+      document.getElementById(
+        'topCrop'
+      ).textContent =
+        mostListedCrop;
+
+    }
+
+
+    function renderProducts() {
+
+      productList.innerHTML = '';
+
+
+      if (myProducts.length === 0) {
+
+        productList.innerHTML = `
+
+          <div class="empty-message">
+
+            ${
+              languageSelect.value === 'hi'
+                ? 'आपने अभी तक कोई उत्पाद नहीं जोड़ा है।'
+                : "You haven't added any products yet."
+            }
+
+          </div>
+
+        `;
+
         return;
 
       }
 
 
-      try {
-
-        const response = await fetch('/products', {
-
-          method: 'POST',
-
-          headers: {
-            'Content-Type': 'application/json'
-          },
-
-          body: JSON.stringify({
-            farmer_id: loggedInUser.id,
-            crop: crop,
-            quantity: quantity,
-            price: price,
-            location: location
-          })
-
-        });
+      const sortedProducts =
+        [...myProducts];
 
 
-        const data = await response.json();
+      const sortType =
+        sortSelect.value;
 
 
-        if (response.ok) {
+      if (sortType === 'priceLow') {
 
-          alert('Product added successfully!');
-
-          form.reset();
-
-          loadProducts();
-
-        } else {
-
-          alert(
-            data.error ||
-            'Failed to add product.'
-          );
-
-        }
-
-      } catch (error) {
-
-        console.error('Error adding product:', error);
-
-        alert(
-          'Could not connect to the AgriConnect server.'
+        sortedProducts.sort(
+          (a, b) =>
+            Number(a.price) -
+            Number(b.price)
         );
 
       }
 
-    });
+
+      if (sortType === 'priceHigh') {
+
+        sortedProducts.sort(
+          (a, b) =>
+            Number(b.price) -
+            Number(a.price)
+        );
+
+      }
 
 
-    // Prevent HTML injection when displaying database values
+      if (sortType === 'quantityLow') {
+
+        sortedProducts.sort(
+          (a, b) =>
+            Number(a.quantity) -
+            Number(b.quantity)
+        );
+
+      }
+
+
+      if (sortType === 'quantityHigh') {
+
+        sortedProducts.sort(
+          (a, b) =>
+            Number(b.quantity) -
+            Number(a.quantity)
+        );
+
+      }
+
+
+      if (sortType === 'newest') {
+
+        sortedProducts.sort(
+          (a, b) =>
+            Number(b.id) -
+            Number(a.id)
+        );
+
+      }
+
+
+      sortedProducts.forEach(
+        product => {
+
+          const item =
+            document.createElement('div');
+
+          item.className =
+            'product-item';
+
+
+          const quantity =
+            Number(product.quantity);
+
+
+          let stockText;
+          let stockClass;
+
+
+          if (quantity < 50) {
+
+            stockText =
+              languageSelect.value === 'hi'
+                ? 'कम स्टॉक'
+                : 'Low Stock';
+
+            stockClass =
+              'stock-low';
+
+          } else if (
+            quantity < 500
+          ) {
+
+            stockText =
+              languageSelect.value === 'hi'
+                ? 'उपलब्ध'
+                : 'Available';
+
+            stockClass =
+              'stock-available';
+
+          } else {
+
+            stockText =
+              languageSelect.value === 'hi'
+                ? 'उच्च स्टॉक'
+                : 'High Stock';
+
+            stockClass =
+              'stock-high';
+
+          }
+
+
+          item.innerHTML = `
+
+            <div class="product-info">
+
+              <h4>
+                🌱 ${escapeHtml(product.crop)}
+              </h4>
+
+              <div class="product-meta">
+
+                ${
+                  languageSelect.value === 'hi'
+                    ? 'मात्रा:'
+                    : 'Quantity:'
+                }
+
+                <strong>
+                  ${product.quantity} kg
+                </strong>
+
+              </div>
+
+              <div class="product-meta">
+
+                ${
+                  languageSelect.value === 'hi'
+                    ? 'कीमत:'
+                    : 'Price:'
+                }
+
+                <strong>
+                  ₹${product.price}/kg
+                </strong>
+
+              </div>
+
+              <div class="product-meta">
+
+                ${
+                  languageSelect.value === 'hi'
+                    ? 'स्थान:'
+                    : 'Location:'
+                }
+
+                📍
+
+                <strong>
+                  ${escapeHtml(product.location)}
+                </strong>
+
+              </div>
+
+              <span
+                class="stock-badge ${stockClass}"
+              >
+                ${stockText}
+              </span>
+
+            </div>
+
+          `;
+
+
+          productList.appendChild(
+            item
+          );
+
+        }
+      );
+
+    }
+
+
+    document
+      .getElementById('addProductForm')
+      .addEventListener(
+        'submit',
+        async function (event) {
+
+          event.preventDefault();
+
+
+          const crop =
+            document
+              .getElementById('crop')
+              .value
+              .trim();
+
+
+          const quantity =
+            parseFloat(
+              document
+                .getElementById('quantity')
+                .value
+            );
+
+
+          const price =
+            parseFloat(
+              document
+                .getElementById('price')
+                .value
+            );
+
+
+          const location =
+            document
+              .getElementById('location')
+              .value
+              .trim();
+
+
+          if (
+            !crop ||
+            !location ||
+            quantity <= 0 ||
+            price <= 0
+          ) {
+
+            showMessage(
+              languageSelect.value === 'hi'
+                ? 'कृपया सही उत्पाद विवरण दर्ज करें।'
+                : 'Please enter valid product details.',
+              'error'
+            );
+
+            return;
+
+          }
+
+
+          try {
+
+            const response =
+              await fetch(
+                '/products',
+                {
+                  method: 'POST',
+
+                  headers: {
+                    'Content-Type':
+                      'application/json'
+                  },
+
+                  body: JSON.stringify({
+
+                    farmer_id:
+                      loggedInUser.id,
+
+                    crop:
+                      crop,
+
+                    quantity:
+                      quantity,
+
+                    price:
+                      price,
+
+                    location:
+                      location
+
+                  })
+
+                }
+              );
+
+
+            const data =
+              await response.json();
+
+
+            if (!response.ok) {
+
+              showMessage(
+                data.error ||
+                (
+                  languageSelect.value === 'hi'
+                    ? 'उत्पाद जोड़ने में समस्या हुई।'
+                    : 'Failed to add product.'
+                ),
+                'error'
+              );
+
+              return;
+
+            }
+
+
+            showMessage(
+              languageSelect.value === 'hi'
+                ? 'उत्पाद सफलतापूर्वक जोड़ा गया!'
+                : 'Product added successfully!',
+              'success'
+            );
+
+
+            document
+              .getElementById(
+                'addProductForm'
+              )
+              .reset();
+
+
+            await loadProducts();
+
+
+          } catch (error) {
+
+            console.error(
+              'Error adding product:',
+              error
+            );
+
+
+            showMessage(
+              languageSelect.value === 'hi'
+                ? 'AgriConnect सर्वर से कनेक्ट नहीं हो सका।'
+                : 'Could not connect to the AgriConnect server.',
+              'error'
+            );
+
+          }
+
+        }
+      );
+
+
+    document
+      .getElementById('refreshBtn')
+      .addEventListener(
+        'click',
+        loadProducts
+      );
+
+
+    sortSelect.addEventListener(
+      'change',
+      renderProducts
+    );
+
+
     function escapeHtml(value) {
 
-      const div = document.createElement('div');
+      const div =
+        document.createElement(
+          'div'
+        );
 
-      div.textContent = value;
+      div.textContent =
+        value == null
+          ? ''
+          : String(value);
 
       return div.innerHTML;
 
     }
 
 
-    // Load products when page opens
     if (
       loggedInUser &&
       loggedInUser.role === 'farmer'
