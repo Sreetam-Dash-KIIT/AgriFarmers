@@ -39,12 +39,33 @@
     .signup-container {
       background-color: var(--card-bg);
       width: 100%;
-      max-width: 420px;
-      padding: 36px 28px;
+      max-width: 440px;
+      padding: 32px 28px;
       border-radius: 16px;
       border: 1px solid var(--border);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
       text-align: center;
+    }
+
+    .top-controls {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .language-select {
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text-main);
+      font-size: 0.82rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .language-select:focus {
+      border-color: var(--primary);
     }
 
     .brand {
@@ -78,7 +99,7 @@
       font-size: 1.15rem;
       font-weight: 700;
       color: var(--primary);
-      margin-top: 26px;
+      margin-top: 20px;
       position: relative;
       display: inline-block;
       padding-bottom: 6px;
@@ -284,7 +305,7 @@
     }
 
     .terms-dropdown-content.open {
-      max-height: 180px;
+      max-height: 220px;
       overflow-y: auto;
       margin-top: 10px;
       padding: 10px 12px;
@@ -336,6 +357,12 @@
     .login-redirect a:hover {
       text-decoration: underline;
     }
+
+    @media (max-width: 520px) {
+      .signup-container {
+        padding: 24px 18px;
+      }
+    }
   </style>
 </head>
 
@@ -343,17 +370,54 @@
 
   <main class="signup-container">
 
+    <div class="top-controls">
+
+      <select
+        id="languageSelect"
+        class="language-select"
+        aria-label="Select language"
+      >
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+      </select>
+
+    </div>
+
+
     <header class="brand">
-      <img src="/logo.png.jpeg" alt="AgriConnect Logo" class="brand-logo">
+
+      <img
+        src="/logo.png.jpeg"
+        alt="AgriConnect Logo"
+        class="brand-logo"
+      >
+
       <h1>AgriConnect</h1>
-      <p class="tagline">"From Harvest to Home"</p>
-      <h2 class="page-title">Create Account</h2>
+
+      <p
+        class="tagline"
+        data-en="From harvest to home"
+        data-hi="खेत से घर तक"
+      >
+        From harvest to home
+      </p>
+
+      <h2
+        class="page-title"
+        data-en="Create Account"
+        data-hi="खाता बनाएं"
+      >
+        Create Account
+      </h2>
+
     </header>
+
 
     <form id="signupForm">
 
-      <!-- 1. Name -->
+
       <div class="form-group">
+
         <div class="input-wrapper">
 
           <svg class="left-icon" viewBox="0 0 24 24">
@@ -365,16 +429,19 @@
             id="fullName"
             name="fullName"
             placeholder="Enter your name"
+            data-placeholder-en="Enter your name"
+            data-placeholder-hi="अपना नाम दर्ज करें"
             required
             autocomplete="name"
           >
 
         </div>
+
       </div>
 
 
-      <!-- 2. Email -->
       <div class="form-group">
+
         <div class="input-wrapper">
 
           <svg class="left-icon" viewBox="0 0 24 24">
@@ -386,20 +453,23 @@
             id="email"
             name="email"
             placeholder="Enter your email"
+            data-placeholder-en="Enter your email"
+            data-placeholder-hi="अपना ईमेल दर्ज करें"
             required
             autocomplete="username"
           >
 
         </div>
+
       </div>
 
 
-      <!-- 3. Create Password -->
       <div class="form-group">
+
         <div class="input-wrapper">
 
           <svg class="left-icon" viewBox="0 0 24 24">
-            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-1.34-2-3s.9-3 2-3 2 1.34 2 3-0.9 3-2 3zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
           </svg>
 
           <input
@@ -407,6 +477,8 @@
             id="password"
             name="password"
             placeholder="Create a password"
+            data-placeholder-en="Create a password"
+            data-placeholder-hi="पासवर्ड बनाएं"
             required
             autocomplete="new-password"
           >
@@ -416,15 +488,18 @@
             data-target="password"
             viewBox="0 0 24 24"
           >
-            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5-5-2.24-5-5-2.24-5-5-5z"/>
+            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5-6-7.5-11-7.5z"/>
           </svg>
 
         </div>
+
       </div>
 
 
-      <!-- 4. Confirm Password -->
-      <div id="confirmGroup" class="form-group confirm-wrapper">
+      <div
+        id="confirmGroup"
+        class="form-group confirm-wrapper"
+      >
 
         <div class="input-wrapper">
 
@@ -437,6 +512,8 @@
             id="confirmPassword"
             name="confirmPassword"
             placeholder="Confirm your password"
+            data-placeholder-en="Confirm your password"
+            data-placeholder-hi="अपना पासवर्ड फिर से दर्ज करें"
             autocomplete="new-password"
           >
 
@@ -445,19 +522,23 @@
             data-target="confirmPassword"
             viewBox="0 0 24 24"
           >
-            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5 9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z"/>
+            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5-6-7.5-11-7.5z"/>
           </svg>
 
         </div>
 
-        <div id="passwordError" class="error-text">
+        <div
+          id="passwordError"
+          class="error-text"
+          data-en="Passwords do not match."
+          data-hi="पासवर्ड मेल नहीं खाते।"
+        >
           Passwords do not match.
         </div>
 
       </div>
 
 
-      <!-- 5. Select Role -->
       <div class="form-group">
 
         <div class="input-wrapper">
@@ -468,15 +549,29 @@
 
           <select id="role" name="role" required>
 
-            <option value="" disabled selected>
+            <option
+              value=""
+              disabled
+              selected
+              data-en="Select your role"
+              data-hi="अपनी भूमिका चुनें"
+            >
               Select your role
             </option>
 
-            <option value="farmer">
+            <option
+              value="farmer"
+              data-en="Farmer"
+              data-hi="किसान"
+            >
               Farmer
             </option>
 
-            <option value="buyer">
+            <option
+              value="buyer"
+              data-en="Consumer"
+              data-hi="उपभोक्ता"
+            >
               Consumer
             </option>
 
@@ -495,7 +590,6 @@
       </div>
 
 
-      <!-- 6. Location -->
       <div class="form-group">
 
         <div class="input-wrapper">
@@ -509,6 +603,8 @@
             id="location"
             name="location"
             placeholder="Enter your location"
+            data-placeholder-en="Enter your location"
+            data-placeholder-hi="अपना स्थान दर्ज करें"
             required
             autocomplete="address-level2"
           >
@@ -528,14 +624,18 @@
 
         </div>
 
-        <div id="locationStatus" class="location-status">
-          Fetching location...
+        <div
+          id="locationStatus"
+          class="location-status"
+          data-en="Detecting your location..."
+          data-hi="आपका स्थान खोजा जा रहा है..."
+        >
+          Detecting your location...
         </div>
 
       </div>
 
 
-      <!-- Terms -->
       <div class="terms-group">
 
         <div class="terms-checkbox-label">
@@ -549,14 +649,25 @@
 
           <label for="terms">
 
-            I agree to the
+            <span
+              data-en="I agree to the"
+              data-hi="मैं सहमत हूँ"
+            >
+              I agree to the
+            </span>
 
             <button
               type="button"
               class="terms-toggle-btn"
               id="toggleTerms"
             >
-              Terms & Conditions
+
+              <span
+                data-en="Terms & Conditions"
+                data-hi="नियम और शर्तें"
+              >
+                Terms & Conditions
+              </span>
 
               <svg
                 class="terms-arrow"
@@ -578,30 +689,49 @@
           id="termsContent"
         >
 
-          <h4>
+          <h4
+            data-en="Platform Terms"
+            data-hi="प्लेटफ़ॉर्म नियम"
+          >
             Platform Terms
           </h4>
 
-          <p>
+          <p
+            data-en="• Transact accurately, communicate respectfully, and process all payments through AgriConnect."
+            data-hi="• सही जानकारी दें, सम्मानपूर्वक संवाद करें और सभी भुगतान AgriConnect के माध्यम से करें।"
+          >
             • Transact accurately, communicate respectfully,
             and process all payments through AgriConnect.
           </p>
 
-          <p>
+          <p
+            data-en="• Fulfill orders on schedule and report damaged or missing produce within 24 hours of receipt."
+            data-hi="• ऑर्डर समय पर पूरा करें और क्षतिग्रस्त या गायब उपज की सूचना प्राप्ति के 24 घंटे के भीतर दें।"
+          >
             • Fulfill orders on schedule and report damaged
             or missing produce within 24 hours of receipt.
           </p>
 
-          <h4 style="margin-top: 8px;">
+          <h4
+            style="margin-top: 8px;"
+            data-en="Personal Privacy & Safety"
+            data-hi="व्यक्तिगत गोपनीयता और सुरक्षा"
+          >
             Personal Privacy & Safety
           </h4>
 
-          <p>
+          <p
+            data-en="• Your personal data, contact details, and precise location are encrypted and strictly used to fulfill local orders."
+            data-hi="• आपका व्यक्तिगत डेटा, संपर्क विवरण और सटीक स्थान एन्क्रिप्ट किए जाते हैं और केवल स्थानीय ऑर्डर पूरा करने के लिए उपयोग किए जाते हैं।"
+          >
             • Your personal data, contact details, and precise
             location are encrypted and strictly used to fulfill local orders.
           </p>
 
-          <p>
+          <p
+            data-en="• Personal details will never be sold, leased, or shared with third-party advertisers."
+            data-hi="• व्यक्तिगत जानकारी कभी भी तीसरे पक्ष के विज्ञापनदाताओं को बेची, किराए पर या साझा नहीं की जाएगी।"
+          >
             • Personal details will never be sold, leased,
             or shared with third-party advertisers.
           </p>
@@ -611,10 +741,11 @@
       </div>
 
 
-      <!-- Submit -->
       <button
         type="submit"
         class="btn-submit"
+        data-en="Create Account"
+        data-hi="खाता बनाएं"
       >
         Create Account
       </button>
@@ -624,9 +755,18 @@
 
     <p class="login-redirect">
 
-      Already have an account?
+      <span
+        data-en="Already have an account?"
+        data-hi="क्या आपका पहले से खाता है?"
+      >
+        Already have an account?
+      </span>
 
-      <a href="/login.html">
+      <a
+        href="/login.html"
+        data-en="Login"
+        data-hi="लॉग इन"
+      >
         Login
       </a>
 
@@ -670,32 +810,107 @@
     const locationStatus =
       document.getElementById('locationStatus');
 
+    const languageSelect =
+      document.getElementById('languageSelect');
 
-    // Location detection
+
+    function setLanguage(language) {
+
+      document
+        .querySelectorAll('[data-en][data-hi]')
+        .forEach(element => {
+
+          element.textContent =
+            element.getAttribute(`data-${language}`);
+
+        });
+
+
+      document
+        .querySelectorAll(
+          '[data-placeholder-en][data-placeholder-hi]'
+        )
+        .forEach(input => {
+
+          input.placeholder =
+            input.getAttribute(
+              `data-placeholder-${language}`
+            );
+
+        });
+
+
+      document.documentElement.lang =
+        language === 'hi'
+          ? 'hi'
+          : 'en';
+
+
+      localStorage.setItem(
+        'agriconnect_language',
+        language
+      );
+
+    }
+
+
+    const savedLanguage =
+      localStorage.getItem(
+        'agriconnect_language'
+      ) || 'en';
+
+
+    languageSelect.value =
+      savedLanguage;
+
+
+    setLanguage(savedLanguage);
+
+
+    languageSelect.addEventListener(
+      'change',
+      function () {
+
+        setLanguage(
+          this.value
+        );
+
+      }
+    );
+
+
     locateBtn.addEventListener(
       'click',
       function () {
 
         if (!navigator.geolocation) {
 
-          locationStatus.style.display = 'block';
+          locationStatus.style.display =
+            'block';
+
           locationStatus.style.color =
             'var(--error-color)';
 
           locationStatus.textContent =
-            'Geolocation is not supported by your browser.';
+            languageSelect.value === 'hi'
+              ? 'आपके ब्राउज़र में स्थान सुविधा उपलब्ध नहीं है।'
+              : 'Geolocation is not supported by your browser.';
 
           return;
 
         }
 
 
-        locationStatus.style.display = 'block';
+        locationStatus.style.display =
+          'block';
+
         locationStatus.style.color =
           'var(--text-muted)';
 
         locationStatus.textContent =
-          'Detecting your location...';
+          languageSelect.value === 'hi'
+            ? 'आपका स्थान खोजा जा रहा है...'
+            : 'Detecting your location...';
 
 
         navigator.geolocation.getCurrentPosition(
@@ -711,9 +926,11 @@
 
             try {
 
-              const response = await fetch(
-                `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`
-              );
+              const response =
+                await fetch(
+                  `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`
+                );
+
 
               const data =
                 await response.json();
@@ -732,7 +949,8 @@
                   '';
 
                 const state =
-                  data.address.state || '';
+                  data.address.state ||
+                  '';
 
 
                 const formattedLocation =
@@ -747,11 +965,15 @@
                 locationInput.value =
                   formattedLocation;
 
+
                 locationStatus.style.color =
                   'var(--primary)';
 
+
                 locationStatus.textContent =
-                  'Location detected successfully!';
+                  languageSelect.value === 'hi'
+                    ? 'स्थान सफलतापूर्वक खोज लिया गया!'
+                    : 'Location detected successfully!';
 
               } else {
 
@@ -762,7 +984,9 @@
                   'var(--primary)';
 
                 locationStatus.textContent =
-                  'Coordinates detected!';
+                  languageSelect.value === 'hi'
+                    ? 'निर्देशांक प्राप्त हुए!'
+                    : 'Coordinates detected!';
 
               }
 
@@ -775,7 +999,9 @@
                 'var(--primary)';
 
               locationStatus.textContent =
-                'Coordinates detected!';
+                languageSelect.value === 'hi'
+                  ? 'निर्देशांक प्राप्त हुए!'
+                  : 'Coordinates detected!';
 
             }
 
@@ -790,36 +1016,57 @@
               'var(--error-color)';
 
 
-            switch (error.code) {
+            if (
+              languageSelect.value === 'hi'
+            ) {
 
-              case error.PERMISSION_DENIED:
+              switch (error.code) {
 
-                locationStatus.textContent =
-                  'Location permission denied.';
+                case error.PERMISSION_DENIED:
+                  locationStatus.textContent =
+                    'स्थान की अनुमति अस्वीकार कर दी गई।';
+                  break;
 
-                break;
+                case error.POSITION_UNAVAILABLE:
+                  locationStatus.textContent =
+                    'स्थान की जानकारी उपलब्ध नहीं है।';
+                  break;
 
+                case error.TIMEOUT:
+                  locationStatus.textContent =
+                    'स्थान अनुरोध का समय समाप्त हो गया।';
+                  break;
 
-              case error.POSITION_UNAVAILABLE:
+                default:
+                  locationStatus.textContent =
+                    'स्थान प्राप्त करते समय त्रुटि हुई।';
 
-                locationStatus.textContent =
-                  'Location information unavailable.';
+              }
 
-                break;
+            } else {
 
+              switch (error.code) {
 
-              case error.TIMEOUT:
+                case error.PERMISSION_DENIED:
+                  locationStatus.textContent =
+                    'Location permission denied.';
+                  break;
 
-                locationStatus.textContent =
-                  'Location request timed out.';
+                case error.POSITION_UNAVAILABLE:
+                  locationStatus.textContent =
+                    'Location information unavailable.';
+                  break;
 
-                break;
+                case error.TIMEOUT:
+                  locationStatus.textContent =
+                    'Location request timed out.';
+                  break;
 
+                default:
+                  locationStatus.textContent =
+                    'An error occurred fetching location.';
 
-              default:
-
-                locationStatus.textContent =
-                  'An error occurred fetching location.';
+              }
 
             }
 
@@ -831,7 +1078,6 @@
     );
 
 
-    // Terms & Conditions
     toggleTermsBtn.addEventListener(
       'click',
       function (event) {
@@ -845,14 +1091,16 @@
     );
 
 
-    // Confirm password
     password.addEventListener(
       'input',
       function () {
 
-        if (password.value.trim().length > 0) {
+        if (
+          password.value.trim().length > 0
+        ) {
 
           confirmGroup.classList.add('show');
+
           confirmPassword.setAttribute(
             'required',
             'true'
@@ -861,6 +1109,7 @@
         } else {
 
           confirmGroup.classList.remove('show');
+
           confirmPassword.removeAttribute(
             'required'
           );
@@ -884,7 +1133,6 @@
     );
 
 
-    // Password visibility
     document
       .querySelectorAll('.toggle-password')
       .forEach(icon => {
@@ -918,7 +1166,6 @@
       });
 
 
-    // Password matching
     function passwordsMatch() {
 
       if (
@@ -956,7 +1203,6 @@
     );
 
 
-    // Register user
     form.addEventListener(
       'submit',
       async function (event) {
@@ -999,31 +1245,37 @@
         try {
 
           const response =
-            await fetch('/users', {
+            await fetch(
+              '/users',
+              {
+                method: 'POST',
 
-              method: 'POST',
+                headers: {
+                  'Content-Type':
+                    'application/json'
+                },
 
-              headers: {
-                'Content-Type':
-                  'application/json'
-              },
+                body: JSON.stringify({
 
-              body: JSON.stringify({
+                  name:
+                    name,
 
-                name: name,
+                  email:
+                    email,
 
-                email: email,
+                  password:
+                    password.value,
 
-                password:
-                  password.value,
+                  role:
+                    role,
 
-                role: role,
+                  location:
+                    location
 
-                location: location
+                })
 
-              })
-
-            });
+              }
+            );
 
 
           const data =
@@ -1033,8 +1285,11 @@
           if (response.ok) {
 
             alert(
-              'Account created successfully!'
+              languageSelect.value === 'hi'
+                ? 'खाता सफलतापूर्वक बनाया गया!'
+                : 'Account created successfully!'
             );
+
 
             window.location.href =
               '/login.html';
@@ -1044,7 +1299,11 @@
 
             alert(
               data.error ||
-              'Failed to create account.'
+              (
+                languageSelect.value === 'hi'
+                  ? 'खाता बनाने में समस्या हुई।'
+                  : 'Failed to create account.'
+              )
             );
 
           }
@@ -1057,8 +1316,11 @@
             error
           );
 
+
           alert(
-            'Could not connect to the AgriConnect server.'
+            languageSelect.value === 'hi'
+              ? 'AgriConnect सर्वर से कनेक्ट नहीं हो सका।'
+              : 'Could not connect to the AgriConnect server.'
           );
 
         }
@@ -1070,4 +1332,5 @@
 
 </body>
 </html>
+
             
