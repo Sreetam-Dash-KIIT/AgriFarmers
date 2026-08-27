@@ -13,14 +13,15 @@ def get_database():
     return connection
 
 
-
 @app.route("/")
 def home():
     return send_from_directory(".", "index.html")
 
+
 @app.route("/createaccount.html")
 def create_account_page():
     return send_from_directory(".", "createaccount.html")
+
 
 @app.route("/login.html")
 def login_page():
@@ -30,6 +31,7 @@ def login_page():
 @app.route("/farmerdashboard.html")
 def farmer_dashboard():
     return send_from_directory(".", "farmerdashboard.html")
+
 
 @app.route("/consumerdashboard.html")
 def consumer_dashboard():
@@ -64,7 +66,6 @@ def get_products():
     connection.close()
 
     return jsonify([dict(product) for product in products])
-
 
 
 @app.route("/products", methods=["POST"])
@@ -134,7 +135,6 @@ def add_product():
     }), 201
 
 
-
 @app.route("/users", methods=["POST"])
 def add_user():
 
@@ -163,22 +163,29 @@ def add_user():
 
     connection = get_database()
 
-    # Hash the password before storing it
     hashed_password = generate_password_hash(password)
 
     try:
+
         connection.execute(
             """
             INSERT INTO users
             (name, email, password, role, location)
             VALUES (?, ?, ?, ?, ?)
             """,
-            (name, email, hashed_password, role, location)
+            (
+                name,
+                email,
+                hashed_password,
+                role,
+                location
+            )
         )
 
         connection.commit()
 
     except sqlite3.IntegrityError:
+
         connection.close()
 
         return jsonify({
@@ -190,7 +197,6 @@ def add_user():
     return jsonify({
         "message": "User created successfully!"
     }), 201
-
 
 
 @app.route("/login", methods=["POST"])
@@ -225,7 +231,10 @@ def login():
             "error": "Invalid email or password"
         }), 401
 
-    if not check_password_hash(user["password"], password):
+    if not check_password_hash(
+        user["password"],
+        password
+    ):
         return jsonify({
             "error": "Invalid email or password"
         }), 401
@@ -271,43 +280,71 @@ def search_products():
     parameters = []
 
     if crop:
-        query += " AND LOWER(products.crop) LIKE LOWER(?)"
+        query += """
+            AND LOWER(products.crop)
+            LIKE LOWER(?)
+        """
         parameters.append(f"%{crop}%")
 
     if location:
-        query += " AND LOWER(products.location) LIKE LOWER(?)"
+        query += """
+            AND LOWER(products.location)
+            LIKE LOWER(?)
+        """
         parameters.append(f"%{location}%")
 
     if min_price:
+
         try:
+
             min_price_value = float(min_price)
 
             if min_price_value < 0:
+
+                connection.close()
+
                 return jsonify({
                     "error": "Minimum price cannot be negative"
                 }), 400
 
-            query += " AND products.price >= ?"
+            query += """
+                AND products.price >= ?
+            """
+
             parameters.append(min_price_value)
 
         except ValueError:
+
+            connection.close()
+
             return jsonify({
                 "error": "Minimum price must be a number"
             }), 400
 
     if max_price:
+
         try:
+
             max_price_value = float(max_price)
 
             if max_price_value < 0:
+
+                connection.close()
+
                 return jsonify({
                     "error": "Maximum price cannot be negative"
                 }), 400
 
-            query += " AND products.price <= ?"
+            query += """
+                AND products.price <= ?
+            """
+
             parameters.append(max_price_value)
 
         except ValueError:
+
+            connection.close()
+
             return jsonify({
                 "error": "Maximum price must be a number"
             }), 400
@@ -315,15 +352,23 @@ def search_products():
     if min_price and max_price:
 
         try:
+
             if float(min_price) > float(max_price):
+
                 connection.close()
 
                 return jsonify({
-                    "error": "Minimum price cannot be greater than maximum price"
+                    "error":
+                    "Minimum price cannot be greater than maximum price"
                 }), 400
 
         except ValueError:
-            pass
+
+            connection.close()
+
+            return jsonify({
+                "error": "Invalid price values"
+            }), 400
 
     products = connection.execute(
         query,
@@ -332,7 +377,10 @@ def search_products():
 
     connection.close()
 
-    return jsonify([dict(product) for product in products])
+    return jsonify([
+        dict(product)
+        for product in products
+    ])
 
 
 @app.route("/interests", methods=["POST"])
@@ -356,11 +404,17 @@ def add_interest():
     connection = get_database()
 
     buyer = connection.execute(
-        "SELECT * FROM users WHERE id = ? AND role = 'buyer'",
+        """
+        SELECT *
+        FROM users
+        WHERE id = ?
+        AND role = 'buyer'
+        """,
         (buyer_id,)
     ).fetchone()
 
     if not buyer:
+
         connection.close()
 
         return jsonify({
@@ -368,11 +422,16 @@ def add_interest():
         }), 404
 
     product = connection.execute(
-        "SELECT * FROM products WHERE id = ?",
+        """
+        SELECT *
+        FROM products
+        WHERE id = ?
+        """,
         (product_id,)
     ).fetchone()
 
     if not product:
+
         connection.close()
 
         return jsonify({
@@ -380,31 +439,43 @@ def add_interest():
         }), 404
 
     try:
+
         connection.execute(
             """
             INSERT INTO interests
             (buyer_id, product_id)
             VALUES (?, ?)
             """,
-            (buyer_id, product_id)
+            (
+                buyer_id,
+                product_id
+            )
         )
 
         connection.commit()
 
     except sqlite3.IntegrityError:
+
         connection.close()
 
         return jsonify({
-            "error": "You have already shown interest in this product"
+            "error":
+            "You have already shown interest in this product"
         }), 409
 
     connection.close()
 
     return jsonify({
-        "message": "Interest recorded successfully!"
+        "message":
+        "Interest recorded successfully!"
     }), 201
 
 
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(
+        host="0.0.0.0",
+        port=5000,
+        debug=False
+    )
+
+
