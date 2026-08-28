@@ -3,6 +3,7 @@ from flask_cors import CORS
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 app = Flask(__name__)
 CORS(app)
 
@@ -65,7 +66,10 @@ def get_products():
 
     connection.close()
 
-    return jsonify([dict(product) for product in products])
+    return jsonify([
+        dict(product)
+        for product in products
+    ])
 
 
 @app.route("/products", methods=["POST"])
@@ -124,7 +128,13 @@ def add_product():
         (farmer_id, crop, quantity, price, location)
         VALUES (?, ?, ?, ?, ?)
         """,
-        (farmer_id, crop, quantity, price, location)
+        (
+            farmer_id,
+            crop,
+            quantity,
+            price,
+            location
+        )
     )
 
     connection.commit()
@@ -280,73 +290,93 @@ def search_products():
     parameters = []
 
     if crop:
+
         query += """
             AND LOWER(products.crop)
             LIKE LOWER(?)
         """
-        parameters.append(f"%{crop}%")
+
+        parameters.append(
+            f"%{crop}%"
+        )
 
     if location:
+
         query += """
             AND LOWER(products.location)
             LIKE LOWER(?)
         """
-        parameters.append(f"%{location}%")
+
+        parameters.append(
+            f"%{location}%"
+        )
 
     if min_price:
 
         try:
 
-            min_price_value = float(min_price)
+            min_price_value = float(
+                min_price
+            )
 
             if min_price_value < 0:
 
                 connection.close()
 
                 return jsonify({
-                    "error": "Minimum price cannot be negative"
+                    "error":
+                    "Minimum price cannot be negative"
                 }), 400
 
             query += """
                 AND products.price >= ?
             """
 
-            parameters.append(min_price_value)
+            parameters.append(
+                min_price_value
+            )
 
         except ValueError:
 
             connection.close()
 
             return jsonify({
-                "error": "Minimum price must be a number"
+                "error":
+                "Minimum price must be a number"
             }), 400
 
     if max_price:
 
         try:
 
-            max_price_value = float(max_price)
+            max_price_value = float(
+                max_price
+            )
 
             if max_price_value < 0:
 
                 connection.close()
 
                 return jsonify({
-                    "error": "Maximum price cannot be negative"
+                    "error":
+                    "Maximum price cannot be negative"
                 }), 400
 
             query += """
                 AND products.price <= ?
             """
 
-            parameters.append(max_price_value)
+            parameters.append(
+                max_price_value
+            )
 
         except ValueError:
 
             connection.close()
 
             return jsonify({
-                "error": "Maximum price must be a number"
+                "error":
+                "Maximum price must be a number"
             }), 400
 
     if min_price and max_price:
@@ -367,7 +397,8 @@ def search_products():
             connection.close()
 
             return jsonify({
-                "error": "Invalid price values"
+                "error":
+                "Invalid price values"
             }), 400
 
     products = connection.execute(
@@ -398,7 +429,8 @@ def add_interest():
 
     if buyer_id is None or product_id is None:
         return jsonify({
-            "error": "Buyer ID and product ID are required"
+            "error":
+            "Buyer ID and product ID are required"
         }), 400
 
     connection = get_database()
@@ -471,11 +503,88 @@ def add_interest():
     }), 201
 
 
+@app.route("/interests", methods=["GET"])
+def get_interests():
+
+    farmer_id = request.args.get("farmer_id")
+
+    if farmer_id is None:
+        return jsonify({
+            "error": "Farmer ID is required"
+        }), 400
+
+    try:
+        farmer_id = int(farmer_id)
+
+    except ValueError:
+        return jsonify({
+            "error": "Invalid farmer ID"
+        }), 400
+
+    connection = get_database()
+
+    farmer = connection.execute(
+        """
+        SELECT id
+        FROM users
+        WHERE id = ?
+        AND role = 'farmer'
+        """,
+        (farmer_id,)
+    ).fetchone()
+
+    if not farmer:
+
+        connection.close()
+
+        return jsonify({
+            "error": "Farmer not found"
+        }), 404
+
+    interests = connection.execute(
+        """
+        SELECT
+            interests.id AS interest_id,
+
+            users.id AS buyer_id,
+            users.name AS buyer_name,
+            users.email AS buyer_email,
+            users.location AS buyer_location,
+
+            products.id AS product_id,
+            products.crop AS product_crop,
+            products.quantity AS product_quantity,
+            products.price AS product_price,
+            products.location AS product_location,
+
+            interests.created_at AS created_at
+
+        FROM interests
+
+        INNER JOIN users
+        ON interests.buyer_id = users.id
+
+        INNER JOIN products
+        ON interests.product_id = products.id
+
+        WHERE products.farmer_id = ?
+
+        ORDER BY interests.id DESC
+        """,
+        (farmer_id,)
+    ).fetchall()
+
+    connection.close()
+
+    return jsonify([
+        dict(interest)
+        for interest in interests
+    ]), 200
+
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
         port=5000,
         debug=False
     )
-
-
