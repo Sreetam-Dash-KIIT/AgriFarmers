@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -363,6 +363,79 @@
       display: block;
       background: #fde8e8;
       color: var(--danger);
+    }
+
+
+    .interest-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .interest-item {
+      background: var(--bg-color);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .interest-info h4 {
+      font-size: 1.05rem;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .interest-meta {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .interest-badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 9px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: #e6f4ea;
+      color: var(--success);
+    }
+
+    .btn-refresh-interest {
+      padding: 9px 14px;
+      background: var(--accent);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-refresh-interest:hover {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .interest-empty {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 25px;
+    }
+
+    .interest-count {
+      display: inline-flex;
+      min-width: 28px;
+      height: 28px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 8px;
+      margin-left: 8px;
+      border-radius: 20px;
+      background: var(--accent);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 700;
     }
 
     @media (max-width: 750px) {
@@ -919,6 +992,43 @@
     </section>
 
 
+
+
+
+
+    <!-- Interested Customers -->
+    <section class="dashboard-card" id="interestedCustomersSection">
+
+      <div class="listings-toolbar">
+
+        <h2
+          class="section-header"
+          data-en="Interested Customers"
+          data-hi="रुचि रखने वाले ग्राहक"
+          style="margin-bottom: 0;"
+        >
+          Interested Customers
+          <span class="interest-count" id="interestCount">0</span>
+        </h2>
+
+        <button
+          type="button"
+          class="btn-refresh-interest"
+          id="refreshInterestBtn"
+        >
+          ↻ Refresh Interests
+        </button>
+
+      </div>
+
+      <div class="interest-list" id="interestList">
+        <div class="interest-empty">
+          Loading interested customers...
+        </div>
+      </div>
+
+    </section>
+
   </main>
 
 
@@ -957,6 +1067,40 @@
       document.getElementById(
         'languageSelect'
       );
+
+    const productList =
+      document.getElementById(
+        'productList'
+      );
+
+    const sortSelect =
+      document.getElementById(
+        'sortSelect'
+      );
+
+    const message =
+      document.getElementById(
+        'message'
+      );
+
+    const interestList =
+      document.getElementById(
+        'interestList'
+      );
+
+    const interestCount =
+      document.getElementById(
+        'interestCount'
+      );
+
+    const refreshInterestBtn =
+      document.getElementById(
+        'refreshInterestBtn'
+      );
+
+
+    let myProducts = [];
+    let myInterests = [];
 
 
     function setLanguage(language) {
@@ -1033,23 +1177,6 @@
       savedLanguage;
 
 
-    setLanguage(savedLanguage);
-
-
-    languageSelect.addEventListener(
-      'change',
-      function () {
-
-        setLanguage(
-          this.value
-        );
-
-        renderProducts();
-
-      }
-    );
-
-
     if (loggedInUser) {
 
       document.getElementById(
@@ -1078,25 +1205,6 @@
     }
 
 
-    const productList =
-      document.getElementById(
-        'productList'
-      );
-
-    const sortSelect =
-      document.getElementById(
-        'sortSelect'
-      );
-
-    const message =
-      document.getElementById(
-        'message'
-      );
-
-
-    let myProducts = [];
-
-
     function showMessage(
       text,
       type = 'success'
@@ -1107,7 +1215,6 @@
 
       message.className =
         `message ${type}`;
-
 
       setTimeout(() => {
 
@@ -1207,6 +1314,356 @@
         `;
 
       }
+
+    }
+
+
+    async function loadInterests() {
+
+      interestList.innerHTML = `
+
+        <div class="interest-empty">
+
+          ${
+            languageSelect.value === 'hi'
+              ? 'रुचि रखने वाले ग्राहक लोड हो रहे हैं...'
+              : 'Loading interested customers...'
+          }
+
+        </div>
+
+      `;
+
+
+      try {
+
+        const response =
+          await fetch(
+            `/interests?farmer_id=${encodeURIComponent(loggedInUser.id)}`
+          );
+
+
+        const text =
+          await response.text();
+
+
+        let data = null;
+
+        try {
+          data = JSON.parse(text);
+        } catch {
+          throw new Error(
+            `Server returned invalid data: ${text}`
+          );
+        }
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            `Server returned ${response.status}`
+          );
+
+        }
+
+
+        myInterests =
+          Array.isArray(data)
+            ? data
+            : (
+                Array.isArray(data.interests)
+                  ? data.interests
+                  : []
+              );
+
+
+        renderInterests();
+
+
+      } catch (error) {
+
+        console.error(
+          'Error loading interests:',
+          error
+        );
+
+
+        myInterests = [];
+
+        interestCount.textContent =
+          '0';
+
+
+        interestList.innerHTML = `
+
+          <div class="interest-empty">
+
+            ${
+              languageSelect.value === 'hi'
+                ? 'रुचि रखने वाले ग्राहकों की जानकारी लोड नहीं हो सकी।'
+                : 'Could not load interested customers.'
+            }
+
+            <br><br>
+
+            <small>
+              ${escapeHtml(error.message)}
+            </small>
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+
+    function renderInterests() {
+
+      interestCount.textContent =
+        String(myInterests.length);
+
+
+      if (myInterests.length === 0) {
+
+        interestList.innerHTML = `
+
+          <div class="interest-empty">
+
+            ${
+              languageSelect.value === 'hi'
+                ? 'अभी किसी ग्राहक ने आपके उत्पाद में रुचि नहीं दिखाई है।'
+                : 'No customers have shown interest in your products yet.'
+            }
+
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+
+      interestList.innerHTML = '';
+
+
+      myInterests.forEach(
+        interest => {
+
+          const item =
+            document.createElement('div');
+
+          item.className =
+            'interest-item';
+
+
+          const customerName =
+            escapeHtml(
+              interest.buyer_name ||
+              interest.customer_name ||
+              interest.name ||
+              'Unknown customer'
+            );
+
+
+          const customerEmail =
+            escapeHtml(
+              interest.buyer_email ||
+              interest.customer_email ||
+              interest.email ||
+              'Not provided'
+            );
+
+
+          const crop =
+            escapeHtml(
+              interest.product_crop ||
+              interest.crop ||
+              interest.product_name ||
+              'Unknown product'
+            );
+
+
+          const quantity =
+            interest.product_quantity ??
+            interest.quantity;
+
+
+          const price =
+            interest.product_price ??
+            interest.price;
+
+
+          const location =
+            escapeHtml(
+              interest.product_location ||
+              interest.location ||
+              ''
+            );
+
+
+          const interestedAt =
+            interest.created_at ||
+            interest.interested_at ||
+            interest.timestamp ||
+            '';
+
+
+          let dateText = '';
+
+          if (interestedAt) {
+
+            const parsedDate =
+              new Date(interestedAt);
+
+            dateText =
+              isNaN(parsedDate.getTime())
+                ? String(interestedAt)
+                : parsedDate.toLocaleString();
+
+          }
+
+
+          item.innerHTML = `
+
+            <div class="interest-info">
+
+              <h4>
+                👤 ${customerName}
+              </h4>
+
+              <div class="interest-meta">
+
+                <div>
+                  ${
+                    languageSelect.value === 'hi'
+                      ? 'ईमेल:'
+                      : 'Email:'
+                  }
+
+                  <strong>
+                    ${customerEmail}
+                  </strong>
+                </div>
+
+
+                <div>
+                  🌱
+                  ${
+                    languageSelect.value === 'hi'
+                      ? 'उत्पाद:'
+                      : 'Product:'
+                  }
+
+                  <strong>
+                    ${crop}
+                  </strong>
+                </div>
+
+
+                ${
+                  quantity != null
+                    ? `
+                      <div>
+                        ${
+                          languageSelect.value === 'hi'
+                            ? 'मात्रा:'
+                            : 'Quantity:'
+                        }
+
+                        <strong>
+                          ${escapeHtml(quantity)} kg
+                        </strong>
+                      </div>
+                    `
+                    : ''
+                }
+
+
+                ${
+                  price != null
+                    ? `
+                      <div>
+                        ${
+                          languageSelect.value === 'hi'
+                            ? 'कीमत:'
+                            : 'Price:'
+                        }
+
+                        <strong>
+                          ₹${escapeHtml(price)}/kg
+                        </strong>
+                      </div>
+                    `
+                    : ''
+                }
+
+
+                ${
+                  location
+                    ? `
+                      <div>
+                        📍
+                        ${
+                          languageSelect.value === 'hi'
+                            ? 'स्थान:'
+                            : 'Location:'
+                        }
+
+                        <strong>
+                          ${location}
+                        </strong>
+                      </div>
+                    `
+                    : ''
+                }
+
+
+                ${
+                  dateText
+                    ? `
+                      <div>
+                        ${
+                          languageSelect.value === 'hi'
+                            ? 'रुचि दर्ज की गई:'
+                            : 'Interested on:'
+                        }
+
+                        <strong>
+                          ${escapeHtml(dateText)}
+                        </strong>
+                      </div>
+                    `
+                    : ''
+                }
+
+
+                <span class="interest-badge">
+
+                  ${
+                    languageSelect.value === 'hi'
+                      ? 'रुचि दिखाई ✓'
+                      : 'Interested ✓'
+                  }
+
+                </span>
+
+              </div>
+
+            </div>
+
+          `;
+
+
+          interestList.appendChild(
+            item
+          );
+
+        }
+      );
 
     }
 
@@ -1424,9 +1881,7 @@
             stockClass =
               'stock-low';
 
-          } else if (
-            quantity < 500
-          ) {
+          } else if (quantity < 500) {
 
             stockText =
               languageSelect.value === 'hi'
@@ -1501,9 +1956,7 @@
 
               </div>
 
-              <span
-                class="stock-badge ${stockClass}"
-              >
+              <span class="stock-badge ${stockClass}">
                 ${stockText}
               </span>
 
@@ -1690,6 +2143,29 @@
     );
 
 
+    refreshInterestBtn.addEventListener(
+      'click',
+      function () {
+        loadInterests();
+      }
+    );
+
+
+    languageSelect.addEventListener(
+      'change',
+      function () {
+
+        setLanguage(
+          this.value
+        );
+
+        renderProducts();
+        renderInterests();
+
+      }
+    );
+
+
     function escapeHtml(value) {
 
       const div =
@@ -1707,12 +2183,18 @@
     }
 
 
+    setLanguage(
+      savedLanguage
+    );
+
+
     if (
       loggedInUser &&
       loggedInUser.role === 'farmer'
     ) {
 
       loadProducts();
+      loadInterests();
 
     }
 
@@ -1720,3 +2202,6 @@
 
 </body>
 </html>
+
+      
+
