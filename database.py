@@ -1,56 +1,2485 @@
-import os
-import sqlite3
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect - Farmer Dashboard</title>
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, "agriconnect.db")
+  <style>
+    :root {
+      --bg-color: #f4f7f4;
+      --card-bg: #ffffff;
+      --primary: #2d5a27;
+      --primary-hover: #1e3e1a;
+      --accent: #e8f0e6;
+      --text-main: #1d211d;
+      --text-muted: #667060;
+      --border: #dce3dc;
+      --danger: #c93b2b;
+      --warning: #d98b00;
+      --success: #28a745;
+    }
 
-connection = sqlite3.connect(DB_PATH)
-cursor = connection.cursor()
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+    }
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL UNIQUE,
-    password TEXT NOT NULL,
-    role TEXT NOT NULL,
-    location TEXT NOT NULL
-)
-""")
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS products (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    farmer_id INTEGER,
-    crop TEXT NOT NULL,
-    quantity REAL NOT NULL,
-    price REAL NOT NULL,
-    location TEXT NOT NULL,
-    FOREIGN KEY (farmer_id) REFERENCES users(id)
-)
-""")
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS interests (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    buyer_id INTEGER NOT NULL,
-    product_id INTEGER NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (buyer_id) REFERENCES users(id),
-    FOREIGN KEY (product_id) REFERENCES products(id),
-    UNIQUE(buyer_id, product_id)
-)
-""")
+    .nav-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
 
-connection.commit()
+    .brand-logo-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
 
-tables = cursor.execute(
-    "SELECT name FROM sqlite_master WHERE type='table'"
-).fetchall()
+    .brand-logo-group img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
 
-connection.close()
+    .brand-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
 
-print("Database created successfully!")
-print("Database path:", DB_PATH)
-print("Tables:", [table[0] for table in tables])
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .welcome-text {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .language-select {
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text-main);
+      font-size: 0.82rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .language-select:focus {
+      border-color: var(--primary);
+    }
+
+    .btn-logout {
+      padding: 7px 14px;
+      background: #fde8e8;
+      color: var(--danger);
+      border: 1px solid #f8b4b4;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-logout:hover {
+      background: var(--danger);
+      color: #ffffff;
+    }
+
+    .dashboard-container {
+      max-width: 900px;
+      margin: 28px auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .dashboard-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .section-header {
+      font-size: 1.15rem;
+      color: var(--primary);
+      margin-bottom: 18px;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .stat-card {
+      background: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .profile-item {
+      background: var(--bg-color);
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .profile-label {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .profile-value {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .form-group input {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: var(--bg-color);
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+    }
+
+    .btn-add {
+      padding: 12px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .btn-add:hover {
+      background: var(--primary-hover);
+    }
+
+    .listings-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .sort-select {
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    .btn-refresh {
+      padding: 9px 14px;
+      background: var(--accent);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-refresh:hover {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .product-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .product-item {
+      background: var(--bg-color);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .product-info {
+      flex: 1;
+    }
+
+    .product-info h4 {
+      font-size: 1.05rem;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .product-meta {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .stock-badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 9px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .stock-low {
+      background: #fff3cd;
+      color: var(--warning);
+    }
+
+    .stock-available {
+      background: #e6f4ea;
+      color: var(--success);
+    }
+
+    .stock-high {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    .empty-message {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 25px;
+    }
+
+    .last-updated {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-align: right;
+      margin-top: 12px;
+    }
+
+    .message {
+      display: none;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .message.success {
+      display: block;
+      background: #e6f4ea;
+      color: var(--success);
+    }
+
+    .message.error {
+      display: block;
+      background: #fde8e8;
+      color: var(--danger);
+    }
+
+    .interest-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .interest-item {
+      background: var(--bg-color);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .interest-info h4 {
+      font-size: 1.05rem;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .interest-meta {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .interest-badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 9px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: #e6f4ea;
+      color: var(--success);
+    }
+
+    .btn-refresh-interest {
+      padding: 9px 14px;
+      background: var(--accent);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-refresh-interest:hover {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .interest-empty {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 25px;
+    }
+
+    .interest-count {
+      display: inline-flex;
+      min-width: 28px;
+      height: 28px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 8px;
+      margin-left: 8px;
+      border-radius: 20px;
+      background: var(--accent);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .ai-toggle {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 1000;
+      border: none;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 14px 20px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(45, 90, 39, 0.25);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .ai-toggle:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    .ai-panel {
+      position: fixed;
+      right: 24px;
+      bottom: 84px;
+      width: min(380px, calc(100vw - 32px));
+      height: min(540px, calc(100vh - 120px));
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.15);
+      z-index: 999;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .ai-panel.open {
+      display: flex;
+    }
+
+    .ai-header {
+      background: var(--primary);
+      color: #ffffff;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ai-header-left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ai-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .ai-subtitle {
+      font-size: 0.75rem;
+      opacity: 0.85;
+    }
+
+    .ai-close {
+      border: none;
+      background: transparent;
+      color: #ffffff;
+      font-size: 1.4rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+    }
+
+    .ai-messages {
+      flex: 1;
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: var(--bg-color);
+    }
+
+    .ai-message {
+      max-width: 86%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .ai-message.bot {
+      align-self: flex-start;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+    }
+
+    .ai-message.user {
+      align-self: flex-end;
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .ai-message.typing {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .ai-input-area {
+      border-top: 1px solid var(--border);
+      background: #ffffff;
+      padding: 10px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .ai-input {
+      flex: 1;
+      min-width: 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      outline: none;
+      font-size: 0.88rem;
+      resize: none;
+      height: 42px;
+    }
+
+    .ai-input:focus {
+      border-color: var(--primary);
+    }
+
+    .ai-send {
+      border: none;
+      background: var(--primary);
+      color: #ffffff;
+      border-radius: 10px;
+      padding: 0 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .ai-send:hover {
+      background: var(--primary-hover);
+    }
+
+    .ai-send:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 750px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .product-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav-container {
+        flex-wrap: wrap;
+      }
+
+      .header-right {
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      .welcome-text {
+        display: none;
+      }
+
+      .ai-toggle {
+        right: 16px;
+        bottom: 16px;
+      }
+
+      .ai-panel {
+        right: 16px;
+        bottom: 76px;
+        width: calc(100vw - 32px);
+      }
+    }
+
+    @media (max-width: 500px) {
+      .dashboard-container {
+        padding: 0 14px;
+      }
+
+      .listings-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .sort-select,
+      .btn-refresh {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="nav-container">
+
+      <a href="/" class="brand-logo-group">
+        <img
+          src="/logo.png.jpeg"
+          alt="AgriConnect Logo"
+        >
+
+        <span
+          class="brand-name"
+          data-en="AgriConnect"
+          data-hi="AgriConnect"
+        >
+          AgriConnect
+        </span>
+      </a>
+
+      <div class="header-right">
+
+        <span
+          class="welcome-text"
+          id="welcomeText"
+        >
+          Welcome!
+        </span>
+
+        <select
+          id="languageSelect"
+          class="language-select"
+          aria-label="Select language"
+        >
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+        </select>
+
+        <button
+          class="btn-logout"
+          id="logoutBtn"
+          data-en="Logout"
+          data-hi="लॉग आउट"
+        >
+          Logout
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-container">
+
+    <section class="dashboard-card">
+
+      <h2
+        class="section-header"
+        data-en="Dashboard Overview"
+        data-hi="डैशबोर्ड अवलोकन"
+      >
+        Dashboard Overview
+      </h2>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+          <div class="stat-value" id="totalListings">0</div>
+          <div
+            class="stat-label"
+            data-en="Active Listings"
+            data-hi="सक्रिय सूची"
+          >
+            Active Listings
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-value" id="totalQuantity">0</div>
+          <div
+            class="stat-label"
+            data-en="Total Stock (kg)"
+            data-hi="कुल स्टॉक (किग्रा)"
+          >
+            Total Stock (kg)
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-value" id="averagePrice">₹0</div>
+          <div
+            class="stat-label"
+            data-en="Average Price"
+            data-hi="औसत कीमत"
+          >
+            Average Price
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-value" id="topCrop">—</div>
+          <div
+            class="stat-label"
+            data-en="Most Listed Crop"
+            data-hi="सबसे अधिक सूचीबद्ध फसल"
+          >
+            Most Listed Crop
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="dashboard-card">
+
+      <h2
+        class="section-header"
+        data-en="Farmer Profile"
+        data-hi="किसान प्रोफ़ाइल"
+      >
+        Farmer Profile
+      </h2>
+
+      <div class="profile-grid">
+
+        <div class="profile-item">
+          <span
+            class="profile-label"
+            data-en="Name"
+            data-hi="नाम"
+          >
+            Name
+          </span>
+
+          <span
+            class="profile-value"
+            id="profileName"
+          >
+            —
+          </span>
+        </div>
+
+        <div class="profile-item">
+          <span
+            class="profile-label"
+            data-en="Email"
+            data-hi="ईमेल"
+          >
+            Email
+          </span>
+
+          <span
+            class="profile-value"
+            id="profileEmail"
+          >
+            —
+          </span>
+        </div>
+
+        <div class="profile-item">
+          <span
+            class="profile-label"
+            data-en="Location"
+            data-hi="स्थान"
+          >
+            Location
+          </span>
+
+          <span
+            class="profile-value"
+            id="profileLocation"
+          >
+            —
+          </span>
+        </div>
+
+        <div class="profile-item">
+          <span
+            class="profile-label"
+            data-en="Account Type"
+            data-hi="खाता प्रकार"
+          >
+            Account Type
+          </span>
+
+          <span
+            class="profile-value"
+            data-en="Farmer"
+            data-hi="किसान"
+          >
+            Farmer
+          </span>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="dashboard-card">
+
+      <h2
+        class="section-header"
+        data-en="Add Product"
+        data-hi="उत्पाद जोड़ें"
+      >
+        Add Product
+      </h2>
+
+      <form id="addProductForm" class="form-grid">
+
+        <div class="form-group">
+
+          <label
+            for="crop"
+            data-en="Crop"
+            data-hi="फसल"
+          >
+            Crop
+          </label>
+
+          <input
+            type="text"
+            id="crop"
+            data-placeholder-en="e.g. Tomato"
+            data-placeholder-hi="उदाहरण: टमाटर"
+            placeholder="e.g. Tomato"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+
+          <label
+            for="quantity"
+            data-en="Quantity (kg)"
+            data-hi="मात्रा (किग्रा)"
+          >
+            Quantity (kg)
+          </label>
+
+          <input
+            type="number"
+            id="quantity"
+            data-placeholder-en="e.g. 500"
+            data-placeholder-hi="उदाहरण: 500"
+            placeholder="e.g. 500"
+            min="0.01"
+            step="0.01"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+
+          <label
+            for="price"
+            data-en="Price (₹/kg)"
+            data-hi="कीमत (₹/किग्रा)"
+          >
+            Price (₹/kg)
+          </label>
+
+          <input
+            type="number"
+            id="price"
+            data-placeholder-en="e.g. 25"
+            data-placeholder-hi="उदाहरण: 25"
+            placeholder="e.g. 25"
+            min="0.01"
+            step="0.01"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+
+          <label
+            for="location"
+            data-en="Location"
+            data-hi="स्थान"
+          >
+            Location
+          </label>
+
+          <input
+            type="text"
+            id="location"
+            data-placeholder-en="e.g. Bhubaneswar"
+            data-placeholder-hi="उदाहरण: भुवनेश्वर"
+            placeholder="e.g. Bhubaneswar"
+            required
+          >
+        </div>
+
+        <button
+          type="submit"
+          class="btn-add"
+          data-en="ADD PRODUCT"
+          data-hi="उत्पाद जोड़ें"
+        >
+          ADD PRODUCT
+        </button>
+
+      </form>
+    </section>
+
+    <div id="message" class="message"></div>
+
+    <section class="dashboard-card">
+
+      <h2
+        class="section-header"
+        data-en="My Listings"
+        data-hi="मेरी सूची"
+      >
+        My Listings
+      </h2>
+
+      <div class="listings-toolbar">
+
+        <select id="sortSelect" class="sort-select">
+
+          <option
+            value="newest"
+            data-en="Newest First"
+            data-hi="नवीनतम पहले"
+          >
+            Newest First
+          </option>
+
+          <option
+            value="priceLow"
+            data-en="Price: Low to High"
+            data-hi="कीमत: कम से अधिक"
+          >
+            Price: Low to High
+          </option>
+
+          <option
+            value="priceHigh"
+            data-en="Price: High to Low"
+            data-hi="कीमत: अधिक से कम"
+          >
+            Price: High to Low
+          </option>
+
+          <option
+            value="quantityLow"
+            data-en="Quantity: Low to High"
+            data-hi="मात्रा: कम से अधिक"
+          >
+            Quantity: Low to High
+          </option>
+
+          <option
+            value="quantityHigh"
+            data-en="Quantity: High to Low"
+            data-hi="मात्रा: अधिक से कम"
+          >
+            Quantity: High to Low
+          </option>
+
+        </select>
+
+        <button
+          class="btn-refresh"
+          id="refreshBtn"
+          data-en="↻ Refresh Listings"
+          data-hi="↻ सूची रीफ़्रेश करें"
+        >
+          ↻ Refresh Listings
+        </button>
+
+      </div>
+
+      <div class="product-list" id="productList">
+
+        <div
+          class="empty-message"
+          data-en="Loading your listings..."
+          data-hi="आपकी सूचियां लोड हो रही हैं..."
+        >
+          Loading your listings...
+        </div>
+
+      </div>
+
+      <div class="last-updated" id="lastUpdated">
+        Last updated: —
+      </div>
+
+    </section>
+
+    <section class="dashboard-card" id="interestedCustomersSection">
+
+      <div class="listings-toolbar">
+
+        <h2
+          class="section-header"
+          data-en="Interested Customers"
+          data-hi="रुचि रखने वाले ग्राहक"
+          style="margin-bottom: 0;"
+        >
+          Interested Customers
+          <span class="interest-count" id="interestCount">0</span>
+        </h2>
+
+        <button
+          type="button"
+          class="btn-refresh-interest"
+          id="refreshInterestBtn"
+        >
+          ↻ Refresh Interests
+        </button>
+
+      </div>
+
+      <div class="interest-list" id="interestList">
+
+        <div class="interest-empty">
+          Loading interested customers...
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <button
+    type="button"
+    class="ai-toggle"
+    id="aiToggle"
+  >
+    🤖 <span id="aiToggleText">AgriConnect AI</span>
+  </button>
+
+  <div class="ai-panel" id="aiPanel">
+
+    <div class="ai-header">
+
+      <div class="ai-header-left">
+
+        <div
+          class="ai-title"
+          id="aiTitle"
+        >
+          AgriConnect AI
+        </div>
+
+        <div
+          class="ai-subtitle"
+          id="aiSubtitle"
+        >
+          Your farming assistant
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="ai-close"
+        id="aiClose"
+        aria-label="Close AI assistant"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <div
+      class="ai-messages"
+      id="aiMessages"
+    ></div>
+
+    <div class="ai-input-area">
+
+      <textarea
+        id="aiInput"
+        class="ai-input"
+        rows="1"
+        placeholder="Ask AgriConnect AI..."
+      ></textarea>
+
+      <button
+        type="button"
+        class="ai-send"
+        id="aiSend"
+      >
+        ➤
+      </button>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    const loggedInUser =
+      JSON.parse(
+        localStorage.getItem('agriconnect_user')
+      );
+
+    if (!loggedInUser) {
+      window.location.href = '/login.html';
+    }
+
+    if (
+      loggedInUser &&
+      loggedInUser.role !== 'farmer'
+    ) {
+      alert(
+        'Access denied. Farmer account required.'
+      );
+
+      window.location.href = '/login.html';
+    }
+
+    const languageSelect =
+      document.getElementById(
+        'languageSelect'
+      );
+
+    const productList =
+      document.getElementById(
+        'productList'
+      );
+
+    const sortSelect =
+      document.getElementById(
+        'sortSelect'
+      );
+
+    const message =
+      document.getElementById(
+        'message'
+      );
+
+    const interestList =
+      document.getElementById(
+        'interestList'
+      );
+
+    const interestCount =
+      document.getElementById(
+        'interestCount'
+      );
+
+    const refreshInterestBtn =
+      document.getElementById(
+        'refreshInterestBtn'
+      );
+
+    let myProducts = [];
+    let myInterests = [];
+
+    function setLanguage(language) {
+
+      document
+        .querySelectorAll(
+          '[data-en][data-hi]'
+        )
+        .forEach(element => {
+
+          element.textContent =
+            element.getAttribute(
+              `data-${language}`
+            );
+
+        });
+
+      document
+        .querySelectorAll(
+          '[data-placeholder-en][data-placeholder-hi]'
+        )
+        .forEach(input => {
+
+          input.placeholder =
+            input.getAttribute(
+              `data-placeholder-${language}`
+            );
+
+        });
+
+      if (loggedInUser) {
+
+        document.getElementById(
+          'welcomeText'
+        ).textContent =
+          language === 'hi'
+            ? `स्वागत है, ${loggedInUser.name} 👋`
+            : `Welcome, ${loggedInUser.name} 👋`;
+
+      }
+
+      document.getElementById(
+        'lastUpdated'
+      ).textContent =
+        language === 'hi'
+          ? 'अंतिम अपडेट: —'
+          : 'Last updated: —';
+
+      document.documentElement.lang =
+        language === 'hi'
+          ? 'hi'
+          : 'en';
+
+      localStorage.setItem(
+        'agriconnect_language',
+        language
+      );
+
+      updateAITexts(language);
+
+    }
+
+    const savedLanguage =
+      localStorage.getItem(
+        'agriconnect_language'
+      ) || 'en';
+
+    languageSelect.value =
+      savedLanguage;
+
+    if (loggedInUser) {
+
+      document.getElementById(
+        'welcomeText'
+      ).textContent =
+        `Welcome, ${loggedInUser.name} 👋`;
+
+      document.getElementById(
+        'profileName'
+      ).textContent =
+        loggedInUser.name;
+
+      document.getElementById(
+        'profileEmail'
+      ).textContent =
+        loggedInUser.email;
+
+      document.getElementById(
+        'profileLocation'
+      ).textContent =
+        loggedInUser.location;
+
+    }
+
+    function showMessage(
+      text,
+      type = 'success'
+    ) {
+
+      message.textContent =
+        text;
+
+      message.className =
+        `message ${type}`;
+
+      setTimeout(() => {
+
+        message.className =
+          'message';
+
+      }, 4000);
+
+    }
+
+    document
+      .getElementById('logoutBtn')
+      .addEventListener(
+        'click',
+        function () {
+
+          localStorage.removeItem(
+            'agriconnect_user'
+          );
+
+          sessionStorage.clear();
+
+          window.location.href =
+            '/login.html';
+
+        }
+      );
+
+    async function loadProducts() {
+
+      try {
+
+        const response =
+          await fetch('/products');
+
+        if (!response.ok) {
+
+          throw new Error(
+            'Failed to load products'
+          );
+
+        }
+
+        const products =
+          await response.json();
+
+        myProducts =
+          products.filter(
+            product =>
+              Number(product.farmer_id) ===
+              Number(loggedInUser.id)
+          );
+
+        renderProducts();
+
+        updateDashboardStats();
+
+        const now =
+          new Date();
+
+        document.getElementById(
+          'lastUpdated'
+        ).textContent =
+          languageSelect.value === 'hi'
+            ? `अंतिम अपडेट: ${now.toLocaleTimeString()}`
+            : `Last updated: ${now.toLocaleTimeString()}`;
+
+      } catch (error) {
+
+        console.error(
+          'Error loading products:',
+          error
+        );
+
+        productList.innerHTML = `
+
+          <div class="empty-message">
+
+            ${
+              languageSelect.value === 'hi'
+                ? 'आपकी सूचियां लोड नहीं हो सकीं।'
+                : 'Could not load your listings.'
+            }
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+    async function loadInterests() {
+
+      interestList.innerHTML = `
+
+        <div class="interest-empty">
+
+          ${
+            languageSelect.value === 'hi'
+              ? 'रुचि रखने वाले ग्राहक लोड हो रहे हैं...'
+              : 'Loading interested customers...'
+          }
+
+        </div>
+
+      `;
+
+      try {
+
+        const response =
+          await fetch(
+            `/interests?farmer_id=${encodeURIComponent(loggedInUser.id)}`
+          );
+
+        const text =
+          await response.text();
+
+        let data = null;
+
+        try {
+          data = JSON.parse(text);
+        } catch {
+          throw new Error(
+            `Server returned invalid data: ${text}`
+          );
+        }
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            `Server returned ${response.status}`
+          );
+
+        }
+
+        myInterests =
+          Array.isArray(data)
+            ? data
+            : (
+                Array.isArray(data.interests)
+                  ? data.interests
+                  : []
+              );
+
+        renderInterests();
+
+      } catch (error) {
+
+        console.error(
+          'Error loading interests:',
+          error
+        );
+
+        myInterests = [];
+
+        interestCount.textContent =
+          '0';
+
+        interestList.innerHTML = `
+
+          <div class="interest-empty">
+
+            ${
+              languageSelect.value === 'hi'
+                ? 'रुचि रखने वाले ग्राहकों की जानकारी लोड नहीं हो सकी।'
+                : 'Could not load interested customers.'
+            }
+
+            <br><br>
+
+            <small>
+              ${escapeHtml(error.message)}
+            </small>
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+    function renderInterests() {
+
+      interestCount.textContent =
+        String(myInterests.length);
+
+      if (myInterests.length === 0) {
+
+        interestList.innerHTML = `
+
+          <div class="interest-empty">
+
+            ${
+              languageSelect.value === 'hi'
+                ? 'अभी किसी ग्राहक ने आपके उत्पाद में रुचि नहीं दिखाई है।'
+                : 'No customers have shown interest in your products yet.'
+            }
+
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+      interestList.innerHTML = '';
+
+      myInterests.forEach(
+        interest => {
+
+          const item =
+            document.createElement('div');
+
+          item.className =
+            'interest-item';
+
+          const customerName =
+            escapeHtml(
+              interest.buyer_name ||
+              interest.customer_name ||
+              interest.name ||
+              'Unknown customer'
+            );
+
+          const customerEmail =
+            escapeHtml(
+              interest.buyer_email ||
+              interest.customer_email ||
+              interest.email ||
+              'Not provided'
+            );
+
+          const crop =
+            escapeHtml(
+              interest.product_crop ||
+              interest.crop ||
+              interest.product_name ||
+              'Unknown product'
+            );
+
+          const quantity =
+            interest.product_quantity ??
+            interest.quantity;
+
+          const price =
+            interest.product_price ??
+            interest.price;
+
+          const location =
+            escapeHtml(
+              interest.product_location ||
+              interest.location ||
+              ''
+            );
+
+          const interestedAt =
+            interest.created_at ||
+            interest.interested_at ||
+            interest.timestamp ||
+            '';
+
+          let dateText = '';
+
+          if (interestedAt) {
+
+            const parsedDate =
+              new Date(interestedAt);
+
+            dateText =
+              isNaN(parsedDate.getTime())
+                ? String(interestedAt)
+                : parsedDate.toLocaleString();
+
+          }
+
+          item.innerHTML = `
+
+            <div class="interest-info">
+
+              <h4>
+                👤 ${customerName}
+              </h4>
+
+              <div class="interest-meta">
+
+                <div>
+                  ${
+                    languageSelect.value === 'hi'
+                      ? 'ईमेल:'
+                      : 'Email:'
+                  }
+
+                  <strong>
+                    ${customerEmail}
+                  </strong>
+                </div>
+
+                <div>
+                  🌱
+                  ${
+                    languageSelect.value === 'hi'
+                      ? 'उत्पाद:'
+                      : 'Product:'
+                  }
+
+                  <strong>
+                    ${crop}
+                  </strong>
+                </div>
+
+                ${
+                  quantity != null
+                    ? `
+                      <div>
+                        ${
+                          languageSelect.value === 'hi'
+                            ? 'मात्रा:'
+                            : 'Quantity:'
+                        }
+
+                        <strong>
+                          ${escapeHtml(quantity)} kg
+                        </strong>
+                      </div>
+                    `
+                    : ''
+                }
+
+                ${
+                  price != null
+                    ? `
+                      <div>
+                        ${
+                          languageSelect.value === 'hi'
+                            ? 'कीमत:'
+                            : 'Price:'
+                        }
+
+                        <strong>
+                          ₹${escapeHtml(price)}/kg
+                        </strong>
+                      </div>
+                    `
+                    : ''
+                }
+
+                ${
+                  location
+                    ? `
+                      <div>
+                        📍
+                        ${
+                          languageSelect.value === 'hi'
+                            ? 'स्थान:'
+                            : 'Location:'
+                        }
+
+                        <strong>
+                          ${location}
+                        </strong>
+                      </div>
+                    `
+                    : ''
+                }
+
+                ${
+                  dateText
+                    ? `
+                      <div>
+                        ${
+                          languageSelect.value === 'hi'
+                            ? 'रुचि दर्ज की गई:'
+                            : 'Interested on:'
+                        }
+
+                        <strong>
+                          ${escapeHtml(dateText)}
+                        </strong>
+                      </div>
+                    `
+                    : ''
+                }
+
+                <span class="interest-badge">
+
+                  ${
+                    languageSelect.value === 'hi'
+                      ? 'रुचि दिखाई ✓'
+                      : 'Interested ✓'
+                  }
+
+                </span>
+
+              </div>
+
+            </div>
+
+          `;
+
+          interestList.appendChild(
+            item
+          );
+
+        }
+      );
+
+    }
+
+    function updateDashboardStats() {
+
+      const totalListings =
+        myProducts.length;
+
+      const totalQuantity =
+        myProducts.reduce(
+          (total, product) =>
+            total +
+            Number(product.quantity),
+          0
+        );
+
+      const averagePrice =
+        totalListings > 0
+          ? myProducts.reduce(
+              (total, product) =>
+                total +
+                Number(product.price),
+              0
+            ) / totalListings
+          : 0;
+
+      const cropCounts = {};
+
+      myProducts.forEach(
+        product => {
+
+          const crop =
+            product.crop.toLowerCase();
+
+          cropCounts[crop] =
+            (cropCounts[crop] || 0) + 1;
+
+        }
+      );
+
+      let mostListedCrop =
+        '—';
+
+      const cropNames =
+        Object.keys(cropCounts);
+
+      if (cropNames.length > 0) {
+
+        mostListedCrop =
+          cropNames.reduce(
+            (highest, crop) =>
+              cropCounts[crop] >
+              cropCounts[highest]
+                ? crop
+                : highest,
+            cropNames[0]
+          );
+
+        mostListedCrop =
+          mostListedCrop.charAt(0).toUpperCase() +
+          mostListedCrop.slice(1);
+
+      }
+
+      document.getElementById(
+        'totalListings'
+      ).textContent =
+        totalListings;
+
+      document.getElementById(
+        'totalQuantity'
+      ).textContent =
+        totalQuantity.toFixed(1);
+
+      document.getElementById(
+        'averagePrice'
+      ).textContent =
+        `₹${averagePrice.toFixed(2)}`;
+
+      document.getElementById(
+        'topCrop'
+      ).textContent =
+        mostListedCrop;
+
+    }
+
+    function renderProducts() {
+
+      productList.innerHTML = '';
+
+      if (myProducts.length === 0) {
+
+        productList.innerHTML = `
+
+          <div class="empty-message">
+
+            ${
+              languageSelect.value === 'hi'
+                ? 'आपने अभी तक कोई उत्पाद नहीं जोड़ा है।'
+                : "You haven't added any products yet."
+            }
+
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+      const sortedProducts =
+        [...myProducts];
+
+      const sortType =
+        sortSelect.value;
+
+      if (sortType === 'priceLow') {
+
+        sortedProducts.sort(
+          (a, b) =>
+            Number(a.price) -
+            Number(b.price)
+        );
+
+      }
+
+      if (sortType === 'priceHigh') {
+
+        sortedProducts.sort(
+          (a, b) =>
+            Number(b.price) -
+            Number(a.price)
+        );
+
+      }
+
+      if (sortType === 'quantityLow') {
+
+        sortedProducts.sort(
+          (a, b) =>
+            Number(a.quantity) -
+            Number(b.quantity)
+        );
+
+      }
+
+      if (sortType === 'quantityHigh') {
+
+        sortedProducts.sort(
+          (a, b) =>
+            Number(b.quantity) -
+            Number(a.quantity)
+        );
+
+      }
+
+      if (sortType === 'newest') {
+
+        sortedProducts.sort(
+          (a, b) =>
+            Number(b.id) -
+            Number(a.id)
+        );
+
+      }
+
+      sortedProducts.forEach(
+        product => {
+
+          const item =
+            document.createElement('div');
+
+          item.className =
+            'product-item';
+
+          const quantity =
+            Number(product.quantity);
+
+          let stockText;
+          let stockClass;
+
+          if (quantity < 50) {
+
+            stockText =
+              languageSelect.value === 'hi'
+                ? 'कम स्टॉक'
+                : 'Low Stock';
+
+            stockClass =
+              'stock-low';
+
+          } else if (quantity < 500) {
+
+            stockText =
+              languageSelect.value === 'hi'
+                ? 'उपलब्ध'
+                : 'Available';
+
+            stockClass =
+              'stock-available';
+
+          } else {
+
+            stockText =
+              languageSelect.value === 'hi'
+                ? 'उच्च स्टॉक'
+                : 'High Stock';
+
+            stockClass =
+              'stock-high';
+
+          }
+
+          item.innerHTML = `
+
+            <div class="product-info">
+
+              <h4>
+                🌱 ${escapeHtml(product.crop)}
+              </h4>
+
+              <div class="product-meta">
+
+                ${
+                  languageSelect.value === 'hi'
+                    ? 'मात्रा:'
+                    : 'Quantity:'
+                }
+
+                <strong>
+                  ${product.quantity} kg
+                </strong>
+
+              </div>
+
+              <div class="product-meta">
+
+                ${
+                  languageSelect.value === 'hi'
+                    ? 'कीमत:'
+                    : 'Price:'
+                }
+
+                <strong>
+                  ₹${product.price}/kg
+                </strong>
+
+              </div>
+
+              <div class="product-meta">
+
+                ${
+                  languageSelect.value === 'hi'
+                    ? 'स्थान:'
+                    : 'Location:'
+                }
+
+                📍
+
+                <strong>
+                  ${escapeHtml(product.location)}
+                </strong>
+
+              </div>
+
+              <span class="stock-badge ${stockClass}">
+                ${stockText}
+              </span>
+
+            </div>
+
+          `;
+
+          productList.appendChild(
+            item
+          );
+
+        }
+      );
+
+    }
+
+    document
+      .getElementById('addProductForm')
+      .addEventListener(
+        'submit',
+        async function (event) {
+
+          event.preventDefault();
+
+          const crop =
+            document
+              .getElementById('crop')
+              .value
+              .trim();
+
+          const quantity =
+            parseFloat(
+              document
+                .getElementById('quantity')
+                .value
+            );
+
+          const price =
+            parseFloat(
+              document
+                .getElementById('price')
+                .value
+            );
+
+          const location =
+            document
+              .getElementById('location')
+              .value
+              .trim();
+
+          if (
+            !crop ||
+            !location ||
+            quantity <= 0 ||
+            price <= 0
+          ) {
+
+            showMessage(
+              languageSelect.value === 'hi'
+                ? 'कृपया सही उत्पाद विवरण दर्ज करें।'
+                : 'Please enter valid product details.',
+              'error'
+            );
+
+            return;
+
+          }
+
+          try {
+
+            const response =
+              await fetch(
+                '/products',
+                {
+                  method: 'POST',
+
+                  headers: {
+                    'Content-Type':
+                      'application/json'
+                  },
+
+                  body: JSON.stringify({
+
+                    farmer_id:
+                      loggedInUser.id,
+
+                    crop:
+                      crop,
+
+                    quantity:
+                      quantity,
+
+                    price:
+                      price,
+
+                    location:
+                      location
+
+                  })
+
+                }
+              );
+
+            const data =
+              await response.json();
+
+            if (!response.ok) {
+
+              showMessage(
+                data.error ||
+                (
+                  languageSelect.value === 'hi'
+                    ? 'उत्पाद जोड़ने में समस्या हुई।'
+                    : 'Failed to add product.'
+                ),
+                'error'
+              );
+
+              return;
+
+            }
+
+            showMessage(
+              languageSelect.value === 'hi'
+                ? 'उत्पाद सफलतापूर्वक जोड़ा गया!'
+                : 'Product added successfully!',
+              'success'
+            );
+
+            document
+              .getElementById(
+                'addProductForm'
+              )
+              .reset();
+
+            await loadProducts();
+
+          } catch (error) {
+
+            console.error(
+              'Error adding product:',
+              error
+            );
+
+            showMessage(
+              languageSelect.value === 'hi'
+                ? 'AgriConnect सर्वर से कनेक्ट नहीं हो सका।'
+                : 'Could not connect to the AgriConnect server.',
+              'error'
+            );
+
+          }
+
+        }
+      );
+
+    document
+      .getElementById('refreshBtn')
+      .addEventListener(
+        'click',
+        loadProducts
+      );
+
+    sortSelect.addEventListener(
+      'change',
+      renderProducts
+    );
+
+    refreshInterestBtn.addEventListener(
+      'click',
+      function () {
+        loadInterests();
+      }
+    );
+
+    languageSelect.addEventListener(
+      'change',
+      function () {
+
+        setLanguage(
+          this.value
+        );
+
+        renderProducts();
+        renderInterests();
+
+      }
+    );
+
+    function escapeHtml(value) {
+
+      const div =
+        document.createElement(
+          'div'
+        );
+
+      div.textContent =
+        value == null
+          ? ''
+          : String(value);
+
+      return div.innerHTML;
+
+    }
+
+
+    const aiToggle =
+      document.getElementById(
+        'aiToggle'
+      );
+
+    const aiPanel =
+      document.getElementById(
+        'aiPanel'
+      );
+
+    const aiClose =
+      document.getElementById(
+        'aiClose'
+      );
+
+    const aiMessages =
+      document.getElementById(
+        'aiMessages'
+      );
+
+    const aiInput =
+      document.getElementById(
+        'aiInput'
+      );
+
+    const aiSend =
+      document.getElementById(
+        'aiSend'
+      );
+
+
+    function updateAITexts(language) {
+
+      document.getElementById(
+        'aiToggleText'
+      ).textContent =
+        language === 'hi'
+          ? 'AgriConnect AI'
+          : 'AgriConnect AI';
+
+      document.getElementById(
+        'aiTitle'
+      ).textContent =
+        language === 'hi'
+          ? 'AgriConnect AI'
+          : 'AgriConnect AI';
+
+      document.getElementById(
+        'aiSubtitle'
+      ).textContent =
+        language === 'hi'
+          ? 'आपका कृषि सहायक'
+          : 'Your farming assistant';
+
+      aiInput.placeholder =
+        language === 'hi'
+          ? 'AgriConnect AI से पूछें...'
+          : 'Ask AgriConnect AI...';
+
+    }
+
+
+    function addAIMessage(
+      text,
+      type
+    ) {
+
+      const messageElement =
+        document.createElement(
+          'div'
+        );
+
+      messageElement.className =
+        `ai-message ${type}`;
+
+      messageElement.textContent =
+        text;
+
+      aiMessages.appendChild(
+        messageElement
+      );
+
+      aiMessages.scrollTop =
+        aiMessages.scrollHeight;
+
+      return messageElement;
+
+    }
+
+
+    function openAIPanel() {
+
+      aiPanel.classList.add(
+        'open'
+      );
+
+      aiInput.focus();
+
+      if (
+        aiMessages.children.length === 0
+      ) {
+
+        addAIMessage(
+          languageSelect.value === 'hi'
+            ? `नमस्ते ${loggedInUser.name}! मैं AgriConnect AI हूँ। खेती, फसलों, उत्पाद बेचने या AgriConnect के बारे में कुछ भी पूछें।`
+            : `Hello ${loggedInUser.name}! I'm AgriConnect AI. Ask me anything about farming, crops, selling products, or using AgriConnect.`,
+          'bot'
+        );
+
+      }
+
+    }
+
+
+    function closeAIPanel() {
+
+      aiPanel.classList.remove(
+        'open'
+      );
+
+    }
+
+
+    async function sendAIMessage() {
+
+      const userMessage =
+        aiInput.value.trim();
+
+      if (!userMessage) {
+        return;
+      }
+
+      addAIMessage(
+        userMessage,
+        'user'
+      );
+
+      aiInput.value =
+        '';
+
+      aiSend.disabled =
+        true;
+
+      const typingMessage =
+        addAIMessage(
+          languageSelect.value === 'hi'
+            ? 'AI सोच रहा है...'
+            : 'AI is thinking...',
+          'bot typing'
+        );
+
+      try {
+
+        const response =
+          await fetch(
+            '/chat',
+            {
+              method: 'POST',
+
+              headers: {
+                'Content-Type':
+                  'application/json'
+              },
+
+              body: JSON.stringify({
+                message:
+                  userMessage,
+
+                role:
+                  'farmer',
+
+		 user_id:
+                  loggedInUser.id
+              })
+            }
+          );
+
+        const data =
+          await response.json();
+
+        typingMessage.remove();
+
+        if (!response.ok) {
+
+          addAIMessage(
+            data.error ||
+            (
+              languageSelect.value === 'hi'
+                ? 'AI से जवाब प्राप्त नहीं हो सका।'
+                : 'Could not get a response from the AI.'
+            ),
+            'bot'
+          );
+
+          return;
+
+        }
+
+        addAIMessage(
+          data.reply ||
+          (
+            languageSelect.value === 'hi'
+              ? 'AI ने कोई जवाब नहीं दिया।'
+              : 'The AI did not return a response.'
+          ),
+          'bot'
+        );
+
+      } catch (error) {
+
+        console.error(
+          'AI chat error:',
+          error
+        );
+
+        typingMessage.remove();
+
+        addAIMessage(
+          languageSelect.value === 'hi'
+            ? 'AI से कनेक्ट नहीं हो सका। कृपया दोबारा प्रयास करें।'
+            : 'Could not connect to the AI. Please try again.',
+          'bot'
+        );
+
+      } finally {
+
+        aiSend.disabled =
+          false;
+
+        aiInput.focus();
+
+      }
+
+    }
+
+
+    aiToggle.addEventListener(
+      'click',
+      openAIPanel
+    );
+
+
+    aiClose.addEventListener(
+      'click',
+      closeAIPanel
+    );
+
+
+    aiSend.addEventListener(
+      'click',
+      sendAIMessage
+    );
+
+
+    aiInput.addEventListener(
+      'keydown',
+      function (event) {
+
+        if (
+          event.key === 'Enter' &&
+          !event.shiftKey
+        ) {
+
+          event.preventDefault();
+
+          sendAIMessage();
+
+        }
+
+      }
+    );
+
+
+    setLanguage(
+      savedLanguage
+    );
+
+
+    if (
+      loggedInUser &&
+      loggedInUser.role === 'farmer'
+    ) {
+
+      loadProducts();
+      loadInterests();
+
+    }
+
+  </script>
+
+</body>
+</html>
+      
 
