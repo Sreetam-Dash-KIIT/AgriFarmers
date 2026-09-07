@@ -2,18 +2,28 @@ from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
+from openai import OpenAI
 
 app = Flask(__name__)
 CORS(app)
 
-import os
+openrouter_client = OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.environ.get("OPENROUTER_API_KEY")
+)
+
 
 def get_database():
-    db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "agriconnect.db")
+    db_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        "agriconnect.db"
+    )
     print("DATABASE:", db_path)
     connection = sqlite3.connect(db_path)
     connection.row_factory = sqlite3.Row
     return connection
+
 
 def init_database():
     connection = get_database()
@@ -66,31 +76,39 @@ def init_database():
 
     print("Database initialized successfully!")
 
+
 init_database()
+
 
 @app.route("/")
 def home():
     return send_from_directory(".", "index.html")
 
+
 @app.route("/createaccount.html")
 def create_account_page():
     return send_from_directory(".", "createaccount.html")
+
 
 @app.route("/login.html")
 def login_page():
     return send_from_directory(".", "login.html")
 
+
 @app.route("/farmerdashboard.html")
 def farmer_dashboard():
     return send_from_directory(".", "farmerdashboard.html")
+
 
 @app.route("/consumerdashboard.html")
 def consumer_dashboard():
     return send_from_directory(".", "consumerdashboard.html")
 
+
 @app.route("/logo.png.jpeg")
 def logo():
     return send_from_directory(".", "logo.png.jpeg")
+
 
 @app.route("/products", methods=["GET"])
 def get_products():
@@ -117,6 +135,7 @@ def get_products():
         dict(product)
         for product in products
     ])
+
 
 @app.route("/products", methods=["POST"])
 def add_product():
@@ -189,6 +208,7 @@ def add_product():
         "message": "Product added successfully!"
     }), 201
 
+
 @app.route("/users", methods=["POST"])
 def add_user():
     data = request.get_json()
@@ -249,6 +269,7 @@ def add_user():
         "message": "User created successfully!"
     }), 201
 
+
 @app.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
@@ -298,6 +319,7 @@ def login():
             "location": user["location"]
         }
     }), 200
+
 
 @app.route("/search", methods=["GET"])
 def search_products():
@@ -418,6 +440,7 @@ def search_products():
         for product in products
     ])
 
+
 @app.route("/interests", methods=["POST"])
 def add_interest():
     data = request.get_json()
@@ -498,6 +521,7 @@ def add_interest():
         "message": "Interest recorded successfully!"
     }), 201
 
+
 @app.route("/interests", methods=["GET"])
 def get_interests():
     farmer_id = request.args.get("farmer_id")
@@ -565,6 +589,174 @@ def get_interests():
         dict(interest)
         for interest in interests
     ]), 200
+
+
+@app.route("/chat", methods=["POST"])
+def chat():
+    data = request.get_json()
+
+    if not data:
+        return jsonify({
+            "error": "No chat data provided"
+        }), 400
+
+    message = data.get("message")
+    role = data.get("role")
+    user_id = data.get("user_id")
+
+    if not message:
+        return jsonify({
+            "error": "Message is required"
+        }), 400
+
+    if role not in ["farmer", "buyer"]:
+        role = "buyer"
+
+    connection = get_database()
+
+    products = connection.execute("""
+        SELECT
+            products.id,
+            products.crop,
+            products.quantity,
+            products.price,
+            products.location,
+            products.farmer_id,
+            users.name AS farmer_name
+        FROM products
+        LEFT JOIN users
+        ON products.farmer_id = users.id
+        ORDER BY products.id DESC
+        LIMIT 100
+    """).fetchall()
+
+    product_data = [
+        {
+            "id": product["id"],
+            "crop": product["crop"],
+            "quantity": product["quantity"],
+            "price": product["price"],
+            "location": product["location"],
+            "farmer_id": product["farmer_id"],
+            "farmer_name": product["farmer_name"]
+        }
+        for product in products
+    ]
+
+    interest_data = []
+
+    if role == "farmer" and user_id is not None:
+        try:
+            farmer_id = int(user_id)
+
+            interests = connection.execute(
+                """
+                SELECT
+                    interests.id AS interest_id,
+                    users.name AS buyer_name,
+                    users.location AS buyer_location,
+                    products.id AS product_id,
+                    products.crop AS product_crop,
+                    products.quantity AS product_quantity,
+                    products.price AS product_price,
+                    products.location AS product_location,
+                    interests.created_at AS created_at
+                FROM interests
+                INNER JOIN users
+                ON interests.buyer_id = users.id
+                INNER JOIN products
+                ON interests.product_id = products.id
+                WHERE products.farmer_id = ?
+                ORDER BY interests.id DESC
+                LIMIT 100
+                """,
+                (farmer_id,)
+            ).fetchall()
+
+            interest_data = [
+                {
+                    "interest_id": interest["interest_id"],
+                    "buyer_name": interest["buyer_name"],
+                    "buyer_location": interest["buyer_location"],
+                    "product_id": interest["product_id"],
+                    "product_crop": interest["product_crop"],
+                    "product_quantity": interest["product_quantity"],
+                    "product_price": interest["product_price"],
+                    "product_location": interest["product_location"],
+                    "created_at": interest["created_at"]
+                }
+                for interest in interests
+            ]
+
+        except (ValueError, TypeError):
+            interest_data = []
+
+    connection.close()
+
+    if role == "farmer":
+        system_prompt = (
+            "You are AgriConnect AI, a helpful agricultural marketplace "
+            "assistant for a farmer. You can answer farming questions, "
+            "questions about selling products, and questions about using "
+            "AgriConnect. You have access to current AgriConnect database "
+            "information supplied below. Use that information when relevant. "
+            "Never invent products, prices, quantities, farmers, or customer "
+            "interest information. If the database does not contain an answer, "
+            "say that clearly. Do not claim that you changed the database or "
+            "performed an action. Give practical, easy-to-understand answers."
+        )
+    else:
+        system_prompt = (
+            "You are AgriConnect AI, a helpful agricultural marketplace "
+            "assistant for a buyer. You can answer questions about buying "
+            "agricultural products, finding listings, and using AgriConnect. "
+            "You have access to current AgriConnect product data supplied "
+            "below. Use that information when relevant. Never invent products, "
+            "prices, quantities, farmers, or locations. If the database does "
+            "not contain an answer, say that clearly. Do not claim that you "
+            "changed the database or performed an action. Give practical, "
+            "easy-to-understand answers."
+        )
+
+    database_context = (
+        "\n\nCURRENT AGRICONNECT PRODUCT LISTINGS:\n"
+        f"{product_data}\n"
+    )
+
+    if role == "farmer":
+        database_context += (
+            "\nCURRENT INTERESTS IN THIS FARMER'S PRODUCTS:\n"
+            f"{interest_data}\n"
+        )
+
+    try:
+        response = openrouter_client.chat.completions.create(
+            model="openrouter/free",
+            messages=[
+                {
+                    "role": "system",
+                    "content": system_prompt + database_context
+                },
+                {
+                    "role": "user",
+                    "content": message
+                }
+            ]
+        )
+
+        reply = response.choices[0].message.content
+
+        return jsonify({
+            "reply": reply
+        }), 200
+
+    except Exception as e:
+        print("OPENROUTER ERROR:", e)
+
+        return jsonify({
+            "error": "Unable to get a response from the AI assistant"
+        }), 500
+
 
 if __name__ == "__main__":
     app.run(
