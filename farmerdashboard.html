@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -365,7 +365,6 @@
       color: var(--danger);
     }
 
-
     .interest-list {
       display: flex;
       flex-direction: column;
@@ -438,8 +437,163 @@
       font-weight: 700;
     }
 
-    @media (max-width: 750px) {
+    .ai-toggle {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 1000;
+      border: none;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 14px 20px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(45, 90, 39, 0.25);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
 
+    .ai-toggle:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    .ai-panel {
+      position: fixed;
+      right: 24px;
+      bottom: 84px;
+      width: min(380px, calc(100vw - 32px));
+      height: min(540px, calc(100vh - 120px));
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.15);
+      z-index: 999;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .ai-panel.open {
+      display: flex;
+    }
+
+    .ai-header {
+      background: var(--primary);
+      color: #ffffff;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ai-header-left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ai-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .ai-subtitle {
+      font-size: 0.75rem;
+      opacity: 0.85;
+    }
+
+    .ai-close {
+      border: none;
+      background: transparent;
+      color: #ffffff;
+      font-size: 1.4rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+    }
+
+    .ai-messages {
+      flex: 1;
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: var(--bg-color);
+    }
+
+    .ai-message {
+      max-width: 86%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .ai-message.bot {
+      align-self: flex-start;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+    }
+
+    .ai-message.user {
+      align-self: flex-end;
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .ai-message.typing {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .ai-input-area {
+      border-top: 1px solid var(--border);
+      background: #ffffff;
+      padding: 10px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .ai-input {
+      flex: 1;
+      min-width: 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      outline: none;
+      font-size: 0.88rem;
+      resize: none;
+      height: 42px;
+    }
+
+    .ai-input:focus {
+      border-color: var(--primary);
+    }
+
+    .ai-send {
+      border: none;
+      background: var(--primary);
+      color: #ffffff;
+      border-radius: 10px;
+      padding: 0 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .ai-send:hover {
+      background: var(--primary-hover);
+    }
+
+    .ai-send:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 750px) {
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -452,11 +606,9 @@
         flex-direction: column;
         align-items: flex-start;
       }
-
     }
 
     @media (max-width: 600px) {
-
       .nav-container {
         flex-wrap: wrap;
       }
@@ -470,10 +622,19 @@
         display: none;
       }
 
+      .ai-toggle {
+        right: 16px;
+        bottom: 16px;
+      }
+
+      .ai-panel {
+        right: 16px;
+        bottom: 76px;
+        width: calc(100vw - 32px);
+      }
     }
 
     @media (max-width: 500px) {
-
       .dashboard-container {
         padding: 0 14px;
       }
@@ -487,7 +648,6 @@
       .btn-refresh {
         width: 100%;
       }
-
     }
   </style>
 </head>
@@ -495,11 +655,9 @@
 <body>
 
   <header>
-
     <div class="nav-container">
 
       <a href="/" class="brand-logo-group">
-
         <img
           src="/logo.png.jpeg"
           alt="AgriConnect Logo"
@@ -512,9 +670,7 @@
         >
           AgriConnect
         </span>
-
       </a>
-
 
       <div class="header-right">
 
@@ -525,23 +681,14 @@
           Welcome!
         </span>
 
-
         <select
           id="languageSelect"
           class="language-select"
           aria-label="Select language"
         >
-
-          <option value="en">
-            English
-          </option>
-
-          <option value="hi">
-            हिन्दी
-          </option>
-
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
         </select>
-
 
         <button
           class="btn-logout"
@@ -553,16 +700,10 @@
         </button>
 
       </div>
-
     </div>
-
   </header>
 
-
   <main class="dashboard-container">
-
-
-    <!-- Dashboard Overview -->
 
     <section class="dashboard-card">
 
@@ -574,18 +715,10 @@
         Dashboard Overview
       </h2>
 
-
       <div class="stats-grid">
 
         <div class="stat-card">
-
-          <div
-            class="stat-value"
-            id="totalListings"
-          >
-            0
-          </div>
-
+          <div class="stat-value" id="totalListings">0</div>
           <div
             class="stat-label"
             data-en="Active Listings"
@@ -593,19 +726,10 @@
           >
             Active Listings
           </div>
-
         </div>
 
-
         <div class="stat-card">
-
-          <div
-            class="stat-value"
-            id="totalQuantity"
-          >
-            0
-          </div>
-
+          <div class="stat-value" id="totalQuantity">0</div>
           <div
             class="stat-label"
             data-en="Total Stock (kg)"
@@ -613,19 +737,10 @@
           >
             Total Stock (kg)
           </div>
-
         </div>
 
-
         <div class="stat-card">
-
-          <div
-            class="stat-value"
-            id="averagePrice"
-          >
-            ₹0
-          </div>
-
+          <div class="stat-value" id="averagePrice">₹0</div>
           <div
             class="stat-label"
             data-en="Average Price"
@@ -633,19 +748,10 @@
           >
             Average Price
           </div>
-
         </div>
 
-
         <div class="stat-card">
-
-          <div
-            class="stat-value"
-            id="topCrop"
-          >
-            —
-          </div>
-
+          <div class="stat-value" id="topCrop">—</div>
           <div
             class="stat-label"
             data-en="Most Listed Crop"
@@ -653,15 +759,10 @@
           >
             Most Listed Crop
           </div>
-
         </div>
 
       </div>
-
     </section>
-
-
-    <!-- Farmer Profile -->
 
     <section class="dashboard-card">
 
@@ -673,11 +774,9 @@
         Farmer Profile
       </h2>
 
-
       <div class="profile-grid">
 
         <div class="profile-item">
-
           <span
             class="profile-label"
             data-en="Name"
@@ -692,12 +791,9 @@
           >
             —
           </span>
-
         </div>
 
-
         <div class="profile-item">
-
           <span
             class="profile-label"
             data-en="Email"
@@ -712,12 +808,9 @@
           >
             —
           </span>
-
         </div>
 
-
         <div class="profile-item">
-
           <span
             class="profile-label"
             data-en="Location"
@@ -732,12 +825,9 @@
           >
             —
           </span>
-
         </div>
 
-
         <div class="profile-item">
-
           <span
             class="profile-label"
             data-en="Account Type"
@@ -753,15 +843,10 @@
           >
             Farmer
           </span>
-
         </div>
 
       </div>
-
     </section>
-
-
-    <!-- Add Product -->
 
     <section class="dashboard-card">
 
@@ -773,11 +858,7 @@
         Add Product
       </h2>
 
-
-      <form
-        id="addProductForm"
-        class="form-grid"
-      >
+      <form id="addProductForm" class="form-grid">
 
         <div class="form-group">
 
@@ -797,9 +878,7 @@
             placeholder="e.g. Tomato"
             required
           >
-
         </div>
-
 
         <div class="form-group">
 
@@ -821,9 +900,7 @@
             step="0.01"
             required
           >
-
         </div>
-
 
         <div class="form-group">
 
@@ -845,9 +922,7 @@
             step="0.01"
             required
           >
-
         </div>
-
 
         <div class="form-group">
 
@@ -867,9 +942,7 @@
             placeholder="e.g. Bhubaneswar"
             required
           >
-
         </div>
-
 
         <button
           type="submit"
@@ -881,17 +954,9 @@
         </button>
 
       </form>
-
     </section>
 
-
-    <div
-      id="message"
-      class="message"
-    ></div>
-
-
-    <!-- My Listings -->
+    <div id="message" class="message"></div>
 
     <section class="dashboard-card">
 
@@ -903,13 +968,9 @@
         My Listings
       </h2>
 
-
       <div class="listings-toolbar">
 
-        <select
-          id="sortSelect"
-          class="sort-select"
-        >
+        <select id="sortSelect" class="sort-select">
 
           <option
             value="newest"
@@ -953,7 +1014,6 @@
 
         </select>
 
-
         <button
           class="btn-refresh"
           id="refreshBtn"
@@ -965,11 +1025,7 @@
 
       </div>
 
-
-      <div
-        class="product-list"
-        id="productList"
-      >
+      <div class="product-list" id="productList">
 
         <div
           class="empty-message"
@@ -981,22 +1037,12 @@
 
       </div>
 
-
-      <div
-        class="last-updated"
-        id="lastUpdated"
-      >
+      <div class="last-updated" id="lastUpdated">
         Last updated: —
       </div>
 
     </section>
 
-
-
-
-
-
-    <!-- Interested Customers -->
     <section class="dashboard-card" id="interestedCustomersSection">
 
       <div class="listings-toolbar">
@@ -1022,15 +1068,83 @@
       </div>
 
       <div class="interest-list" id="interestList">
+
         <div class="interest-empty">
           Loading interested customers...
         </div>
+
       </div>
 
     </section>
 
   </main>
 
+  <button
+    type="button"
+    class="ai-toggle"
+    id="aiToggle"
+  >
+    🤖 <span id="aiToggleText">AgriConnect AI</span>
+  </button>
+
+  <div class="ai-panel" id="aiPanel">
+
+    <div class="ai-header">
+
+      <div class="ai-header-left">
+
+        <div
+          class="ai-title"
+          id="aiTitle"
+        >
+          AgriConnect AI
+        </div>
+
+        <div
+          class="ai-subtitle"
+          id="aiSubtitle"
+        >
+          Your farming assistant
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="ai-close"
+        id="aiClose"
+        aria-label="Close AI assistant"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <div
+      class="ai-messages"
+      id="aiMessages"
+    ></div>
+
+    <div class="ai-input-area">
+
+      <textarea
+        id="aiInput"
+        class="ai-input"
+        rows="1"
+        placeholder="Ask AgriConnect AI..."
+      ></textarea>
+
+      <button
+        type="button"
+        class="ai-send"
+        id="aiSend"
+      >
+        ➤
+      </button>
+
+    </div>
+
+  </div>
 
   <script>
 
@@ -1039,29 +1153,20 @@
         localStorage.getItem('agriconnect_user')
       );
 
-
     if (!loggedInUser) {
-
-      window.location.href =
-        '/login.html';
-
+      window.location.href = '/login.html';
     }
-
 
     if (
       loggedInUser &&
       loggedInUser.role !== 'farmer'
     ) {
-
       alert(
         'Access denied. Farmer account required.'
       );
 
-      window.location.href =
-        '/login.html';
-
+      window.location.href = '/login.html';
     }
-
 
     const languageSelect =
       document.getElementById(
@@ -1098,10 +1203,8 @@
         'refreshInterestBtn'
       );
 
-
     let myProducts = [];
     let myInterests = [];
-
 
     function setLanguage(language) {
 
@@ -1118,7 +1221,6 @@
 
         });
 
-
       document
         .querySelectorAll(
           '[data-placeholder-en][data-placeholder-hi]'
@@ -1132,7 +1234,6 @@
 
         });
 
-
       if (loggedInUser) {
 
         document.getElementById(
@@ -1144,7 +1245,6 @@
 
       }
 
-
       document.getElementById(
         'lastUpdated'
       ).textContent =
@@ -1152,30 +1252,27 @@
           ? 'अंतिम अपडेट: —'
           : 'Last updated: —';
 
-
       document.documentElement.lang =
         language === 'hi'
           ? 'hi'
           : 'en';
-
 
       localStorage.setItem(
         'agriconnect_language',
         language
       );
 
-    }
+      updateAITexts(language);
 
+    }
 
     const savedLanguage =
       localStorage.getItem(
         'agriconnect_language'
       ) || 'en';
 
-
     languageSelect.value =
       savedLanguage;
-
 
     if (loggedInUser) {
 
@@ -1184,18 +1281,15 @@
       ).textContent =
         `Welcome, ${loggedInUser.name} 👋`;
 
-
       document.getElementById(
         'profileName'
       ).textContent =
         loggedInUser.name;
 
-
       document.getElementById(
         'profileEmail'
       ).textContent =
         loggedInUser.email;
-
 
       document.getElementById(
         'profileLocation'
@@ -1203,7 +1297,6 @@
         loggedInUser.location;
 
     }
-
 
     function showMessage(
       text,
@@ -1225,7 +1318,6 @@
 
     }
 
-
     document
       .getElementById('logoutBtn')
       .addEventListener(
@@ -1244,14 +1336,12 @@
         }
       );
 
-
     async function loadProducts() {
 
       try {
 
         const response =
           await fetch('/products');
-
 
         if (!response.ok) {
 
@@ -1261,10 +1351,8 @@
 
         }
 
-
         const products =
           await response.json();
-
 
         myProducts =
           products.filter(
@@ -1273,15 +1361,12 @@
               Number(loggedInUser.id)
           );
 
-
         renderProducts();
 
         updateDashboardStats();
 
-
         const now =
           new Date();
-
 
         document.getElementById(
           'lastUpdated'
@@ -1290,14 +1375,12 @@
             ? `अंतिम अपडेट: ${now.toLocaleTimeString()}`
             : `Last updated: ${now.toLocaleTimeString()}`;
 
-
       } catch (error) {
 
         console.error(
           'Error loading products:',
           error
         );
-
 
         productList.innerHTML = `
 
@@ -1317,7 +1400,6 @@
 
     }
 
-
     async function loadInterests() {
 
       interestList.innerHTML = `
@@ -1334,7 +1416,6 @@
 
       `;
 
-
       try {
 
         const response =
@@ -1342,10 +1423,8 @@
             `/interests?farmer_id=${encodeURIComponent(loggedInUser.id)}`
           );
 
-
         const text =
           await response.text();
-
 
         let data = null;
 
@@ -1357,7 +1436,6 @@
           );
         }
 
-
         if (!response.ok) {
 
           throw new Error(
@@ -1366,7 +1444,6 @@
           );
 
         }
-
 
         myInterests =
           Array.isArray(data)
@@ -1377,9 +1454,7 @@
                   : []
               );
 
-
         renderInterests();
-
 
       } catch (error) {
 
@@ -1388,12 +1463,10 @@
           error
         );
 
-
         myInterests = [];
 
         interestCount.textContent =
           '0';
-
 
         interestList.innerHTML = `
 
@@ -1419,12 +1492,10 @@
 
     }
 
-
     function renderInterests() {
 
       interestCount.textContent =
         String(myInterests.length);
-
 
       if (myInterests.length === 0) {
 
@@ -1446,9 +1517,7 @@
 
       }
 
-
       interestList.innerHTML = '';
-
 
       myInterests.forEach(
         interest => {
@@ -1459,7 +1528,6 @@
           item.className =
             'interest-item';
 
-
           const customerName =
             escapeHtml(
               interest.buyer_name ||
@@ -1467,7 +1535,6 @@
               interest.name ||
               'Unknown customer'
             );
-
 
           const customerEmail =
             escapeHtml(
@@ -1477,7 +1544,6 @@
               'Not provided'
             );
 
-
           const crop =
             escapeHtml(
               interest.product_crop ||
@@ -1486,16 +1552,13 @@
               'Unknown product'
             );
 
-
           const quantity =
             interest.product_quantity ??
             interest.quantity;
 
-
           const price =
             interest.product_price ??
             interest.price;
-
 
           const location =
             escapeHtml(
@@ -1504,13 +1567,11 @@
               ''
             );
 
-
           const interestedAt =
             interest.created_at ||
             interest.interested_at ||
             interest.timestamp ||
             '';
-
 
           let dateText = '';
 
@@ -1525,7 +1586,6 @@
                 : parsedDate.toLocaleString();
 
           }
-
 
           item.innerHTML = `
 
@@ -1549,7 +1609,6 @@
                   </strong>
                 </div>
 
-
                 <div>
                   🌱
                   ${
@@ -1562,7 +1621,6 @@
                     ${crop}
                   </strong>
                 </div>
-
 
                 ${
                   quantity != null
@@ -1582,7 +1640,6 @@
                     : ''
                 }
 
-
                 ${
                   price != null
                     ? `
@@ -1600,7 +1657,6 @@
                     `
                     : ''
                 }
-
 
                 ${
                   location
@@ -1621,7 +1677,6 @@
                     : ''
                 }
 
-
                 ${
                   dateText
                     ? `
@@ -1640,7 +1695,6 @@
                     : ''
                 }
 
-
                 <span class="interest-badge">
 
                   ${
@@ -1657,7 +1711,6 @@
 
           `;
 
-
           interestList.appendChild(
             item
           );
@@ -1667,12 +1720,10 @@
 
     }
 
-
     function updateDashboardStats() {
 
       const totalListings =
         myProducts.length;
-
 
       const totalQuantity =
         myProducts.reduce(
@@ -1681,7 +1732,6 @@
             Number(product.quantity),
           0
         );
-
 
       const averagePrice =
         totalListings > 0
@@ -1693,9 +1743,7 @@
             ) / totalListings
           : 0;
 
-
       const cropCounts = {};
-
 
       myProducts.forEach(
         product => {
@@ -1709,14 +1757,11 @@
         }
       );
 
-
       let mostListedCrop =
         '—';
 
-
       const cropNames =
         Object.keys(cropCounts);
-
 
       if (cropNames.length > 0) {
 
@@ -1730,31 +1775,26 @@
             cropNames[0]
           );
 
-
         mostListedCrop =
           mostListedCrop.charAt(0).toUpperCase() +
           mostListedCrop.slice(1);
 
       }
 
-
       document.getElementById(
         'totalListings'
       ).textContent =
         totalListings;
-
 
       document.getElementById(
         'totalQuantity'
       ).textContent =
         totalQuantity.toFixed(1);
 
-
       document.getElementById(
         'averagePrice'
       ).textContent =
         `₹${averagePrice.toFixed(2)}`;
-
 
       document.getElementById(
         'topCrop'
@@ -1763,11 +1803,9 @@
 
     }
 
-
     function renderProducts() {
 
       productList.innerHTML = '';
-
 
       if (myProducts.length === 0) {
 
@@ -1789,14 +1827,11 @@
 
       }
 
-
       const sortedProducts =
         [...myProducts];
 
-
       const sortType =
         sortSelect.value;
-
 
       if (sortType === 'priceLow') {
 
@@ -1808,7 +1843,6 @@
 
       }
 
-
       if (sortType === 'priceHigh') {
 
         sortedProducts.sort(
@@ -1818,7 +1852,6 @@
         );
 
       }
-
 
       if (sortType === 'quantityLow') {
 
@@ -1830,7 +1863,6 @@
 
       }
 
-
       if (sortType === 'quantityHigh') {
 
         sortedProducts.sort(
@@ -1840,7 +1872,6 @@
         );
 
       }
-
 
       if (sortType === 'newest') {
 
@@ -1852,7 +1883,6 @@
 
       }
 
-
       sortedProducts.forEach(
         product => {
 
@@ -1862,14 +1892,11 @@
           item.className =
             'product-item';
 
-
           const quantity =
             Number(product.quantity);
 
-
           let stockText;
           let stockClass;
-
 
           if (quantity < 50) {
 
@@ -1902,7 +1929,6 @@
               'stock-high';
 
           }
-
 
           item.innerHTML = `
 
@@ -1964,7 +1990,6 @@
 
           `;
 
-
           productList.appendChild(
             item
           );
@@ -1974,7 +1999,6 @@
 
     }
 
-
     document
       .getElementById('addProductForm')
       .addEventListener(
@@ -1983,13 +2007,11 @@
 
           event.preventDefault();
 
-
           const crop =
             document
               .getElementById('crop')
               .value
               .trim();
-
 
           const quantity =
             parseFloat(
@@ -1998,7 +2020,6 @@
                 .value
             );
 
-
           const price =
             parseFloat(
               document
@@ -2006,13 +2027,11 @@
                 .value
             );
 
-
           const location =
             document
               .getElementById('location')
               .value
               .trim();
-
 
           if (
             !crop ||
@@ -2031,7 +2050,6 @@
             return;
 
           }
-
 
           try {
 
@@ -2068,10 +2086,8 @@
                 }
               );
 
-
             const data =
               await response.json();
-
 
             if (!response.ok) {
 
@@ -2089,7 +2105,6 @@
 
             }
 
-
             showMessage(
               languageSelect.value === 'hi'
                 ? 'उत्पाद सफलतापूर्वक जोड़ा गया!'
@@ -2097,16 +2112,13 @@
               'success'
             );
 
-
             document
               .getElementById(
                 'addProductForm'
               )
               .reset();
 
-
             await loadProducts();
-
 
           } catch (error) {
 
@@ -2114,7 +2126,6 @@
               'Error adding product:',
               error
             );
-
 
             showMessage(
               languageSelect.value === 'hi'
@@ -2128,7 +2139,6 @@
         }
       );
 
-
     document
       .getElementById('refreshBtn')
       .addEventListener(
@@ -2136,12 +2146,10 @@
         loadProducts
       );
 
-
     sortSelect.addEventListener(
       'change',
       renderProducts
     );
-
 
     refreshInterestBtn.addEventListener(
       'click',
@@ -2149,7 +2157,6 @@
         loadInterests();
       }
     );
-
 
     languageSelect.addEventListener(
       'change',
@@ -2164,7 +2171,6 @@
 
       }
     );
-
 
     function escapeHtml(value) {
 
@@ -2181,6 +2187,279 @@
       return div.innerHTML;
 
     }
+
+
+    const aiToggle =
+      document.getElementById(
+        'aiToggle'
+      );
+
+    const aiPanel =
+      document.getElementById(
+        'aiPanel'
+      );
+
+    const aiClose =
+      document.getElementById(
+        'aiClose'
+      );
+
+    const aiMessages =
+      document.getElementById(
+        'aiMessages'
+      );
+
+    const aiInput =
+      document.getElementById(
+        'aiInput'
+      );
+
+    const aiSend =
+      document.getElementById(
+        'aiSend'
+      );
+
+
+    function updateAITexts(language) {
+
+      document.getElementById(
+        'aiToggleText'
+      ).textContent =
+        language === 'hi'
+          ? 'AgriConnect AI'
+          : 'AgriConnect AI';
+
+      document.getElementById(
+        'aiTitle'
+      ).textContent =
+        language === 'hi'
+          ? 'AgriConnect AI'
+          : 'AgriConnect AI';
+
+      document.getElementById(
+        'aiSubtitle'
+      ).textContent =
+        language === 'hi'
+          ? 'आपका कृषि सहायक'
+          : 'Your farming assistant';
+
+      aiInput.placeholder =
+        language === 'hi'
+          ? 'AgriConnect AI से पूछें...'
+          : 'Ask AgriConnect AI...';
+
+    }
+
+
+    function addAIMessage(
+      text,
+      type
+    ) {
+
+      const messageElement =
+        document.createElement(
+          'div'
+        );
+
+      messageElement.className =
+        `ai-message ${type}`;
+
+      messageElement.textContent =
+        text;
+
+      aiMessages.appendChild(
+        messageElement
+      );
+
+      aiMessages.scrollTop =
+        aiMessages.scrollHeight;
+
+      return messageElement;
+
+    }
+
+
+    function openAIPanel() {
+
+      aiPanel.classList.add(
+        'open'
+      );
+
+      aiInput.focus();
+
+      if (
+        aiMessages.children.length === 0
+      ) {
+
+        addAIMessage(
+          languageSelect.value === 'hi'
+            ? `नमस्ते ${loggedInUser.name}! मैं AgriConnect AI हूँ। खेती, फसलों, उत्पाद बेचने या AgriConnect के बारे में कुछ भी पूछें।`
+            : `Hello ${loggedInUser.name}! I'm AgriConnect AI. Ask me anything about farming, crops, selling products, or using AgriConnect.`,
+          'bot'
+        );
+
+      }
+
+    }
+
+
+    function closeAIPanel() {
+
+      aiPanel.classList.remove(
+        'open'
+      );
+
+    }
+
+
+    async function sendAIMessage() {
+
+      const userMessage =
+        aiInput.value.trim();
+
+      if (!userMessage) {
+        return;
+      }
+
+      addAIMessage(
+        userMessage,
+        'user'
+      );
+
+      aiInput.value =
+        '';
+
+      aiSend.disabled =
+        true;
+
+      const typingMessage =
+        addAIMessage(
+          languageSelect.value === 'hi'
+            ? 'AI सोच रहा है...'
+            : 'AI is thinking...',
+          'bot typing'
+        );
+
+      try {
+
+        const response =
+          await fetch(
+            '/chat',
+            {
+              method: 'POST',
+
+              headers: {
+                'Content-Type':
+                  'application/json'
+              },
+
+              body: JSON.stringify({
+                message:
+                  userMessage,
+
+                role:
+                  'farmer',
+
+		 user_id:
+                  loggedInUser.id
+              })
+            }
+          );
+
+        const data =
+          await response.json();
+
+        typingMessage.remove();
+
+        if (!response.ok) {
+
+          addAIMessage(
+            data.error ||
+            (
+              languageSelect.value === 'hi'
+                ? 'AI से जवाब प्राप्त नहीं हो सका।'
+                : 'Could not get a response from the AI.'
+            ),
+            'bot'
+          );
+
+          return;
+
+        }
+
+        addAIMessage(
+          data.reply ||
+          (
+            languageSelect.value === 'hi'
+              ? 'AI ने कोई जवाब नहीं दिया।'
+              : 'The AI did not return a response.'
+          ),
+          'bot'
+        );
+
+      } catch (error) {
+
+        console.error(
+          'AI chat error:',
+          error
+        );
+
+        typingMessage.remove();
+
+        addAIMessage(
+          languageSelect.value === 'hi'
+            ? 'AI से कनेक्ट नहीं हो सका। कृपया दोबारा प्रयास करें।'
+            : 'Could not connect to the AI. Please try again.',
+          'bot'
+        );
+
+      } finally {
+
+        aiSend.disabled =
+          false;
+
+        aiInput.focus();
+
+      }
+
+    }
+
+
+    aiToggle.addEventListener(
+      'click',
+      openAIPanel
+    );
+
+
+    aiClose.addEventListener(
+      'click',
+      closeAIPanel
+    );
+
+
+    aiSend.addEventListener(
+      'click',
+      sendAIMessage
+    );
+
+
+    aiInput.addEventListener(
+      'keydown',
+      function (event) {
+
+        if (
+          event.key === 'Enter' &&
+          !event.shiftKey
+        ) {
+
+          event.preventDefault();
+
+          sendAIMessage();
+
+        }
+
+      }
+    );
 
 
     setLanguage(
@@ -2202,6 +2481,5 @@
 
 </body>
 </html>
-
       
 
