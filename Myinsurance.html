@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgriConnect | Crop Insurance</title>
+<style>
+
+
+
+.footer-logo {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 10px auto;
+}
+
+.learn3 {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 7px;
+    background: #7841a9;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.learn3:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+        .learn2 {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 7px;
+    background: #bc5c15;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.learn1 {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 7px;
+    background: #2479d0;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+
+.learn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 7px;
+    background: #079447;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.learn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+} 
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f9f4;
+            color: #102f25;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+    height: 72px;
+    background: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 7%;
+
+    box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+}
+
+.logo-image {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+
+
+
+.nav-right {
+    position: absolute;
+    right: 7%;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+#languageSelect {
+    padding: 10px 12px;
+    border: 1px solid #d6e4da;
+    border-radius: 8px;
+    background: white;
+    color: #17382c;
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+}
+
+#languageSelect:focus {
+    border-color: #079447;
+}
+
+        .brand h2 {
+            color: #116b45;
+            font-size: 23px;
+        }
+
+        .brand p {
+            font-size: 10px;
+            color: #68756f;
+            margin-top: -3px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: #17382c;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .active {
+            background: #086b43;
+            color: white;
+            padding: 13px 23px;
+            border-radius: 10px;
+        }
+
+
+        /* ================= HERO ================= */
+
+        .hero {
+
+            min-height: 430px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(245,250,242,0.98) 0%,
+                    rgba(245,250,242,0.90) 42%,
+                    rgba(245,250,242,0.15) 75%
+                ),
+
+                url("farmer.jpg");
+
+            background-size: cover;
+            background-position: center;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            width: 55%;
+            margin-left: 8%;
+            padding: 50px 0;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #dff4cf;
+            color: #22683f;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: 50px;
+            line-height: 1.08;
+            max-width: 650px;
+            color: #092c35;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            max-width: 610px;
+            font-size: 17px;
+            line-height: 1.6;
+            color: #31483f;
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 88%;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .section-title {
+            text-align: center;
+            padding-top: 35px;
+            margin-bottom: 25px;
+        }
+
+        .section-title h2 {
+            font-size: 28px;
+            color: #102f25;
+        }
+
+        .section-title p {
+            color: #64716b;
+            margin-top: 7px;
+            font-size: 14px;
+        }
+
+
+        /* ================= SCHEME CARDS ================= */
+
+        .schemes {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .scheme-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(23,70,45,0.08);
+            transition: 0.25s;
+            border: 1px solid #e7eee9;
+        }
+
+        .scheme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(23,70,45,0.14);
+        }
+
+        .scheme-img {
+            height: 125px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .pmfby {
+            background-image: url("crop.jpeg");
+        }
+
+        .wbcis {
+            background-image: url("weather.jpeg");
+        }
+
+        .rwbcis {
+            background-image: url("plants.jpeg");
+        }
+
+        .cpis {
+            background-image: url("coconut.jpeg");
+        }
+
+        .scheme-content {
+            padding: 17px;
+        }
+
+        .scheme-content h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .scheme-content p {
+            color: #606d67;
+            font-size: 12px;
+            line-height: 1.45;
+            min-height: 55px;
+        }
+
+        .benefits {
+            list-style: none;
+            margin: 13px 0;
+        }
+
+        .benefits li {
+            font-size: 12px;
+            margin: 8px 0;
+            color: #34483f;
+        }
+
+        .benefits li::before {
+            content: "✓";
+            background: #dff4e5;
+            color: #079447;
+            border-radius: 50%;
+            padding: 2px 5px;
+            margin-right: 7px;
+            font-weight: bold;
+        }
+
+        .learn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 7px;
+            background: #079447;
+            color: white;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .learn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .blue .learn {
+            background: #2479d0;
+        }
+
+        .orange .learn {
+            background: #bc5c15;
+        }
+
+        .purple .learn {
+            background: #7841a9;
+        }
+
+
+        /* ================= LOWER SECTION ================= */
+
+        .lower {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e4ece6;
+            box-shadow: 0 5px 20px rgba(23,70,45,0.06);
+        }
+
+        .panel h2 {
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+
+        .panel-subtitle {
+            color: #6a746f;
+            font-size: 13px;
+        }
+
+
+        /* ================= STEPS ================= */
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            margin-top: 28px;
+            gap: 5px;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .number {
+            width: 27px;
+            height: 27px;
+            background: #075f3d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: auto;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .step-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: #e7f7e9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 7px auto;
+            font-size: 25px;
+        }
+
+        .step h4 {
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .step p {
+            font-size: 10px;
+            color: #68736e;
+            line-height: 1.4;
+        }
+
+
+        /* ================= DOCUMENTS ================= */
+
+        .documents {
+            margin-top: 20px;
+        }
+
+        .documents h3 {
+            font-size: 17px;
+            margin-bottom: 14px;
+        }
+
+        .document {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 0;
+            border-bottom: 1px solid #edf1ee;
+            font-size: 12px;
+        }
+
+        .document span {
+            font-size: 17px;
+        }
+
+
+        /* ================= HELP ================= */
+
+        .help {
+            margin-top: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e6f7e8,
+                    #f6fbf4
+                );
+        }
+
+        .help-icon {
+            width: 50px;
+            height: 50px;
+            background: #079447;
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
+
+        .help h3 {
+            font-size: 18px;
+        }
+
+        .phone {
+            color: #087d46;
+            font-size: 22px;
+            font-weight: 700;
+            margin: 5px 0;
+        }
+
+        .hours {
+            color: #68736e;
+            font-size: 11px;
+        }
+
+
+        /* ================= TRUST SECTION ================= */
+
+        .trust {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .trust-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #e4ece6;
+        }
+
+        .trust-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 50%;
+            background: #e5f6e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .trust h4 {
+            font-size: 12px;
+        }
+
+        .trust p {
+            color: #738078;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #087543;
+            color: white;
+            text-align: center;
+            padding: 22px;
+            margin-top: 15px;
+        }
+
+        footer h3 {
+            font-size: 18px;
+        }
+
+        footer p {
+            font-size: 11px;
+            margin-top: 5px;
+            opacity: 0.85;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width: 1000px) {
+
+            .schemes {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+
+            .lower {
+                grid-template-columns: 1fr;
+            }
+
+            .trust {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-content {
+                width: 70%;
+            }
+        }
+
+
+        @media(max-width: 650px) {
+
+            nav {
+                padding: 0 20px;
+            }
+
+            .nav-right .nav-link {
+                display: none;
+            }
+
+            .hero {
+                min-height: 500px;
+                background-position: 65% center;
+            }
+
+            .hero-content {
+                width: 90%;
+                margin-left: 5%;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .schemes {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .trust {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 92%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<!-- ================= NAVBAR ================= -->
+<nav>
+<div class="logo">
+<img alt="AgriConnect Logo" class="logo-image" src="logo.png.jpeg"/>
+<div class="brand">
+<h2>AgriConnect</h2>
+<p data-i18n="brandTag">From harvest to home</p>
+</div>
+</div>
+<div class="nav-right">
+<select id="languageSelect" onchange="changeLanguage()">
+<option value="en">English</option>
+<option value="hi">हिन्दी</option>
+<option value="or">ଓଡ଼ିଆ</option>
+<option value="bn">বাংলা</option>
+<option value="bho">भोजपुरी</option>
+<option value="as">অসমীয়া</option>
+<option value="mr">मराठी</option>
+<option value="ta">தமிழ்</option><option value="te">తెలుగు</option></select>
+</div>
+</nav>
+<!-- ================= HERO ================= -->
+<section class="hero">
+<div class="hero-content">
+<div class="tag" data-i18n="heroTag">
+
+                Government Support
+                •
+                Better Harvests
+                •
+                Stronger Future
+
+            </div>
+<h1 data-i18n="title" id="title">
+    Crop Insurance
+    for a Safer Tomorrow
+</h1>
+<p data-i18n="description" id="description">
+
+    Your hard work deserves protection.
+    Explore government crop insurance schemes,
+    their benefits, coverage and how to apply —
+    all in one place.
+
+</p>
+</div>
+</section>
+<!-- ================= MAIN ================= -->
+<main class="container">
+<!-- ================= SCHEMES ================= -->
+<div class="section-title">
+<h2 data-i18n="schemesTitle" id="schemesTitle">
+    Government Crop Insurance Schemes
+</h2>
+
+</div>
+<div class="schemes">
+<!-- PMFBY -->
+<div class="scheme-card">
+<div class="scheme-img pmfby"></div>
+<div class="scheme-content">
+<h3 data-i18n="pmfbyTitle">
+                        Pradhan Mantri Fasal
+                        Bima Yojana (PMFBY)
+                    </h3>
+<p data-i18n="pmfbyDescription">
+                        Government-supported crop insurance
+                        protection against specified crop
+                        losses and risks.
+                    </p>
+<ul class="benefits">
+<li data-i18n="pmfbyBenefit1">
+                            Natural calamity protection
+                        </li>
+<li data-i18n="pmfbyBenefit2">
+                            Protection against notified risks
+                        </li>
+<li data-i18n="pmfbyBenefit3">
+                            Support for eligible farmers
+                        </li>
+<li data-i18n="pmfbyBenefit4">
+                            Financial security
+                        </li>
+</ul>
+<a class="learn" href="https://pmfby.gov.in/" target="_blank"><span data-i18n="learnMore">Learn More →</span></a>
+</div>
+</div>
+<!-- WBCIS -->
+<div class="scheme-card blue">
+<div class="scheme-img wbcis"></div>
+<div class="scheme-content">
+<h3 data-i18n="wbcisTitle">
+                        Weather Based Crop
+                        Insurance Scheme(WBCIS)
+                    </h3>
+<p data-i18n="wbcisDescription">
+                        Insurance support based on specified
+                        weather conditions affecting
+                        notified crops.
+                    </p>
+<ul class="benefits">
+<li data-i18n="wbcisBenefit1">
+                            Weather risk coverage
+                        </li>
+<li data-i18n="wbcisBenefit2">
+                            Suitable for notified crops
+                        </li>
+<li data-i18n="wbcisBenefit3">
+                            Weather-based assessment
+                        </li>
+<li data-i18n="wbcisBenefit4">
+                            Risk management
+                        </li>
+</ul>
+<a class="learn1" href="https://www.india.gov.in/category/agriculture-rural-environment/subcategory/agricultural-produce/details/weather-based-crop-insurance-scheme-wbcis" rel="noopener noreferrer" target="_blank"><span data-i18n="learnMore">Learn More →</span></a>
+</div>
+</div>
+<!-- RWBCIS -->
+<div class="scheme-card orange">
+<div class="scheme-img rwbcis"></div>
+<div class="scheme-content">
+<h3 data-i18n="rwbcisTitle">
+                        Restructured Weather Based
+                        Crop Insurance(RWBCI)
+                    </h3>
+<p data-i18n="rwbcisDescription">
+                        Weather-based insurance designed to
+                        protect against specified
+                        weather-related risks.
+                    </p>
+<ul class="benefits">
+<li data-i18n="rwbcisBenefit1">
+                            Weather risk assessment
+                        </li>
+<li data-i18n="rwbcisBenefit2">
+                            Localized risk coverage
+                        </li>
+<li data-i18n="rwbcisBenefit3">
+                            Crop-specific protection
+                        </li>
+<li data-i18n="rwbcisBenefit4">
+                            Financial support
+                        </li>
+</ul>
+<a class="learn2" href="https://ppportal.newindia.co.in/portal/RWBCIS/rwbcis.html" rel="noopener noreferrer" target="_blank"><span data-i18n="learnMore">Learn More →</span></a>
+</div>
+</div>
+<!-- CPIS -->
+<div class="scheme-card purple">
+<div class="scheme-img cpis"></div>
+<div class="scheme-content">
+<h3 data-i18n="cpisTitle">
+                        Coconut Palm
+                        Insurance Scheme(CPIS)
+                    </h3>
+<p data-i18n="cpisDescription">
+                        Insurance support for eligible coconut
+                        palm growers against specified
+                        natural risks.
+                    </p>
+<ul class="benefits">
+<li data-i18n="cpisBenefit1">
+                            Protection against specified risks
+                        </li>
+<li data-i18n="cpisBenefit2">
+                            Support for eligible growers
+                        </li>
+<li data-i18n="cpisBenefit3">
+                            Long-term crop security
+                        </li>
+<li data-i18n="cpisBenefit4">
+                            Risk reduction
+                        </li>
+</ul>
+<a class="learn3" href="https://www.myscheme.gov.in/schemes/cpis" rel="noopener noreferrer" target="_blank"><span data-i18n="learnMore">Learn More →</span></a>
+</div>
+</div>
+</div>
+<!-- ================= LOWER SECTION ================= -->
+<div class="lower">
+<!-- HOW TO APPLY -->
+<div class="panel">
+<h2 data-i18n="applyTitle" id="applyTitle">
+    How to Apply for Crop Insurance
+</h2>
+<p class="panel-subtitle" data-i18n="applyDescription">
+
+                    Follow these simple steps to apply for
+                    eligible government crop insurance schemes.
+
+                </p>
+<div class="steps">
+<div class="step">
+<div class="number">
+                            1
+                        </div>
+<div class="step-icon">
+                            👨‍🌾
+                        </div>
+<h4 data-i18n="step1Title">
+                            Check Eligibility
+                        </h4>
+<p data-i18n="step1Text">
+                            Check whether your crop and area
+                            are covered.
+                        </p>
+</div>
+<div class="step">
+<div class="number">
+                            2
+                        </div>
+<div class="step-icon">
+                            🌱
+                        </div>
+<h4 data-i18n="step2Title">
+                            Select Crop &amp; Scheme
+                        </h4>
+<p data-i18n="step2Text">
+                            Choose your notified crop
+                            and scheme.
+                        </p>
+</div>
+<div class="step">
+<div class="number">
+                            3
+                        </div>
+<div class="step-icon">
+                            📄
+                        </div>
+<h4 data-i18n="step3Title">
+                            Prepare Documents
+                        </h4>
+<p data-i18n="step3Text">
+                            Keep required records and
+                            documents ready.
+                        </p>
+</div>
+<div class="step">
+<div class="number">
+                            4
+                        </div>
+<div class="step-icon">
+                            💻
+                        </div>
+<h4 data-i18n="step4Title">
+                            Submit Application
+                        </h4>
+<p data-i18n="step4Text">
+                            Apply through an
+                            authorized channel.
+                        </p>
+</div>
+<div class="step">
+<div class="number">
+                            5
+                        </div>
+<div class="step-icon">
+                            ₹
+                        </div>
+<h4 data-i18n="step5Title">
+                            Pay Premium
+                        </h4>
+<p data-i18n="step5Text">
+                            Pay the applicable
+                            premium amount.
+                        </p>
+</div>
+<div class="step">
+<div class="number">
+                            6
+                        </div>
+<div class="step-icon">
+                            ✓
+                        </div>
+<h4 data-i18n="step6Title">
+                            Receive Confirmation
+                        </h4>
+<p data-i18n="step6Text">
+                            Keep your application
+                            receipt safely.
+                        </p>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN -->
+<div>
+<!-- DOCUMENTS -->
+<div class="panel documents">
+<h3 data-i18n="documentsTitle" id="documentsTitle">
+    📋 Documents Required
+</h3>
+<div class="document"><span>🪪</span><span data-i18n="doc1">Identity proof</span></div>
+<div class="document"><span>📑</span><span data-i18n="doc2">Land / cultivation records</span></div>
+<div class="document"><span>🏦</span><span data-i18n="doc3">Bank account details</span></div>
+<div class="document"><span>📷</span><span data-i18n="doc4">Passport-size photograph</span></div>
+<div class="document"><span>📱</span><span data-i18n="doc5">Mobile number</span></div>
+</div>
+<!-- HELP -->
+<div class="panel help">
+<div class="help-icon">
+                        ☎
+                    </div>
+<h3 data-i18n="assistanceTitle" id="assistanceTitle">
+    Need Assistance?
+</h3>
+<p data-i18n="assistanceText" style="
+                        font-size:12px;
+                        margin-top:6px;
+                        ">
+
+                        Contact the official farmer support
+                        service or visit your nearest
+                        agriculture office.
+
+                    </p>
+<div class="phone">
+                        1800-180-1551
+                    </div>
+<div class="hours" data-i18n="hours">
+                        Mon – Sat • 9 AM – 6 PM
+                    </div>
+</div>
+</div>
+</div>
+<!-- ================= TRUST ================= -->
+<div class="trust">
+<div class="trust-item">
+<div class="trust-icon">
+                    🛡️
+                </div>
+<div>
+<h4 data-i18n="trust1Title">
+                        Government Backed
+                    </h4>
+<p data-i18n="trust1Text">
+                        Trusted support for farmers
+                    </p>
+</div>
+</div>
+<div class="trust-item">
+<div class="trust-icon">
+                    👥
+                </div>
+<div>
+<h4 data-i18n="trust2Title">
+                        Farmer Protection
+                    </h4>
+<p data-i18n="trust2Text">
+                        Helping manage crop risks
+                    </p>
+</div>
+</div>
+<div class="trust-item">
+<div class="trust-icon">
+                    🌿
+                </div>
+<div>
+<h4 data-i18n="trust3Title">
+                        Financial Security
+                    </h4>
+<p data-i18n="trust3Text">
+                        Reduce the impact of crop loss
+                    </p>
+</div>
+</div>
+<div class="trust-item">
+<div class="trust-icon">
+                    📈
+                </div>
+<div>
+<h4 data-i18n="trust4Title">
+                        Stronger Agriculture
+                    </h4>
+<p data-i18n="trust4Text">
+                        A brighter future for farming
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- ================= FOOTER ================= -->
+<footer>
+<h3 data-i18n="footerTitle">
+        Together for a Resilient
+        Farming Community
+    </h3>
+<p data-i18n="footerText">
+        AgriConnect • From harvest to home
+    </p>
+</footer>
+
+
+<script>
+const translations = {
+    en: {
+        pageTitle:"Crop Insurance | AgriConnect",
+        brandTag:"From harvest to home",
+        heroTag:"Government Support • Better Harvests • Stronger Future",
+        title:"Crop Insurance for a Safer Tomorrow",
+        description:"Your hard work deserves protection. Explore government crop insurance schemes, their benefits, coverage and how to apply — all in one place.",
+        schemesTitle:"Government Crop Insurance Schemes",
+        pmfbyTitle:"Pradhan Mantri Fasal Bima Yojana (PMFBY)", wbcisTitle:"Weather Based Crop Insurance Scheme (WBCIS)", rwbcisTitle:"Restructured Weather Based Crop Insurance Scheme (RWBCIS)", cpisTitle:"Coconut Palm Insurance Scheme (CPIS)",
+        schemesDescription:"Explore crop insurance schemes and understand how they can help protect farmers from unexpected losses.",
+        pmfbyDescription:"Government-supported crop insurance protection against specified crop losses and risks.",
+        wbcisDescription:"Insurance support based on specified weather conditions affecting notified crops.",
+        rwbcisDescription:"Weather-based insurance designed to protect against specified weather-related risks.",
+        cpisDescription:"Insurance support for eligible coconut palm growers against specified natural risks.",
+        pmfbyBenefit1:"Natural calamity protection", pmfbyBenefit2:"Protection against notified risks", pmfbyBenefit3:"Support for eligible farmers", pmfbyBenefit4:"Financial security",
+        wbcisBenefit1:"Weather risk coverage", wbcisBenefit2:"Suitable for notified crops", wbcisBenefit3:"Weather-based assessment", wbcisBenefit4:"Risk management",
+        rwbcisBenefit1:"Weather risk assessment", rwbcisBenefit2:"Localized risk coverage", rwbcisBenefit3:"Crop-specific protection", rwbcisBenefit4:"Financial support",
+        cpisBenefit1:"Protection against specified risks", cpisBenefit2:"Support for eligible growers", cpisBenefit3:"Long-term crop security", cpisBenefit4:"Risk reduction",
+        learnMore:"Learn More →",
+        applyTitle:"How to Apply for Crop Insurance",
+        applyDescription:"Follow these simple steps to apply for eligible government crop insurance schemes.",
+        step1Title:"Check Eligibility", step1Text:"Check whether your crop and area are covered.",
+        step2Title:"Select Crop & Scheme", step2Text:"Choose your notified crop and scheme.",
+        step3Title:"Prepare Documents", step3Text:"Keep required records and documents ready.",
+        step4Title:"Submit Application", step4Text:"Apply through an authorized channel.",
+        step5Title:"Pay Premium", step5Text:"Pay the applicable premium amount.",
+        step6Title:"Receive Confirmation", step6Text:"Keep your application receipt safely.",
+        documentsTitle:"📋 Documents Required",
+        doc1:"Identity proof", doc2:"Land / cultivation records", doc3:"Bank account details", doc4:"Passport-size photograph", doc5:"Mobile number",
+        assistanceTitle:"Need Assistance?",
+        assistanceText:"Contact the official farmer support service or visit your nearest agriculture office.",
+        hours:"Mon – Sat • 9 AM – 6 PM",
+        trust1Title:"Government Backed", trust1Text:"Trusted support for farmers",
+        trust2Title:"Farmer Protection", trust2Text:"Helping manage crop risks",
+        trust3Title:"Financial Security", trust3Text:"Reduce the impact of crop loss",
+        trust4Title:"Stronger Agriculture", trust4Text:"A brighter future for farming",
+        footerTitle:"Together for a Resilient Farming Community",
+        footerText:"AgriConnect • From harvest to home"
+    },
+    hi: {
+        pageTitle:"फसल बीमा | AgriConnect",
+        brandTag:"खेत से घर तक",
+        heroTag:"सरकारी सहायता • बेहतर फसल • मजबूत भविष्य",
+        title:"सुरक्षित कल के लिए फसल बीमा",
+        description:"आपकी मेहनत सुरक्षा की हकदार है। सरकारी फसल बीमा योजनाओं, उनके लाभ, कवरेज और आवेदन प्रक्रिया के बारे में एक ही जगह जानें।",
+        schemesTitle:"सरकारी फसल बीमा योजनाएं",
+        pmfbyTitle:"प्रधानमंत्री फसल बीमा योजना (PMFBY)", wbcisTitle:"मौसम आधारित फसल बीमा योजना (WBCIS)", rwbcisTitle:"पुनर्गठित मौसम आधारित फसल बीमा योजना (RWBCIS)", cpisTitle:"नारियल पाम बीमा योजना (CPIS)",
+        schemesDescription:"फसल बीमा योजनाओं के बारे में जानें और समझें कि वे किसानों को अप्रत्याशित नुकसान से कैसे बचा सकती हैं।",
+        pmfbyDescription:"निर्धारित फसल नुकसान और जोखिमों से सुरक्षा देने वाली सरकारी समर्थित फसल बीमा योजना।",
+        wbcisDescription:"अधिसूचित फसलों को प्रभावित करने वाली निर्धारित मौसम स्थितियों के आधार पर बीमा सहायता।",
+        rwbcisDescription:"निर्धारित मौसम संबंधी जोखिमों से सुरक्षा देने के लिए मौसम आधारित बीमा।",
+        cpisDescription:"निर्धारित प्राकृतिक जोखिमों के खिलाफ पात्र नारियल पाम उत्पादकों के लिए बीमा सहायता।",
+        pmfbyBenefit1:"प्राकृतिक आपदा से सुरक्षा", pmfbyBenefit2:"अधिसूचित जोखिमों से सुरक्षा", pmfbyBenefit3:"पात्र किसानों के लिए सहायता", pmfbyBenefit4:"वित्तीय सुरक्षा",
+        wbcisBenefit1:"मौसम जोखिम कवरेज", wbcisBenefit2:"अधिसूचित फसलों के लिए", wbcisBenefit3:"मौसम आधारित आकलन", wbcisBenefit4:"जोखिम प्रबंधन",
+        rwbcisBenefit1:"मौसम जोखिम आकलन", rwbcisBenefit2:"स्थानीय जोखिम कवरेज", rwbcisBenefit3:"फसल-विशिष्ट सुरक्षा", rwbcisBenefit4:"वित्तीय सहायता",
+        cpisBenefit1:"निर्धारित जोखिमों से सुरक्षा", cpisBenefit2:"पात्र उत्पादकों के लिए सहायता", cpisBenefit3:"दीर्घकालिक फसल सुरक्षा", cpisBenefit4:"जोखिम में कमी",
+        learnMore:"और जानें →",
+        applyTitle:"फसल बीमा के लिए आवेदन कैसे करें",
+        applyDescription:"पात्र सरकारी फसल बीमा योजनाओं के लिए आवेदन करने हेतु इन सरल चरणों का पालन करें।",
+        step1Title:"पात्रता जांचें", step1Text:"जांचें कि आपकी फसल और क्षेत्र कवर किए गए हैं या नहीं।",
+        step2Title:"फसल और योजना चुनें", step2Text:"अपनी अधिसूचित फसल और योजना चुनें।",
+        step3Title:"दस्तावेज तैयार करें", step3Text:"आवश्यक रिकॉर्ड और दस्तावेज तैयार रखें।",
+        step4Title:"आवेदन जमा करें", step4Text:"अधिकृत माध्यम से आवेदन करें।",
+        step5Title:"प्रीमियम भरें", step5Text:"लागू प्रीमियम राशि का भुगतान करें।",
+        step6Title:"पुष्टि प्राप्त करें", step6Text:"अपनी आवेदन रसीद सुरक्षित रखें।",
+        documentsTitle:"📋 आवश्यक दस्तावेज़",
+        doc1:"पहचान प्रमाण", doc2:"भूमि / खेती के रिकॉर्ड", doc3:"बैंक खाते का विवरण", doc4:"पासपोर्ट आकार का फोटो", doc5:"मोबाइल नंबर",
+        assistanceTitle:"सहायता चाहिए?",
+        assistanceText:"आधिकारिक किसान सहायता सेवा से संपर्क करें या निकटतम कृषि कार्यालय जाएं।",
+        hours:"सोम – शनि • सुबह 9 – शाम 6 बजे",
+        trust1Title:"सरकार समर्थित", trust1Text:"किसानों के लिए विश्वसनीय सहायता",
+        trust2Title:"किसान सुरक्षा", trust2Text:"फसल जोखिमों को संभालने में मदद",
+        trust3Title:"वित्तीय सुरक्षा", trust3Text:"फसल नुकसान के प्रभाव को कम करें",
+        trust4Title:"मजबूत कृषि", trust4Text:"खेती के लिए उज्जवल भविष्य",
+        footerTitle:"लचीले और मजबूत कृषि समुदाय के लिए साथ मिलकर",
+        footerText:"AgriConnect • खेत से घर तक"
+    },
+    or: {
+        pageTitle:"ଫସଲ ବୀମା | AgriConnect",
+        brandTag:"କ୍ଷେତରୁ ଘର ପର୍ଯ୍ୟନ୍ତ",
+        heroTag:"ସରକାରୀ ସହାୟତା • ଉନ୍ନତ ଫସଲ • ମଜବୁତ ଭବିଷ୍ୟତ",
+        title:"ସୁରକ୍ଷିତ ଆସନ୍ତାକାଲି ପାଇଁ ଫସଲ ବୀମା",
+        description:"ଆପଣଙ୍କ ପରିଶ୍ରମ ସୁରକ୍ଷାର ଯୋଗ୍ୟ। ସରକାରୀ ଫସଲ ବୀମା ଯୋଜନା, ଲାଭ, କଭରେଜ୍ ଏବଂ ଆବେଦନ ପ୍ରକ୍ରିୟା ବିଷୟରେ ଗୋଟିଏ ସ୍ଥାନରେ ଜାଣନ୍ତୁ।",
+        schemesTitle:"ସରକାରୀ ଫସଲ ବୀମା ଯୋଜନା",
+        pmfbyTitle:"ପ୍ରଧାନମନ୍ତ୍ରୀ ଫସଲ ବୀମା ଯୋଜନା (PMFBY)", wbcisTitle:"ପାଣିପାଗ ଆଧାରିତ ଫସଲ ବୀମା ଯୋଜନା (WBCIS)", rwbcisTitle:"ପୁନର୍ଗଠିତ ପାଣିପାଗ ଆଧାରିତ ଫସଲ ବୀମା ଯୋଜନା (RWBCIS)", cpisTitle:"ନଡ଼ିଆ ପାମ୍ ବୀମା ଯୋଜନା (CPIS)",
+        schemesDescription:"ଫସଲ ବୀମା ଯୋଜନା ବିଷୟରେ ଜାଣନ୍ତୁ ଏବଂ ସେଗୁଡ଼ିକ କୃଷକମାନଙ୍କୁ ଅପ୍ରତ୍ୟାଶିତ କ୍ଷତିରୁ କିପରି ସୁରକ୍ଷା କରେ ବୁଝନ୍ତୁ।",
+        pmfbyDescription:"ନିର୍ଦ୍ଦିଷ୍ଟ ଫସଲ କ୍ଷତି ଏବଂ ବିପଦ ବିରୁଦ୍ଧରେ ସୁରକ୍ଷା ଦେଉଥିବା ସରକାରୀ ସମର୍ଥିତ ଫସଲ ବୀମା।",
+        wbcisDescription:"ଅଧିସୂଚିତ ଫସଲକୁ ପ୍ରଭାବିତ କରୁଥିବା ନିର୍ଦ୍ଦିଷ୍ଟ ପାଣିପାଗ ପରିସ୍ଥିତି ଆଧାରିତ ବୀମା ସହାୟତା।",
+        rwbcisDescription:"ନିର୍ଦ୍ଦିଷ୍ଟ ପାଣିପାଗ ସମ୍ବନ୍ଧୀୟ ବିପଦରୁ ସୁରକ୍ଷା ପାଇଁ ପାଣିପାଗ ଆଧାରିତ ବୀମା।",
+        cpisDescription:"ନିର୍ଦ୍ଦିଷ୍ଟ ପ୍ରାକୃତିକ ବିପଦ ବିରୁଦ୍ଧରେ ଯୋଗ୍ୟ ନଡ଼ିଆ ଚାଷୀଙ୍କ ପାଇଁ ବୀମା ସହାୟତା।",
+        pmfbyBenefit1:"ପ୍ରାକୃତିକ ବିପର୍ଯ୍ୟୟରୁ ସୁରକ୍ଷା", pmfbyBenefit2:"ଅଧିସୂଚିତ ବିପଦରୁ ସୁରକ୍ଷା", pmfbyBenefit3:"ଯୋଗ୍ୟ କୃଷକଙ୍କ ପାଇଁ ସହାୟତା", pmfbyBenefit4:"ଆର୍ଥିକ ସୁରକ୍ଷା",
+        wbcisBenefit1:"ପାଣିପାଗ ବିପଦ କଭରେଜ୍", wbcisBenefit2:"ଅଧିସୂଚିତ ଫସଲ ପାଇଁ", wbcisBenefit3:"ପାଣିପାଗ ଆଧାରିତ ମୂଲ୍ୟାଙ୍କନ", wbcisBenefit4:"ବିପଦ ପରିଚାଳନା",
+        rwbcisBenefit1:"ପାଣିପାଗ ବିପଦ ମୂଲ୍ୟାଙ୍କନ", rwbcisBenefit2:"ସ୍ଥାନୀୟ ବିପଦ କଭରେଜ୍", rwbcisBenefit3:"ଫସଲ-ନିର୍ଦ୍ଦିଷ୍ଟ ସୁରକ୍ଷା", rwbcisBenefit4:"ଆର୍ଥିକ ସହାୟତା",
+        cpisBenefit1:"ନିର୍ଦ୍ଦିଷ୍ଟ ବିପଦରୁ ସୁରକ୍ଷା", cpisBenefit2:"ଯୋଗ୍ୟ ଚାଷୀଙ୍କ ପାଇଁ ସହାୟତା", cpisBenefit3:"ଦୀର୍ଘକାଳୀନ ଫସଲ ସୁରକ୍ଷା", cpisBenefit4:"ବିପଦ ହ୍ରାସ",
+        learnMore:"ଅଧିକ ଜାଣନ୍ତୁ →",
+        applyTitle:"ଫସଲ ବୀମା ପାଇଁ କିପରି ଆବେଦନ କରିବେ",
+        applyDescription:"ଯୋଗ୍ୟ ସରକାରୀ ଫସଲ ବୀମା ଯୋଜନା ପାଇଁ ଆବେଦନ କରିବାକୁ ଏହି ସରଳ ପଦକ୍ଷେପଗୁଡ଼ିକ ଅନୁସରଣ କରନ୍ତୁ।",
+        step1Title:"ଯୋଗ୍ୟତା ଯାଞ୍ଚ କରନ୍ତୁ", step1Text:"ଆପଣଙ୍କ ଫସଲ ଏବଂ ଅଞ୍ଚଳ ଅନ୍ତର୍ଭୁକ୍ତ କି ନାହିଁ ଯାଞ୍ଚ କରନ୍ତୁ।",
+        step2Title:"ଫସଲ ଓ ଯୋଜନା ବାଛନ୍ତୁ", step2Text:"ଆପଣଙ୍କ ଅଧିସୂଚିତ ଫସଲ ଏବଂ ଯୋଜନା ବାଛନ୍ତୁ।",
+        step3Title:"ଦଲିଲ ପ୍ରସ୍ତୁତ କରନ୍ତୁ", step3Text:"ଆବଶ୍ୟକ ରେକର୍ଡ ଏବଂ ଦଲିଲ ପ୍ରସ୍ତୁତ ରଖନ୍ତୁ।",
+        step4Title:"ଆବେଦନ ଦାଖଲ କରନ୍ତୁ", step4Text:"ଅଧିକୃତ ମାଧ୍ୟମରେ ଆବେଦନ କରନ୍ତୁ।",
+        step5Title:"ପ୍ରିମିୟମ ଦିଅନ୍ତୁ", step5Text:"ଲାଗୁଥିବା ପ୍ରିମିୟମ ରାଶି ଦିଅନ୍ତୁ।",
+        step6Title:"ନିଶ୍ଚିତକରଣ ପାଆନ୍ତୁ", step6Text:"ଆପଣଙ୍କ ଆବେଦନ ରସିଦ ସୁରକ୍ଷିତ ରଖନ୍ତୁ।",
+        documentsTitle:"📋 ଆବଶ୍ୟକ ଦଲିଲ",
+        doc1:"ପରିଚୟ ପ୍ରମାଣ", doc2:"ଜମି / ଚାଷ ରେକର୍ଡ", doc3:"ବ୍ୟାଙ୍କ ଖାତା ବିବରଣୀ", doc4:"ପାସପୋର୍ଟ ଆକାରର ଫଟୋ", doc5:"ମୋବାଇଲ ନମ୍ବର",
+        assistanceTitle:"ସାହାଯ୍ୟ ଆବଶ୍ୟକ?",
+        assistanceText:"ଅଧିକୃତ କୃଷକ ସହାୟତା ସେବା ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ କିମ୍ବା ନିକଟତମ କୃଷି କାର୍ଯ୍ୟାଳୟକୁ ଯାଆନ୍ତୁ।",
+        hours:"ସୋମ – ଶନି • ସକାଳ 9 – ସନ୍ଧ୍ୟା 6",
+        trust1Title:"ସରକାରୀ ସମର୍ଥିତ", trust1Text:"କୃଷକଙ୍କ ପାଇଁ ବିଶ୍ୱସ୍ତ ସହାୟତା",
+        trust2Title:"କୃଷକ ସୁରକ୍ଷା", trust2Text:"ଫସଲ ବିପଦ ପରିଚାଳନାରେ ସହାୟତା",
+        trust3Title:"ଆର୍ଥିକ ସୁରକ୍ଷା", trust3Text:"ଫସଲ କ୍ଷତିର ପ୍ରଭାବ କମାନ୍ତୁ",
+        trust4Title:"ମଜବୁତ କୃଷି", trust4Text:"ଚାଷ ପାଇଁ ଉଜ୍ଜ୍ୱଳ ଭବିଷ୍ୟତ",
+        footerTitle:"ଏକ ସୁଦୃଢ଼ କୃଷି ସମୁଦାୟ ପାଇଁ ଏକାଠି",
+        footerText:"AgriConnect • କ୍ଷେତରୁ ଘର ପର୍ଯ୍ୟନ୍ତ"
+    },
+    bn: {
+        pageTitle:"ফসল বীমা | AgriConnect",
+        brandTag:"খেত থেকে ঘর পর্যন্ত",
+        heroTag:"সরকারি সহায়তা • উন্নত ফসল • শক্তিশালী ভবিষ্যৎ",
+        title:"নিরাপদ আগামীর জন্য ফসল বীমা",
+        description:"আপনার কঠোর পরিশ্রম সুরক্ষার যোগ্য। সরকারি ফসল বীমা প্রকল্প, সুবিধা, কভারেজ এবং আবেদন প্রক্রিয়া এক জায়গায় জানুন।",
+        schemesTitle:"সরকারি ফসল বীমা প্রকল্প",
+        pmfbyTitle:"প্রধানমন্ত্রী ফসল বীমা যোজনা (PMFBY)", wbcisTitle:"আবহাওয়া ভিত্তিক ফসল বীমা প্রকল্প (WBCIS)", rwbcisTitle:"পুনর্গঠিত আবহাওয়া ভিত্তিক ফসল বীমা প্রকল্প (RWBCIS)", cpisTitle:"নারকেল পাম বীমা প্রকল্প (CPIS)",
+        schemesDescription:"ফসল বীমা প্রকল্প সম্পর্কে জানুন এবং বুঝুন কীভাবে এগুলি কৃষকদের অপ্রত্যাশিত ক্ষতি থেকে রক্ষা করতে পারে।",
+        pmfbyDescription:"নির্দিষ্ট ফসলের ক্ষতি ও ঝুঁকির বিরুদ্ধে সুরক্ষা দেওয়া সরকারি সহায়তাপ্রাপ্ত ফসল বীমা।",
+        wbcisDescription:"নোটিফাই করা ফসলকে প্রভাবিত করা নির্দিষ্ট আবহাওয়ার অবস্থার ভিত্তিতে বীমা সহায়তা।",
+        rwbcisDescription:"নির্দিষ্ট আবহাওয়াজনিত ঝুঁকি থেকে সুরক্ষার জন্য আবহাওয়া-ভিত্তিক বীমা।",
+        cpisDescription:"নির্দিষ্ট প্রাকৃতিক ঝুঁকির বিরুদ্ধে যোগ্য নারকেল চাষিদের জন্য বীমা সহায়তা।",
+        pmfbyBenefit1:"প্রাকৃতিক দুর্যোগ থেকে সুরক্ষা", pmfbyBenefit2:"নোটিফাই করা ঝুঁকি থেকে সুরক্ষা", pmfbyBenefit3:"যোগ্য কৃষকদের সহায়তা", pmfbyBenefit4:"আর্থিক নিরাপত্তা",
+        wbcisBenefit1:"আবহাওয়া ঝুঁকি কভারেজ", wbcisBenefit2:"নোটিফাই করা ফসলের জন্য", wbcisBenefit3:"আবহাওয়া-ভিত্তিক মূল্যায়ন", wbcisBenefit4:"ঝুঁকি ব্যবস্থাপনা",
+        rwbcisBenefit1:"আবহাওয়া ঝুঁকি মূল্যায়ন", rwbcisBenefit2:"স্থানীয় ঝুঁকি কভারেজ", rwbcisBenefit3:"ফসল-নির্দিষ্ট সুরক্ষা", rwbcisBenefit4:"আর্থিক সহায়তা",
+        cpisBenefit1:"নির্দিষ্ট ঝুঁকি থেকে সুরক্ষা", cpisBenefit2:"যোগ্য চাষিদের সহায়তা", cpisBenefit3:"দীর্ঘমেয়াদি ফসল সুরক্ষা", cpisBenefit4:"ঝুঁকি হ্রাস",
+        learnMore:"আরও জানুন →",
+        applyTitle:"ফসল বীমার জন্য কীভাবে আবেদন করবেন",
+        applyDescription:"যোগ্য সরকারি ফসল বীমা প্রকল্পে আবেদন করতে এই সহজ ধাপগুলি অনুসরণ করুন।",
+        step1Title:"যোগ্যতা যাচাই করুন", step1Text:"আপনার ফসল ও এলাকা কভার করা হয়েছে কি না দেখুন।",
+        step2Title:"ফসল ও প্রকল্প বাছুন", step2Text:"আপনার নোটিফাই করা ফসল ও প্রকল্প বেছে নিন।",
+        step3Title:"নথি প্রস্তুত করুন", step3Text:"প্রয়োজনীয় রেকর্ড ও নথি প্রস্তুত রাখুন।",
+        step4Title:"আবেদন জমা দিন", step4Text:"অনুমোদিত মাধ্যমে আবেদন করুন।",
+        step5Title:"প্রিমিয়াম দিন", step5Text:"প্রযোজ্য প্রিমিয়ামের পরিমাণ দিন।",
+        step6Title:"নিশ্চিতকরণ পান", step6Text:"আপনার আবেদন রসিদ নিরাপদে রাখুন।",
+        documentsTitle:"📋 প্রয়োজনীয় নথি",
+        doc1:"পরিচয়পত্র", doc2:"জমি / চাষের রেকর্ড", doc3:"ব্যাঙ্ক অ্যাকাউন্টের বিবরণ", doc4:"পাসপোর্ট সাইজের ছবি", doc5:"মোবাইল নম্বর",
+        assistanceTitle:"সাহায্য প্রয়োজন?",
+        assistanceText:"সরকারি কৃষক সহায়তা পরিষেবায় যোগাযোগ করুন অথবা নিকটতম কৃষি অফিসে যান।",
+        hours:"সোম – শনি • সকাল 9 – সন্ধ্যা 6",
+        trust1Title:"সরকারি সহায়তাপ্রাপ্ত", trust1Text:"কৃষকদের জন্য বিশ্বস্ত সহায়তা",
+        trust2Title:"কৃষক সুরক্ষা", trust2Text:"ফসলের ঝুঁকি পরিচালনায় সহায়তা",
+        trust3Title:"আর্থিক নিরাপত্তা", trust3Text:"ফসলের ক্ষতির প্রভাব কমান",
+        trust4Title:"শক্তিশালী কৃষি", trust4Text:"চাষের জন্য উজ্জ্বল ভবিষ্যৎ",
+        footerTitle:"একটি স্থিতিশীল কৃষক সম্প্রদায়ের জন্য একসাথে",
+        footerText:"AgriConnect • খেত থেকে ঘর পর্যন্ত"
+    },
+    bho: {
+        pageTitle:"फसल बीमा | AgriConnect",
+        brandTag:"खेत से घर ले",
+        heroTag:"सरकारी मदद • बेहतर फसल • मजबूत भविष्य",
+        title:"सुरक्षित भविष्य खातिर फसल बीमा",
+        description:"रउआ के मेहनत के सुरक्षा मिलल जरूरी बा। सरकारी फसल बीमा योजना, लाभ, कवरेज आ आवेदन के तरीका एके जगह जानीं।",
+        schemesTitle:"सरकारी फसल बीमा योजना",
+        pmfbyTitle:"प्रधानमंत्री फसल बीमा योजना (PMFBY)", wbcisTitle:"मौसम आधारित फसल बीमा योजना (WBCIS)", rwbcisTitle:"पुनर्गठित मौसम आधारित फसल बीमा योजना (RWBCIS)", cpisTitle:"नारियल पाम बीमा योजना (CPIS)",
+        schemesDescription:"फसल बीमा योजना के बारे में जानीं आ समझीं कि ई किसान लोग के अचानक होखे वाला नुकसान से कइसे बचा सकेला।",
+        pmfbyDescription:"तय फसल के नुकसान आ जोखिम से सुरक्षा देवे वाला सरकारी सहायता प्राप्त फसल बीमा।",
+        wbcisDescription:"अधिसूचित फसल पर असर डाले वाला तय मौसम के स्थिति के आधार पर बीमा सहायता।",
+        rwbcisDescription:"तय मौसम से जुड़ल जोखिम से बचाव खातिर मौसम आधारित बीमा।",
+        cpisDescription:"तय प्राकृतिक जोखिम के खिलाफ पात्र नारियल किसान खातिर बीमा सहायता।",
+        pmfbyBenefit1:"प्राकृतिक आपदा से सुरक्षा", pmfbyBenefit2:"अधिसूचित जोखिम से सुरक्षा", pmfbyBenefit3:"पात्र किसान खातिर सहायता", pmfbyBenefit4:"आर्थिक सुरक्षा",
+        wbcisBenefit1:"मौसम जोखिम कवरेज", wbcisBenefit2:"अधिसूचित फसल खातिर", wbcisBenefit3:"मौसम आधारित आकलन", wbcisBenefit4:"जोखिम प्रबंधन",
+        rwbcisBenefit1:"मौसम जोखिम आकलन", rwbcisBenefit2:"स्थानीय जोखिम कवरेज", rwbcisBenefit3:"फसल-विशेष सुरक्षा", rwbcisBenefit4:"आर्थिक सहायता",
+        cpisBenefit1:"तय जोखिम से सुरक्षा", cpisBenefit2:"पात्र किसान खातिर सहायता", cpisBenefit3:"लंबा समय फसल सुरक्षा", cpisBenefit4:"जोखिम में कमी",
+        learnMore:"अउरी जानीं →",
+        applyTitle:"फसल बीमा खातिर आवेदन कइसे करीं",
+        applyDescription:"पात्र सरकारी फसल बीमा योजना में आवेदन करे खातिर ई आसान कदम सभ के पालन करीं।",
+        step1Title:"पात्रता जांचीं", step1Text:"जांचीं कि रउआ के फसल आ इलाका कवर बा कि ना।",
+        step2Title:"फसल आ योजना चुनीं", step2Text:"अपना अधिसूचित फसल आ योजना चुनीं।",
+        step3Title:"कागज तैयार करीं", step3Text:"जरूरी रिकॉर्ड आ कागज तैयार राखीं।",
+        step4Title:"आवेदन जमा करीं", step4Text:"अधिकृत माध्यम से आवेदन करीं।",
+        step5Title:"प्रीमियम भरीं", step5Text:"लागू प्रीमियम के रकम भरीं।",
+        step6Title:"पुष्टि पाईं", step6Text:"आवेदन के रसीद सुरक्षित राखीं।",
+        documentsTitle:"📋 जरूरी कागजात",
+        doc1:"पहचान प्रमाण", doc2:"जमीन / खेती के रिकॉर्ड", doc3:"बैंक खाता के विवरण", doc4:"पासपोर्ट साइज फोटो", doc5:"मोबाइल नंबर",
+        assistanceTitle:"मदद चाहीं?",
+        assistanceText:"सरकारी किसान सहायता सेवा से संपर्क करीं या नजदीकी कृषि कार्यालय जाईं।",
+        hours:"सोम – शनि • बिहान 9 – साँझ 6 बजे",
+        trust1Title:"सरकारी सहायता", trust1Text:"किसान खातिर भरोसेमंद मदद",
+        trust2Title:"किसान सुरक्षा", trust2Text:"फसल के जोखिम संभारे में मदद",
+        trust3Title:"आर्थिक सुरक्षा", trust3Text:"फसल नुकसान के असर कम करीं",
+        trust4Title:"मजबूत खेती", trust4Text:"खेती खातिर उज्जर भविष्य",
+        footerTitle:"मजबूत खेती-किसान समुदाय खातिर एक साथ",
+        footerText:"AgriConnect • खेत से घर ले"
+    },
+    as: {
+        pageTitle:"শস্য বীমা | AgriConnect",
+        brandTag:"খেতিৰ পৰা ঘৰলৈ",
+        heroTag:"চৰকাৰী সহায় • উন্নত শস্য • শক্তিশালী ভৱিষ্যৎ",
+        title:"নিৰাপদ ভৱিষ্যতৰ বাবে শস্য বীমা",
+        description:"আপোনাৰ কঠোৰ পৰিশ্ৰম সুৰক্ষাৰ যোগ্য। চৰকাৰী শস্য বীমা আঁচনি, সুবিধা, কভাৰেজ আৰু আবেদন পদ্ধতি একে ঠাইতে জানক।",
+        schemesTitle:"চৰকাৰী শস্য বীমা আঁচনি",
+        pmfbyTitle:"প্ৰধানমন্ত্ৰী ফচল বীমা যোজনা (PMFBY)", wbcisTitle:"বতৰ-ভিত্তিক শস্য বীমা আঁচনি (WBCIS)", rwbcisTitle:"পুনৰ্গঠিত বতৰ-ভিত্তিক শস্য বীমা আঁচনি (RWBCIS)", cpisTitle:"নাৰিকল পাম বীমা আঁচনি (CPIS)",
+        schemesDescription:"শস্য বীমা আঁচনিৰ বিষয়ে জানক আৰু ই কৃষকক অপ্ৰত্যাশিত ক্ষতিৰ পৰা কেনেকৈ সুৰক্ষা দিব পাৰে বুজক।",
+        pmfbyDescription:"নিৰ্দিষ্ট শস্যৰ ক্ষতি আৰু বিপদৰ বিৰুদ্ধে সুৰক্ষা দিয়া চৰকাৰী সমৰ্থিত শস্য বীমা।",
+        wbcisDescription:"অধিসূচিত শস্যক প্ৰভাৱিত কৰা নিৰ্দিষ্ট বতৰৰ পৰিস্থিতিৰ ওপৰত ভিত্তি কৰি বীমা সহায়তা।",
+        rwbcisDescription:"নিৰ্দিষ্ট বতৰ-সম্পৰ্কীয় বিপদৰ পৰা সুৰক্ষাৰ বাবে বতৰ-ভিত্তিক বীমা।",
+        cpisDescription:"নিৰ্দিষ্ট প্ৰাকৃতিক বিপদৰ বিৰুদ্ধে যোগ্য নাৰিকল খেতিয়কৰ বাবে বীমা সহায়তা।",
+        pmfbyBenefit1:"প্ৰাকৃতিক দুৰ্যোগৰ পৰা সুৰক্ষা", pmfbyBenefit2:"অধিসূচিত বিপদৰ পৰা সুৰক্ষা", pmfbyBenefit3:"যোগ্য কৃষকৰ বাবে সহায়তা", pmfbyBenefit4:"আৰ্থিক সুৰক্ষা",
+        wbcisBenefit1:"বতৰ বিপদ কভাৰেজ", wbcisBenefit2:"অধিসূচিত শস্যৰ বাবে", wbcisBenefit3:"বতৰ-ভিত্তিক মূল্যায়ন", wbcisBenefit4:"বিপদ ব্যৱস্থাপনা",
+        rwbcisBenefit1:"বতৰ বিপদ মূল্যায়ন", rwbcisBenefit2:"স্থানীয় বিপদ কভাৰেজ", rwbcisBenefit3:"শস্য-নিৰ্দিষ্ট সুৰক্ষা", rwbcisBenefit4:"আৰ্থিক সহায়তা",
+        cpisBenefit1:"নিৰ্দিষ্ট বিপদৰ পৰা সুৰক্ষা", cpisBenefit2:"যোগ্য খেতিয়কৰ বাবে সহায়তা", cpisBenefit3:"দীৰ্ঘম্যাদী শস্য সুৰক্ষা", cpisBenefit4:"বিপদ হ্ৰাস",
+        learnMore:"অধিক জানক →",
+        applyTitle:"শস্য বীমাৰ বাবে কেনেকৈ আবেদন কৰিব",
+        applyDescription:"যোগ্য চৰকাৰী শস্য বীমা আঁচনিত আবেদন কৰিবলৈ এই সহজ পদক্ষেপসমূহ অনুসৰণ কৰক।",
+        step1Title:"যোগ্যতা পৰীক্ষা কৰক", step1Text:"আপোনাৰ শস্য আৰু অঞ্চল কভাৰ কৰা হৈছে নে নাই পৰীক্ষা কৰক।",
+        step2Title:"শস্য আৰু আঁচনি বাছক", step2Text:"আপোনাৰ অধিসূচিত শস্য আৰু আঁচনি বাছক।",
+        step3Title:"নথি প্ৰস্তুত কৰক", step3Text:"প্ৰয়োজনীয় ৰেকৰ্ড আৰু নথি সাজু ৰাখক।",
+        step4Title:"আবেদন জমা দিয়ক", step4Text:"অনুমোদিত মাধ্যমৰ জৰিয়তে আবেদন কৰক।",
+        step5Title:"প্ৰিমিয়াম দিয়ক", step5Text:"প্ৰযোজ্য প্ৰিমিয়ামৰ পৰিমাণ দিয়ক।",
+        step6Title:"নিশ্চিতকৰণ লাভ কৰক", step6Text:"আপোনাৰ আবেদন ৰচিদ সুৰক্ষিত ৰাখক।",
+        documentsTitle:"📋 প্ৰয়োজনীয় নথিপত্ৰ",
+        doc1:"পৰিচয় প্ৰমাণ", doc2:"মাটি / খেতিৰ ৰেকৰ্ড", doc3:"বেংক একাউণ্টৰ বিৱৰণ", doc4:"পাছপ’ৰ্ট আকাৰৰ ফটো", doc5:"ম’বাইল নম্বৰ",
+        assistanceTitle:"সহায়ৰ প্ৰয়োজন?",
+        assistanceText:"চৰকাৰী কৃষক সহায়তা সেৱাৰ সৈতে যোগাযোগ কৰক বা ওচৰৰ কৃষি কাৰ্যালয়লৈ যাওক।",
+        hours:"সোম – শনি • পুৱা 9 – সন্ধিয়া 6",
+        trust1Title:"চৰকাৰী সমৰ্থিত", trust1Text:"কৃষকৰ বাবে বিশ্বাসযোগ্য সহায়তা",
+        trust2Title:"কৃষক সুৰক্ষা", trust2Text:"শস্যৰ বিপদ পৰিচালনাত সহায়",
+        trust3Title:"আৰ্থিক সুৰক্ষা", trust3Text:"শস্যৰ ক্ষতিৰ প্ৰভাৱ কমাওক",
+        trust4Title:"শক্তিশালী কৃষি", trust4Text:"খেতিৰ বাবে উজ্জ্বল ভৱিষ্যৎ",
+        footerTitle:"এটা শক্তিশালী কৃষক সম্প্ৰদায়ৰ বাবে একেলগে",
+        footerText:"AgriConnect • খেতিৰ পৰা ঘৰলৈ"
+    },
+    mr: {
+        pageTitle:"पीक विमा | AgriConnect",
+        brandTag:"शेतातून घरापर्यंत",
+        heroTag:"सरकारी मदत • चांगले पीक • मजबूत भविष्य",
+        title:"सुरक्षित उद्यासाठी पीक विमा",
+        description:"तुमच्या मेहनतीला संरक्षण मिळायला हवे. सरकारी पीक विमा योजना, त्यांचे फायदे, कव्हरेज आणि अर्ज प्रक्रिया एकाच ठिकाणी जाणून घ्या.",
+        schemesTitle:"सरकारी पीक विमा योजना",
+        pmfbyTitle:"प्रधानमंत्री पीक विमा योजना (PMFBY)", wbcisTitle:"हवामान आधारित पीक विमा योजना (WBCIS)", rwbcisTitle:"पुनर्रचित हवामान आधारित पीक विमा योजना (RWBCIS)", cpisTitle:"नारळ पाम विमा योजना (CPIS)",
+        schemesDescription:"पीक विमा योजनांबद्दल जाणून घ्या आणि त्या शेतकऱ्यांना अनपेक्षित नुकसानीपासून कसे वाचवू शकतात ते समजून घ्या.",
+        pmfbyDescription:"निर्दिष्ट पीक नुकसान आणि जोखमींपासून संरक्षण देणारा सरकारी समर्थित पीक विमा.",
+        wbcisDescription:"अधिसूचित पिकांवर परिणाम करणाऱ्या निर्दिष्ट हवामान परिस्थितींवर आधारित विमा मदत.",
+        rwbcisDescription:"निर्दिष्ट हवामानाशी संबंधित जोखमींपासून संरक्षणासाठी हवामान आधारित विमा.",
+        cpisDescription:"निर्दिष्ट नैसर्गिक जोखमींपासून पात्र नारळ उत्पादकांसाठी विमा मदत.",
+        pmfbyBenefit1:"नैसर्गिक आपत्तीपासून संरक्षण", pmfbyBenefit2:"अधिसूचित जोखमींपासून संरक्षण", pmfbyBenefit3:"पात्र शेतकऱ्यांसाठी मदत", pmfbyBenefit4:"आर्थिक सुरक्षा",
+        wbcisBenefit1:"हवामान जोखीम कव्हरेज", wbcisBenefit2:"अधिसूचित पिकांसाठी", wbcisBenefit3:"हवामान आधारित मूल्यांकन", wbcisBenefit4:"जोखीम व्यवस्थापन",
+        rwbcisBenefit1:"हवामान जोखीम मूल्यांकन", rwbcisBenefit2:"स्थानिक जोखीम कव्हरेज", rwbcisBenefit3:"पीक-विशिष्ट संरक्षण", rwbcisBenefit4:"आर्थिक मदत",
+        cpisBenefit1:"निर्दिष्ट जोखमींपासून संरक्षण", cpisBenefit2:"पात्र उत्पादकांसाठी मदत", cpisBenefit3:"दीर्घकालीन पीक सुरक्षा", cpisBenefit4:"जोखीम कमी करणे",
+        learnMore:"अधिक जाणून घ्या →",
+        applyTitle:"पीक विम्यासाठी अर्ज कसा करावा",
+        applyDescription:"पात्र सरकारी पीक विमा योजनांसाठी अर्ज करण्यासाठी या सोप्या चरणांचे अनुसरण करा.",
+        step1Title:"पात्रता तपासा", step1Text:"तुमचे पीक आणि क्षेत्र कव्हर केले आहे का ते तपासा.",
+        step2Title:"पीक आणि योजना निवडा", step2Text:"तुमचे अधिसूचित पीक आणि योजना निवडा.",
+        step3Title:"कागदपत्रे तयार करा", step3Text:"आवश्यक नोंदी आणि कागदपत्रे तयार ठेवा.",
+        step4Title:"अर्ज सादर करा", step4Text:"अधिकृत माध्यमातून अर्ज करा.",
+        step5Title:"प्रीमियम भरा", step5Text:"लागू प्रीमियमची रक्कम भरा.",
+        step6Title:"पुष्टी मिळवा", step6Text:"तुमची अर्जाची पावती सुरक्षित ठेवा.",
+        documentsTitle:"📋 आवश्यक कागदपत्रे",
+        doc1:"ओळख पुरावा", doc2:"जमीन / लागवड नोंदी", doc3:"बँक खात्याचे तपशील", doc4:"पासपोर्ट आकाराचा फोटो", doc5:"मोबाईल नंबर",
+        assistanceTitle:"मदत हवी आहे?",
+        assistanceText:"अधिकृत शेतकरी मदत सेवेशी संपर्क साधा किंवा जवळच्या कृषी कार्यालयाला भेट द्या.",
+        hours:"सोम – शनि • सकाळी 9 – संध्याकाळी 6",
+        trust1Title:"सरकारी पाठबळ", trust1Text:"शेतकऱ्यांसाठी विश्वासार्ह मदत",
+        trust2Title:"शेतकरी संरक्षण", trust2Text:"पीक जोखीम व्यवस्थापनात मदत",
+        trust3Title:"आर्थिक सुरक्षा", trust3Text:"पीक नुकसानीचा परिणाम कमी करा",
+        trust4Title:"मजबूत शेती", trust4Text:"शेतीसाठी उज्ज्वल भविष्य",
+        footerTitle:"मजबूत आणि लवचिक शेतकरी समुदायासाठी एकत्र",
+        footerText:"AgriConnect • शेतातून घरापर्यंत"
+    },
+
+    ta: {
+        pageTitle:"பயிர் காப்பீடு | AgriConnect",
+        brandTag:"வயலில் இருந்து வீட்டிற்கு",
+        heroTag:"அரசு ஆதரவு • சிறந்த விளைச்சல் • வலுவான எதிர்காலம்",
+        title:"பாதுகாப்பான நாளைக்கான பயிர் காப்பீடு",
+        description:"உங்கள் கடின உழைப்புக்கு பாதுகாப்பு தேவை. அரசு பயிர் காப்பீட்டுத் திட்டங்கள், அவற்றின் நன்மைகள், காப்பீட்டு பாதுகாப்பு மற்றும் விண்ணப்பிக்கும் முறையை ஒரே இடத்தில் அறிந்து கொள்ளுங்கள்.",
+        schemesTitle:"அரசு பயிர் காப்பீட்டுத் திட்டங்கள்",
+        pmfbyTitle:"பிரதான் மந்திரி ஃபசல் பீமா யோஜனா (PMFBY)", wbcisTitle:"வானிலை அடிப்படையிலான பயிர் காப்பீட்டுத் திட்டம் (WBCIS)", rwbcisTitle:"மறுசீரமைக்கப்பட்ட வானிலை அடிப்படையிலான பயிர் காப்பீட்டுத் திட்டம் (RWBCIS)", cpisTitle:"தென்னை பனை காப்பீட்டுத் திட்டம் (CPIS)",
+        schemesDescription:"பயிர் காப்பீட்டுத் திட்டங்களைப் பற்றி அறிந்து கொண்டு, எதிர்பாராத இழப்புகளிலிருந்து விவசாயிகளை அவை எவ்வாறு பாதுகாக்க உதவுகின்றன என்பதைப் புரிந்து கொள்ளுங்கள்.",
+        pmfbyDescription:"குறிப்பிடப்பட்ட பயிர் இழப்புகள் மற்றும் அபாயங்களுக்கு எதிராக பாதுகாப்பு வழங்கும் அரசு ஆதரவு பயிர் காப்பீடு.",
+        wbcisDescription:"அறிவிக்கப்பட்ட பயிர்களை பாதிக்கும் குறிப்பிட்ட வானிலை நிலைமைகளின் அடிப்படையிலான காப்பீட்டு உதவி.",
+        rwbcisDescription:"குறிப்பிட்ட வானிலை தொடர்பான அபாயங்களுக்கு எதிராக பாதுகாப்பு வழங்கும் வானிலை அடிப்படையிலான காப்பீடு.",
+        cpisDescription:"குறிப்பிட்ட இயற்கை அபாயங்களுக்கு எதிராக தகுதியுள்ள தென்னை விவசாயிகளுக்கான காப்பீட்டு உதவி.",
+        pmfbyBenefit1:"இயற்கை பேரிடர்களிலிருந்து பாதுகாப்பு", pmfbyBenefit2:"அறிவிக்கப்பட்ட அபாயங்களிலிருந்து பாதுகாப்பு", pmfbyBenefit3:"தகுதியுள்ள விவசாயிகளுக்கு உதவி", pmfbyBenefit4:"நிதிப் பாதுகாப்பு",
+        wbcisBenefit1:"வானிலை அபாயக் காப்பீடு", wbcisBenefit2:"அறிவிக்கப்பட்ட பயிர்களுக்கு ஏற்றது", wbcisBenefit3:"வானிலை அடிப்படையிலான மதிப்பீடு", wbcisBenefit4:"அபாய மேலாண்மை",
+        rwbcisBenefit1:"வானிலை அபாய மதிப்பீடு", rwbcisBenefit2:"உள்ளூர் அபாயக் காப்பீடு", rwbcisBenefit3:"பயிர் சார்ந்த பாதுகாப்பு", rwbcisBenefit4:"நிதி உதவி",
+        cpisBenefit1:"குறிப்பிட்ட அபாயங்களிலிருந்து பாதுகாப்பு", cpisBenefit2:"தகுதியுள்ள விவசாயிகளுக்கு உதவி", cpisBenefit3:"நீண்டகால பயிர் பாதுகாப்பு", cpisBenefit4:"அபாயக் குறைப்பு",
+        learnMore:"மேலும் அறிக →",
+        applyTitle:"பயிர் காப்பீட்டிற்கு விண்ணப்பிப்பது எப்படி",
+        applyDescription:"தகுதியுள்ள அரசு பயிர் காப்பீட்டுத் திட்டங்களுக்கு விண்ணப்பிக்க இந்த எளிய படிகளைப் பின்பற்றுங்கள்.",
+        step1Title:"தகுதியைச் சரிபார்க்கவும்", step1Text:"உங்கள் பயிரும் பகுதியும் காப்பீட்டில் உள்ளதா என்பதைச் சரிபார்க்கவும்.",
+        step2Title:"பயிர் மற்றும் திட்டத்தைத் தேர்ந்தெடுக்கவும்", step2Text:"உங்கள் அறிவிக்கப்பட்ட பயிர் மற்றும் திட்டத்தைத் தேர்ந்தெடுக்கவும்.",
+        step3Title:"ஆவணங்களைத் தயாரிக்கவும்", step3Text:"தேவையான பதிவுகள் மற்றும் ஆவணங்களைத் தயாராக வைத்திருக்கவும்.",
+        step4Title:"விண்ணப்பத்தைச் சமர்ப்பிக்கவும்", step4Text:"அங்கீகரிக்கப்பட்ட வழிமுறையின் மூலம் விண்ணப்பிக்கவும்.",
+        step5Title:"பிரீமியம் செலுத்தவும்", step5Text:"பொருந்தும் பிரீமியம் தொகையைச் செலுத்தவும்.",
+        step6Title:"உறுதிப்படுத்தலைப் பெறவும்", step6Text:"உங்கள் விண்ணப்ப ரசீதைப் பாதுகாப்பாக வைத்திருக்கவும்.",
+        documentsTitle:"📋 தேவையான ஆவணங்கள்",
+        doc1:"அடையாளச் சான்று", doc2:"நிலம் / சாகுபடி பதிவுகள்", doc3:"வங்கி கணக்கு விவரங்கள்", doc4:"பாஸ்போர்ட் அளவு புகைப்படம்", doc5:"மொபைல் எண்",
+        assistanceTitle:"உதவி தேவையா?",
+        assistanceText:"அதிகாரப்பூர்வ விவசாயி உதவி சேவையைத் தொடர்பு கொள்ளுங்கள் அல்லது அருகிலுள்ள வேளாண்மை அலுவலகத்திற்குச் செல்லுங்கள்.",
+        hours:"திங்கள் – சனி • காலை 9 – மாலை 6",
+        trust1Title:"அரசு ஆதரவு", trust1Text:"விவசாயிகளுக்கான நம்பகமான உதவி",
+        trust2Title:"விவசாயிகள் பாதுகாப்பு", trust2Text:"பயிர் அபாயங்களை நிர்வகிக்க உதவி",
+        trust3Title:"நிதிப் பாதுகாப்பு", trust3Text:"பயிர் இழப்பின் தாக்கத்தைக் குறைக்கவும்",
+        trust4Title:"வலுவான விவசாயம்", trust4Text:"விவசாயத்திற்கான பிரகாசமான எதிர்காலம்",
+        footerTitle:"வலுவான விவசாய சமூகத்திற்காக ஒன்றிணைவோம்",
+        footerText:"AgriConnect • வயலில் இருந்து வீட்டிற்கு"
+    },
+
+    te: {
+        pageTitle:"పంట బీమా | AgriConnect",
+        brandTag:"పొలం నుండి ఇంటి వరకు",
+        heroTag:"ప్రభుత్వ సహాయం • మెరుగైన పంటలు • బలమైన భవిష్యత్తు",
+        title:"సురక్షితమైన రేపటి కోసం పంట బీమా",
+        description:"మీ కష్టానికి రక్షణ అవసరం. ప్రభుత్వ పంట బీమా పథకాలు, వాటి ప్రయోజనాలు, కవరేజ్ మరియు దరఖాస్తు విధానాన్ని ఒకే చోట తెలుసుకోండి.",
+        schemesTitle:"ప్రభుత్వ పంట బీమా పథకాలు",
+        pmfbyTitle:"ప్రధాన మంత్రి ఫసల్ బీమా యోజన (PMFBY)", wbcisTitle:"వాతావరణ ఆధారిత పంట బీమా పథకం (WBCIS)", rwbcisTitle:"పునర్వ్యవస్థీకరించిన వాతావరణ ఆధారిత పంట బీమా పథకం (RWBCIS)", cpisTitle:"కొబ్బరి పామ్ బీమా పథకం (CPIS)",
+        schemesDescription:"పంట బీమా పథకాల గురించి తెలుసుకోండి మరియు అవి రైతులను అనుకోని నష్టాల నుండి ఎలా రక్షించగలవో అర్థం చేసుకోండి.",
+        pmfbyDescription:"నిర్దిష్ట పంట నష్టాలు మరియు ప్రమాదాల నుండి రక్షణ కల్పించే ప్రభుత్వ సహాయంతో కూడిన పంట బీమా.",
+        wbcisDescription:"నోటిఫై చేసిన పంటలను ప్రభావితం చేసే నిర్దిష్ట వాతావరణ పరిస్థితుల ఆధారంగా బీమా సహాయం.",
+        rwbcisDescription:"నిర్దిష్ట వాతావరణ సంబంధిత ప్రమాదాల నుండి రక్షణ కోసం వాతావరణ ఆధారిత బీమా.",
+        cpisDescription:"నిర్దిష్ట సహజ ప్రమాదాల నుండి అర్హత కలిగిన కొబ్బరి రైతులకు బీమా సహాయం.",
+        pmfbyBenefit1:"ప్రకృతి వైపరీత్యాల నుండి రక్షణ", pmfbyBenefit2:"నోటిఫై చేసిన ప్రమాదాల నుండి రక్షణ", pmfbyBenefit3:"అర్హత కలిగిన రైతులకు సహాయం", pmfbyBenefit4:"ఆర్థిక భద్రత",
+        wbcisBenefit1:"వాతావరణ ప్రమాద కవరేజ్", wbcisBenefit2:"నోటిఫై చేసిన పంటలకు అనుకూలం", wbcisBenefit3:"వాతావరణ ఆధారిత అంచనా", wbcisBenefit4:"ప్రమాద నిర్వహణ",
+        rwbcisBenefit1:"వాతావరణ ప్రమాద అంచనా", rwbcisBenefit2:"స్థానిక ప్రమాద కవరేజ్", rwbcisBenefit3:"పంట-నిర్దిష్ట రక్షణ", rwbcisBenefit4:"ఆర్థిక సహాయం",
+        cpisBenefit1:"నిర్దిష్ట ప్రమాదాల నుండి రక్షణ", cpisBenefit2:"అర్హత కలిగిన రైతులకు సహాయం", cpisBenefit3:"దీర్ఘకాలిక పంట భద్రత", cpisBenefit4:"ప్రమాద తగ్గింపు",
+        learnMore:"మరింత తెలుసుకోండి →",
+        applyTitle:"పంట బీమాకు ఎలా దరఖాస్తు చేయాలి",
+        applyDescription:"అర్హత కలిగిన ప్రభుత్వ పంట బీమా పథకాలకు దరఖాస్తు చేయడానికి ఈ సులభమైన దశలను అనుసరించండి.",
+        step1Title:"అర్హతను తనిఖీ చేయండి", step1Text:"మీ పంట మరియు ప్రాంతం కవరేజ్‌లో ఉన్నాయో లేదో తనిఖీ చేయండి.",
+        step2Title:"పంట & పథకాన్ని ఎంచుకోండి", step2Text:"మీ నోటిఫై చేసిన పంట మరియు పథకాన్ని ఎంచుకోండి.",
+        step3Title:"పత్రాలను సిద్ధం చేయండి", step3Text:"అవసరమైన రికార్డులు మరియు పత్రాలను సిద్ధంగా ఉంచండి.",
+        step4Title:"దరఖాస్తును సమర్పించండి", step4Text:"అధీకృత మార్గం ద్వారా దరఖాస్తు చేయండి.",
+        step5Title:"ప్రీమియం చెల్లించండి", step5Text:"వర్తించే ప్రీమియం మొత్తాన్ని చెల్లించండి.",
+        step6Title:"నిర్ధారణ పొందండి", step6Text:"మీ దరఖాస్తు రసీదును సురక్షితంగా ఉంచండి.",
+        documentsTitle:"📋 అవసరమైన పత్రాలు",
+        doc1:"గుర్తింపు రుజువు", doc2:"భూమి / సాగు రికార్డులు", doc3:"బ్యాంక్ ఖాతా వివరాలు", doc4:"పాస్‌పోర్ట్ సైజు ఫోటో", doc5:"మొబైల్ నంబర్",
+        assistanceTitle:"సహాయం కావాలా?",
+        assistanceText:"అధికారిక రైతు సహాయ సేవను సంప్రదించండి లేదా సమీపంలోని వ్యవసాయ కార్యాలయాన్ని సందర్శించండి.",
+        hours:"సోమ – శని • ఉదయం 9 – సాయంత్రం 6",
+        trust1Title:"ప్రభుత్వ మద్దతు", trust1Text:"రైతులకు విశ్వసనీయ సహాయం",
+        trust2Title:"రైతుల రక్షణ", trust2Text:"పంట ప్రమాదాలను నిర్వహించడంలో సహాయం",
+        trust3Title:"ఆర్థిక భద్రత", trust3Text:"పంట నష్టం ప్రభావాన్ని తగ్గించండి",
+        trust4Title:"బలమైన వ్యవసాయం", trust4Text:"వ్యవసాయానికి ఉజ్వల భవిష్యత్తు",
+        footerTitle:"బలమైన వ్యవసాయ సమాజం కోసం కలిసి ముందుకు సాగుదాం",
+        footerText:"AgriConnect • పొలం నుండి ఇంటి వరకు"
+    }
+};
+
+function changeLanguage() {
+    const select = document.getElementById("languageSelect");
+    if (!select) return;
+
+    const language = select.value;
+    const t = translations[language] || translations.en;
+
+    document.querySelectorAll("[data-i18n]").forEach(function(element) {
+        const translationKey = element.getAttribute("data-i18n");
+        if (Object.prototype.hasOwnProperty.call(t, translationKey)) {
+            element.textContent = t[translationKey];
+        }
+    });
+
+    if (t.pageTitle) {
+        document.title = t.pageTitle;
+    }
+
+    document.documentElement.lang = language;
+    localStorage.setItem("selectedLanguage", language);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const select = document.getElementById("languageSelect");
+    if (!select) return;
+
+    const saved = localStorage.getItem("selectedLanguage") || "en";
+    select.value = translations[saved] ? saved : "en";
+    changeLanguage();
+});
+</script></body>
+</html>

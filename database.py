@@ -1,8 +1,11 @@
+import os
 import sqlite3
 
-connection = sqlite3.connect("agriconnect.db")
-cursor = connection.cursor()
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "agriconnect.db")
 
+connection = sqlite3.connect(DB_PATH)
+cursor = connection.cursor()
 
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS users (
@@ -15,7 +18,6 @@ CREATE TABLE IF NOT EXISTS users (
 )
 """)
 
-
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,13 +29,6 @@ CREATE TABLE IF NOT EXISTS products (
     FOREIGN KEY (farmer_id) REFERENCES users(id)
 )
 """)
-
-
-try:
-    cursor.execute("ALTER TABLE products ADD COLUMN farmer_id INTEGER")
-except sqlite3.OperationalError:
-    pass
-
 
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS interests (
@@ -48,6 +43,14 @@ CREATE TABLE IF NOT EXISTS interests (
 """)
 
 connection.commit()
+
+tables = cursor.execute(
+    "SELECT name FROM sqlite_master WHERE type='table'"
+).fetchall()
+
 connection.close()
 
-print("Database tables updated successfully!")
+print("Database created successfully!")
+print("Database path:", DB_PATH)
+print("Tables:", [table[0] for table in tables])
+
