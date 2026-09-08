@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect - Driver Dashboard</title>
+  <style>
+    :root {
+      --bg-color: #f8faf8;
+      --card-bg: #ffffff;
+      --primary: #2d5a27;
+      --primary-hover: #1e3e1a;
+      --accent: #e8f0e6;
+      --text-main: #1d211d;
+      --text-muted: #667060;
+      --border: #e2e8e2;
+      --danger: #d9381e;
+      --danger-hover: #b82d16;
+      --badge-bg: #e1f5fe;
+      --badge-text: #0288d1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 40px;
+    }
+
+    /* Clean Sticky Header */
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .brand-logo-group img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .welcome-text {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 0.95rem;
+    }
+
+    /* Compact Language Dropdown Box with Roman Text support */
+    .lang-dropdown {
+      padding: 4px 6px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: var(--bg-color);
+      color: var(--text-main);
+      outline: none;
+      cursor: pointer;
+      width: 125px; /* Compact width to prevent taking up too much space */
+      text-overflow: ellipsis;
+    }
+
+    /* Red Text & Red Border Logout Button in Header */
+    .btn-logout-header {
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid var(--danger);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 5px 14px;
+      border-radius: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-logout-header:hover {
+      background: rgba(217, 56, 30, 0.08);
+      border-color: var(--danger-hover);
+      color: var(--danger-hover);
+    }
+
+    /* Dashboard Layout */
+    .dashboard-container {
+      max-width: 1100px;
+      margin: 20px auto 0;
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Compact Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 10px;
+      text-align: center;
+    }
+
+    .stat-card h3 {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .stat-card .stat-value {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .dashboard-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .section-header {
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-bottom: 14px;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-group label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .form-group input, .form-group select {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      background: var(--bg-color);
+      outline: none;
+    }
+
+    .btn-add {
+      padding: 12px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    .vehicle-banner {
+      background: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .product-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .product-item {
+      background: var(--bg-color);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .product-info h4 {
+      font-size: 0.95rem;
+      color: var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .product-details {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .contact-info {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+      font-size: 0.8rem;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .contact-info a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .btn-action {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-accept {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-complete {
+      background: #2e7d32;
+      color: #ffffff;
+    }
+
+    .status-badge {
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo-group">
+        <img src="logo.png.jpeg" alt="AgriConnect Logo">
+        <span class="brand-name">AgriConnect</span>
+      </a>
+
+      <div class="header-right">
+        <!-- Welcome Text -->
+        <span class="welcome-text" id="header-welcome">Welcome!</span>
+
+        <!-- Expanded Language Selector -->
+        <select id="lang-select" class="lang-dropdown" onchange="changeLanguage(this.value)">
+          <option value="en">English</option>
+          <option value="hi">हिंदी (Hindi)</option>
+          <option value="mr">मराठी (Marathi)</option>
+          <option value="or">ଓଡ଼ିଆ (Odia)</option>
+          <option value="bn">বাংলা (Bengali)</option>
+          <option value="bho">भोजपुरी (Bhojpuri)</option>
+          <option value="ta">தமிழ் (Tamil)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="as">অসমীয়া (Assamese)</option>
+        </select>
+
+        <!-- Red Border & Red Text Logout Link -->
+        <a href="login.html" class="btn-logout-header" id="btn-logout">Logout</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard Container -->
+  <div class="dashboard-container">
+
+    <!-- Compact Stats -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <h3 id="stat-lbl-loads">Available loads</h3>
+        <div class="stat-value" id="stat-loads">2</div>
+      </div>
+      <div class="stat-card">
+        <h3 id="stat-lbl-active">Active pickup</h3>
+        <div class="stat-value" id="stat-active">1</div>
+      </div>
+      <div class="stat-card">
+        <h3 id="stat-lbl-completed">Completed deliveries</h3>
+        <div class="stat-value" id="stat-completed">14</div>
+      </div>
+    </section>
+
+    <!-- Vehicle Profile Section -->
+    <section class="dashboard-card">
+      <h2 class="section-header" id="heading-vehicle">Registered Vehicle Profile</h2>
+      <form id="vehicle-form" class="form-grid" onsubmit="saveVehicle(event)">
+        <div class="form-group">
+          <label for="v-type" id="lbl-v-type">Vehicle Type</label>
+          <select id="v-type" required>
+            <option value="" id="opt-v-select">Select Type</option>
+            <option value="Two-Wheeler / Bike / Scooter" id="opt-v-1">Bike / Scooter (Express)</option>
+            <option value="Three-Wheeler Auto Loader" id="opt-v-2">Three-Wheeler Auto Loader</option>
+            <option value="Pickup Truck (Mahindra Bolero)" id="opt-v-3">Pickup Truck (Bolero)</option>
+            <option value="Mini Truck (Tata Ace)" id="opt-v-4">Mini Truck (Tata Ace)</option>
+            <option value="Tractor Trolley" id="opt-v-5">Tractor Trolley</option>
+            <option value="Heavy Duty Truck" id="opt-v-6">Heavy Duty Truck</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="v-number" id="lbl-v-number">Registration Number</label>
+          <input type="text" id="v-number" placeholder="e.g. OD-02-AB-1234" required>
+        </div>
+        <div class="form-group">
+          <label for="v-capacity" id="lbl-v-capacity">Max Capacity (Kg)</label>
+          <input type="number" id="v-capacity" placeholder="e.g. 1500" required>
+        </div>
+        <button type="submit" class="btn-add" id="btn-save-vehicle">Save Vehicle</button>
+      </form>
+
+      <div class="vehicle-banner" id="vehicle-banner" style="display: none;">
+        <span id="vehicle-display-text">Active: Mahindra Bolero</span>
+        <span id="capacity-display">Max Cap: 1500 kg</span>
+      </div>
+    </section>
+
+    <!-- Available Freight Requests -->
+    <section class="dashboard-card">
+      <h2 class="section-header" id="heading-requests">Available Freight Requests</h2>
+      <div class="product-list" id="available-list">
+        
+        <div class="product-item">
+          <div class="product-info">
+            <h4>
+              <span class="item-title" 
+                data-en="500 kg Tomato Pickup" 
+                data-hi="500 किग्रा टमाटर"
+                data-mr="५०० किलोग्रॅम टोमॅटो पिकअप"
+                data-or="୫୦୦ କିଗ୍ରା ଟମାଟୋ ପିକଅପ୍"
+                data-bn="৫০০ কেজি টমেটো পিকআপ"
+                data-bho="500 किग्रा टमाटर पिकअप"
+                data-ta="500 கிலோ தக்காளி பிக்கப்"
+                data-te="500 కేజీల టమోటా పికప్"
+                data-as="৫০০ কেজি বিলাহী পিকআপ">500 kg Tomato Pickup</span>
+              <span class="status-badge">Suitable</span>
+            </h4>
+            <div class="product-details" 
+              data-en="Bhubaneswar → Cuttack | ₹1,200" 
+              data-hi="भुवनेश्वर → कटक | ₹1,200"
+              data-mr="भुवनेश्वर → कटक | ₹१,२००"
+              data-or="ଭୁବନେଶ୍ୱର → କଟକ | ₹୧,୨୦୦"
+              data-bn="ভুবনেশ্বর → কটক | ₹১,২০০"
+              data-bho="भुवनेश्वर → कटक | ₹1,200"
+              data-ta="புவனேஸ்வர் → கட்டாக் | ₹1,200"
+              data-te="భువనేశ్వర్ → కటక్ | ₹1,200"
+              data-as="ভুৱনেশ্বৰ → কটক | ₹১,২০০">
+              Bhubaneswar → Cuttack | ₹1,200
+            </div>
+            <div class="contact-info">
+              <div class="contact-person" 
+                data-en="Contact: Ramesh Sahu (Farmer)" 
+                data-hi="संपर्क: रमेश साहू (किसान)"
+                data-mr="संपर्क: रमेश साहू (शेतकरी)"
+                data-or="ସମ୍ପର୍କ: ରମେଶ ସାହୁ (କୃଷକ)"
+                data-bn="যোগাযোগ: রমেশ সাহু (কৃষক)"
+                data-bho="संपर्क: रमेश साहू (किसान)"
+                data-ta="தொடர்புக்கு: ரமேஷ் சாஹு (விவசாயி)"
+                data-te="సంప్రదించండి: రమేష్ సాహు (రైతు)"
+                data-as="যোগাযোগ: ৰমেশ সাহু (কৃষক)">Contact: Ramesh Sahu (Farmer)</div>
+              <div class="contact-phone" 
+                data-en="Phone: +91 98765 43210" 
+                data-hi="फोन: +91 98765 43210"
+                data-mr="फोन: +91 98765 43210"
+                data-or="ଫୋନ୍: +91 98765 43210"
+                data-bn="ফোন: +91 98765 43210"
+                data-bho="फोन: +91 98765 43210"
+                data-ta="போன்: +91 98765 43210"
+                data-te="ఫోన్: +91 98765 43210"
+                data-as="ফোন: +91 98765 43210">Phone: <a href="tel:+919876543210">+91 98765 43210</a></div>
+              <div class="contact-address" 
+                data-en="Pickup: Farm #12, Patia, Bhubaneswar" 
+                data-hi="पिकअप: फार्म #12, पटिया, भुवनेश्वर"
+                data-mr="पिकअप: फार्म #१२, पटिया, भुवनेश्वर"
+                data-or="ପିକଅପ୍: ଫାର୍ମ #୧୨, ପଟିଆ, ଭୁବନେଶ୍ୱର"
+                data-bn="পিকআপ: ফার্ম #১২, পটিয়া, ভুবনেশ্বর"
+                data-bho="पिकअप: फार्म #12, पटिया, भुवनेश्वर"
+                data-ta="பிக்கப்: ஃபார்ம் #12, பாட்டியா, புவனேஸ்வர்"
+                data-te="పికప్: ఫామ్ #12, పటియా, భువనేశ్వర్"
+                data-as="পিকআপ: ফাৰ্ম #১২, পাটিয়া, ভুৱনেশ্বৰ">Pickup: Farm #12, Patia, Bhubaneswar</div>
+            </div>
+          </div>
+          <button class="btn-action btn-accept" onclick="acceptJob(this)">Accept Job</button>
+        </div>
+
+        <div class="product-item">
+          <div class="product-info">
+            <h4>
+              <span class="item-title" 
+                data-en="1000 kg Rice Grain Bags" 
+                data-hi="1000 किग्रा चावल"
+                data-mr="१০০০ किलोग्रॅम तांदूळ"
+                data-or="୧୦୦୦ କିଗ୍ରା ଚାଉଳ"
+                data-bn="১০০০ কেজি চাল"
+                data-bho="1000 किग्रा चावल"
+                data-ta="1000 கிலோ அரிசி"
+                data-te="1000 కేజీల బియ్యం"
+                data-as="১০০০ কেজি চাউল">1000 kg Rice Bags</span>
+              <span class="status-badge">Suitable</span>
+            </h4>
+            <div class="product-details" 
+              data-en="Puri → Bhubaneswar | ₹2,500" 
+              data-hi="पूरी → भुवनेश्वर | ₹2,500"
+              data-mr="पूरी → भुवनेश्वर | ₹२,५००"
+              data-or="ପୁରୀ → ଭୁବନେଶ୍ୱର | ₹୨,୫୦୦"
+              data-bn="পুরী → ভুবনেশ্বর | ₹২,৫০০"
+              data-bho="पुरी → भुवनेश्वर | ₹2,500"
+              data-ta="பூரி → புவனேஸ்வர் | ₹2,500"
+              data-te="పూరీ → భువనేశ్వర్ | ₹2,500"
+              data-as="পুৰী → ভুৱনেশ্বৰ | ₹২,৫০০">
+              Puri → Bhubaneswar | ₹2,500
+            </div>
+            <div class="contact-info">
+              <div class="contact-person" 
+                data-en="Contact: Bijay Mohanty (Trader)" 
+                data-hi="संपर्क: बिजय मोहंती (व्यापारी)"
+                data-mr="संपर्क: विजय मोहंती (व्यापारी)"
+                data-or="ସମ୍ପର୍କ: ବିଜୟ ମହାନ୍ତି (ବ୍ୟବସାୟୀ)"
+                data-bn="যোগাযোগ: বিজয় মহান্তি (ব্যবসায়ী)"
+                data-bho="संपर्क: बिजय मोहंती (व्यापारी)"
+                data-ta="தொடர்புக்கு: பிஜய் மொஹந்தி (வியாபாரி)"
+                data-te="సంప్రదించండి: బిజయ్ మొహంతి (వ్యాపారి)"
+                data-as="যোগাযোগ: বিজয় মহান্তি (ব্যৱসায়ী)">Contact: Bijay Mohanty (Trader)</div>
+              <div class="contact-phone" 
+                data-en="Phone: +91 91234 56789" 
+                data-hi="फोन: +91 91234 56789"
+                data-mr="फोन: +91 91234 56789"
+                data-or="ଫୋନ୍: +91 91234 56789"
+                data-bn="ফোন: +91 91234 56789"
+                data-bho="फोन: +91 91234 56789"
+                data-ta="போன்: +91 91234 56789"
+                data-te="ఫోన్: +91 91234 56789"
+                data-as="ফোন: +91 91234 56789">Phone: <a href="tel:+919123456789">+91 91234 56789</a></div>
+              <div class="contact-address" 
+                data-en="Pickup: Grain Depot, Main Road, Puri" 
+                data-hi="पिकअप: अनाज डिपो, मुख्य मार्ग, पूरी"
+                data-mr="पिकअप: धान्य डेपो, मुख्य रस्ता, पूरी"
+                data-or="ପିକଅପ୍: ଖାଦ୍ୟଶସ୍ୟ ଡିପୋ, ମୁଖ୍ୟ ରାସ୍ତା, ପୁରୀ"
+                data-bn="পিকআপ: শস্য ডিপো, প্রধান সড়ক, পুরী"
+                data-bho="पिकअप: अनाज डिपो, मुख्य मार्ग, पूरी"
+                data-ta="பிக்கப்: தானிய டிப்போ, மெயின் ரோடு, பூரி"
+                data-te="పికప్: ధాన్యాల డిపో, మెయిన్ రోడ్డు, పూరీ"
+                data-as="পিকআপ: শস্য ডিপো, প্ৰধান পথ, পুৰী">Pickup: Grain Depot, Main Road, Puri</div>
+            </div>
+          </div>
+          <button class="btn-action btn-accept" onclick="acceptJob(this)">Accept Job</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Active In-Transit -->
+    <section class="dashboard-card">
+      <h2 class="section-header" id="heading-active">Active In-Transit</h2>
+      <div class="product-list" id="active-list">
+        
+        <div class="product-item">
+          <div class="product-info">
+            <h4>
+              <span class="item-title" 
+                data-en="300 kg Fresh Potatoes" 
+                data-hi="300 किग्रा आलू"
+                data-mr="३०० किलोग्रॅम बटाटे"
+                data-or="୩୦୦ କିଗ୍ରା ଆଳୁ"
+                data-bn="৩০০ কেজি আলু"
+                data-bho="300 किग्रा आलू"
+                data-ta="300 கிலோ உருளைக்கிழங்கு"
+                data-te="300 కేజీల బంగాళాదుంపలు"
+                data-as="৩০০ কেজি আলু">300 kg Fresh Potatoes</span>
+              <span class="status-badge" style="background: #fff3cd; color: #856404;">In Transit</span>
+            </h4>
+            <div class="product-details" 
+              data-en="Drop: Barabati Market, Cuttack | ETA: 45 Mins" 
+              data-hi="ड्रॉप: बाराबती मार्केट, कटक | समय: 45 मिनट"
+              data-mr="ड्रॉप: बाराबती मार्केट, कटक | वेळ: ४५ मिनिटे"
+              data-or="ଡ୍ରପ୍: ବାରବାଟୀ ମାର୍କେଟ, କଟକ | ସମୟ: ୪୫ ମିନିଟ୍"
+              data-bn="ড্রপ: বারবাটি মার্কেট, কটক | সময়: ৪৫ মিনিট"
+              data-bho="ड्रॉप: बाराबती मार्केट, कटक | समय: 45 मिनट"
+              data-ta="டிராப்: பாராபட்டி மார்க்கெட், கட்டாக் | நேரம்: 45 நிமிடங்கள்"
+              data-te="డ్రాప్: బారాబటి మార్కెట్, కటక్ | సమయం: 45 నిమిషాలు"
+              data-as="ড্ৰপ: বাৰাবাটি মাৰ্কেট, কটক | সময়: ৪৫ মিনিট">
+              Drop: Barabati Market, Cuttack | ETA: 45 Mins
+            </div>
+            <div class="contact-info">
+              <div class="contact-person" 
+                data-en="Contact: Prakash Das (Receiver)" 
+                data-hi="संपर्क: प्रकाश दास (प्राप्तकर्ता)"
+                data-mr="संपर्क: प्रकाश दास (प्राप्तकर्ता)"
+                data-or="ସମ୍ପର୍କ: ପ୍ରକାଶ ଦାସ (ପ୍ରାପ୍ତକର୍ତ୍ତା)"
+                data-bn="যোগাযোগ: প্রকাশ দাস (প্রাপক)"
+                data-bho="संपर्क: प्रकाश दास (प्राप्तकर्ता)"
+                data-ta="தொடர்புக்கு: பிரகாஷ் தாஸ் (பெறுநர்)"
+                data-te="సంప్రదించండి: ప్రకాష్ దాస్ (గ్రహీత)"
+                data-as="যোগাযোগ: প্ৰকাশ দাস (গ্ৰহণকাৰী)">Contact: Prakash Das (Receiver)</div>
+              <div class="contact-phone" 
+                data-en="Phone: +91 98111 22334" 
+                data-hi="फोन: +91 98111 22334"
+                data-mr="फोन: +91 98111 22334"
+                data-or="ଫୋନ୍: +91 98111 22334"
+                data-bn="ফোন: +91 98111 22334"
+                data-bho="फोन: +91 98111 22334"
+                data-ta="போன்: +91 98111 22334"
+                data-te="ఫోన్: +91 98111 22334"
+                data-as="ফোন: +91 98111 22334">Phone: <a href="tel:+919811122334">+91 98111 22334</a></div>
+              <div class="contact-address" 
+                data-en="Destination: Shop #4, Barabati Market, Cuttack" 
+                data-hi="गंतव्य: दुकान #4, बाराबती मार्केट, कटक"
+                data-mr="गंतव्य: दुकान #४, बाराबती मार्केट, कटक"
+                data-or="ଗନ୍ତବ୍ୟସ୍ଥଳ: ଦୋକାନ #୪, ବାରବାଟୀ ମାର୍କେଟ, କଟକ"
+                data-bn="গন্তব্য: দোকান #৪, বারবাটি মার্কেট, কটক"
+                data-bho="गंतव्य: दुकान #4, बाराबती मार्केट, कटक"
+                data-ta="சேருமிடம்: கடை #4, பாராபட்டி மார்க்கெட், கட்டாக்"
+                data-te="గమ్యస్థానం: షాప్ #4, బారాబటి మార్కెట్, కటక్"
+                data-as="গন্তব্যস্থল: দোকান #৪, বাৰাবাটি মাৰ্কেট, কটক">Destination: Shop #4, Barabati Market, Cuttack</div>
+            </div>
+          </div>
+          <button class="btn-action btn-complete" onclick="completeJob(this)">Mark Delivered</button>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    let currentLang = 'en';
+
+    // Comprehensive multi-language dictionary for static UI elements
+    const translations = {
+      en: {
+        welcome: "Welcome!",
+        logout: "Logout",
+        headingVehicle: "Registered Vehicle Profile",
+        lblVType: "Vehicle Type",
+        optVSelect: "Select Type",
+        optV1: "Bike / Scooter (Express)",
+        optV2: "Three-Wheeler Auto Loader",
+        optV3: "Pickup Truck (Bolero)",
+        optV4: "Mini Truck (Tata Ace)",
+        optV5: "Tractor Trolley",
+        optV6: "Heavy Duty Truck",
+        lblVNumber: "Registration Number",
+        lblVCapacity: "Max Capacity (Kg)",
+        btnSaveVehicle: "Save Vehicle",
+        statLoads: "Available loads",
+        statActive: "Active pickups",
+        statCompleted: "Completed deliveries",
+        headingRequests: "Available Freight Requests",
+        headingActive: "Active In-Transit",
+        btnAccept: "Accept Job",
+        btnComplete: "Mark Delivered",
+        badgeInTransit: "In Transit",
+        badgeSuitable: "Suitable"
+      },
+      hi: {
+        welcome: "स्वागत है!",
+        logout: "लॉग आउट",
+        headingVehicle: "पंजीकृत वाहन प्रोफ़ाइल",
+        lblVType: "वाहन का प्रकार",
+        optVSelect: "प्रकार चुनें",
+        optV1: "बाइक / स्कूटर",
+        optV2: "थ्री-व्हीलर ऑटो लोडर",
+        optV3: "पिकअप ट्रक (बोलेरो)",
+        optV4: "मिनी ट्रक (टाटा एस)",
+        optV5: "ट्रैक्टर ट्रॉली",
+        optV6: "हेवी ड्यूटी ट्रक",
+        lblVNumber: "पंजीकरण संख्या",
+        lblVCapacity: "अधिकतम क्षमता (किग्रा)",
+        btnSaveVehicle: "वाहन सहेजें",
+        statLoads: "उपलब्ध लोड",
+        statActive: "सक्रिय पिकअप",
+        statCompleted: "पूर्ण डिलीवरी",
+        headingRequests: "उपलब्ध लोड अनुरोध",
+        headingActive: "सक्रिय ऑर्डर",
+        btnAccept: "स्वीकार करें",
+        btnComplete: "पहुंचा दिया",
+        badgeInTransit: "रास्ते में",
+        badgeSuitable: "उपयुक्त"
+      },
+      mr: {
+        welcome: "सुस्वागतम!",
+        logout: "लॉग आउट",
+        headingVehicle: "नोंदणीकृत वाहन प्रोफाइल",
+        lblVType: "वाहनाचा प्रकार",
+        optVSelect: "प्रकार निवडा",
+        optV1: "बाइक / स्कूटर",
+        optV2: "थ्री-व्हीलर ऑटो लोडर",
+        optV3: "पिकअप ट्रक (बोलेरो)",
+        optV4: "मिनी ट्रक (टाटा एस)",
+        optV5: "ट्रॅक्टर ट्रॉली",
+        optV6: "हेव्ही ड्युटी ट्रक",
+        lblVNumber: "नोंदणी क्रमांक",
+        lblVCapacity: "कमाल क्षमता (किग्रा)",
+        btnSaveVehicle: "वाहन जतन करा",
+        statLoads: "उपलब्ध लोड",
+        statActive: "सक्रिय पिकअप",
+        statCompleted: "पूर्ण झालेली डिलिव्हरी",
+        headingRequests: "उपलब्ध मालवाहतूक विनंत्या",
+        headingActive: "मार्गावर असलेले ऑर्डर",
+        btnAccept: "स्वीकार करा",
+        btnComplete: "डिलिव्हरी पूर्ण झाली",
+        badgeInTransit: "मार्गावर",
+        badgeSuitable: "योग्य"
+      },
+      or: {
+        welcome: "ସ୍ୱାଗତ!",
+        logout: "ଲଗ୍ ଆଉଟ୍",
+        headingVehicle: "ପଞ୍ଜୀକୃତ ଗାଡି ପ୍ରୋଫାଇଲ୍",
+        lblVType: "ଗାଡିର ପ୍ରକାର",
+        optVSelect: "ପ୍ରକାର ବାଛନ୍ତୁ",
+        optV1: "ବାଇକ୍ / ସ୍କୁଟର",
+        optV2: "ଥ୍ରୀ-ହୁଇଲର୍ ଅଟୋ ଲୋଡର୍",
+        optV3: "ପିକଅପ୍ ଟ୍ରକ୍ (ବୋଲେରୋ)",
+        optV4: "ମିନି ଟ୍ରକ୍ (ଟାଟା ଏସ୍)",
+        optV5: "ଟ୍ରାକ୍ଟର ଟ୍ରଲି",
+        optV6: "ହେଭି ଡ୍ୟୁଟି ଟ୍ରକ୍",
+        lblVNumber: "ପଞ୍ଜୀକରଣ ସଂଖ୍ୟା",
+        lblVCapacity: "ସର୍ବାଧିକ କ୍ଷମତା (କିଗ୍ରା)",
+        btnSaveVehicle: "ଗାଡି ସେଭ୍ କରନ୍ତୁ",
+        statLoads: "ଉପଲବ୍ଧ ଲୋଡ୍",
+        statActive: "ସକ୍ରିୟ ପିକଅପ୍",
+        statCompleted: "ସମ୍ପୂର୍ଣ୍ଣ ଡେଲିଭରୀ",
+        headingRequests: "ଉପଲବ୍ଧ ପରିବହନ ଅନୁରୋଧ",
+        headingActive: "ଚାଲୁଥିବା ପରିବହନ",
+        btnAccept: "ଗ୍ରହଣ କରନ୍ତୁ",
+        btnComplete: "ଡେଲିଭରୀ ଶେଷ",
+        badgeInTransit: "ବାଟରେ ଅଛି",
+        badgeSuitable: "ଉପଯୁକ୍ତ"
+      },
+      bn: {
+        welcome: "স্বাগতম!",
+        logout: "লগ আউট",
+        headingVehicle: "নিবন্ধিত যানবাহনের প্রোফাইল",
+        lblVType: "যানবাহনের ধরন",
+        optVSelect: "ধরন নির্বাচন করুন",
+        optV1: "বাইক / স্কুটার",
+        optV2: "থ্রি-হুইলার অটো লোডার",
+        optV3: "পিকআপ ট্রাক (বোলেরো)",
+        optV4: "মিনি ট্রাক (টাটা এস)",
+        optV5: "ট্র্যাক্টর ট্রলি",
+        optV6: "হেভি ডিউটি ট্রাক",
+        lblVNumber: "নিবন্ধন নম্বর",
+        lblVCapacity: "সর্বোচ্চ ক্ষমতা (কেজি)",
+        btnSaveVehicle: "যানবাহন সংরক্ষণ করুন",
+        statLoads: "উপলব্ধ লোড",
+        statActive: "সক্রিয় পিকআপ",
+        statCompleted: "সম্পন্ন ডেলিভারি",
+        headingRequests: "উপলব্ধ পরিবহন অনুরোধ",
+        headingActive: "চলমান ডেলিভারি",
+        btnAccept: "গ্রহণ করুন",
+        btnComplete: "সম্পন্ন চিহ্নিত করুন",
+        badgeInTransit: "পথে আছে",
+        badgeSuitable: "উপযুক্ত"
+      },
+      bho: {
+        welcome: "रउआ सब के स्वागत बा!",
+        logout: "लॉग आउट",
+        headingVehicle: "रजिस्टर्ड गाड़ी प्रोफाइल",
+        lblVType: "गाड़ी के प्रकार",
+        optVSelect: "प्रकार चुनीं",
+        optV1: "बाइक / स्कूटर",
+        optV2: "थ्री-व्हीलर ऑटो लोडर",
+        optV3: "पिकअप ट्रक (बोलेरो)",
+        optV4: "मिनी ट्रक (टाटा एस)",
+        optV5: "ट्रैक्टर ट्रॉली",
+        optV6: "भारी ट्रक",
+        lblVNumber: "गाड़ी नंबर",
+        lblVCapacity: "अधिकतम क्षमता (किग्रा)",
+        btnSaveVehicle: "गाड़ी सेव करीं",
+        statLoads: "उपलब्ध लोड",
+        statActive: "चालू पिकअप",
+        statCompleted: "पूरा भइल डिलीवरी",
+        headingRequests: "उपलब्ध भाड़ा के मांग",
+        headingActive: "रस्ते में बा",
+        btnAccept: "स्वीकार करीं",
+        btnComplete: "पहुंच गइल",
+        badgeInTransit: "रस्ते में",
+        badgeSuitable: "उपयुक्त"
+      },
+      ta: {
+        welcome: "நல்வரவு!",
+        logout: "லாக் அவுட்",
+        headingVehicle: "பதிவுசெய்யப்பட்ட வாகன விவரம்",
+        lblVType: "வாகன வகை",
+        optVSelect: "வகையைத் தேர்ந்தெடுக்கவும்",
+        optV1: "பைக் / ஸ்கூட்டர்",
+        optV2: "த்ரீ-வீலர் ஆட்டோ லோடர்",
+        optV3: "பிக்கப் ட்ரக் (பொலிரோ)",
+        optV4: "மினி ட்ரக் (டாட்டா ஏஸ்)",
+        optV5: "ட்ராக்டர் டிராலி",
+        optV6: "ஹெவி டியூட்டி ட்ரக்",
+        lblVNumber: "பதிவு எண்",
+        lblVCapacity: "அதிகபட்ச கொள்ளளவு (கிலோ)",
+        btnSaveVehicle: "வாகனத்தை சேமிக்கவும்",
+        statLoads: "கிடைக்கும் சுமைகள்",
+        statActive: "செயலில் உள்ள பிக்கப்",
+        statCompleted: "முடிக்கப்பட்ட விநியோகம்",
+        headingRequests: "கிடைக்கும் சரக்கு கோரிக்கைகள்",
+        headingActive: "வழியில் உள்ளது",
+        btnAccept: "ஏற்றுக்கொள்",
+        btnComplete: "டெலிவரி முடிந்தது",
+        badgeInTransit: "பயணத்தில்",
+        badgeSuitable: "பொருத்தமானது"
+      },
+      te: {
+        welcome: "స్వాగతం!",
+        logout: "లాగ్ అవుట్",
+        headingVehicle: "నమోదిత వాహన ప్రొఫైల్",
+        lblVType: "వాహనం రకం",
+        optVSelect: "రకాన్ని ఎంచుకోండి",
+        optV1: "బైక్ / స్కూటర్",
+        optV2: "త్రీ-వీలర్ ఆటో లోడర్",
+        optV3: "పికప్ ట్రక్ (బొలెరో)",
+        optV4: "మినీ ట్రక్ (టాటా ఏస్)",
+        optV5: "ట్రాక్టర్ ట్రాలీ",
+        optV6: "హెవీ డ్యూటీ ట్రక్",
+        lblVNumber: "రిజిస్ట్రేషన్ సంఖ్య",
+        lblVCapacity: "గరిష్ట సామర్థ్యం (కేజీలు)",
+        btnSaveVehicle: "వాహనాన్ని సేవ్ చేయండి",
+        statLoads: "అందుబాటులో ఉన్న లోడ్‌లు",
+        statActive: "యాక్టివ్ పికప్",
+        statCompleted: "పూర్తయిన డెలివరీలు",
+        headingRequests: "అందుబాటులో ఉన్న రవాణా అభ్యర్థనలు",
+        headingActive: "రవాణాలో ఉంది",
+        btnAccept: "అంగీకరించు",
+        btnComplete: "డెలివరీ పూర్తయింది",
+        badgeInTransit: "మార్గంలో ఉంది",
+        badgeSuitable: "అనుకూలమైనది"
+      },
+      as: {
+        welcome: "স্বাগতম!",
+        logout: "লগ আউট",
+        headingVehicle: "পঞ্জীকৃত বাহনৰ প্ৰফাইল",
+        lblVType: "বাহনৰ প্ৰকাৰ",
+        optVSelect: "প্ৰকাৰ বাছনি কৰক",
+        optV1: "বাইক / স্কুটাৰ",
+        optV2: "থ্ৰী-ৱিলাৰ অটো লোডাৰ",
+        optV3: "পিকআপ ট্ৰাক (ব'লেৰ' )",
+        optV4: "মিনি ট্ৰাক (টাটা এচ)",
+        optV5: "ট্ৰেক্টৰ ট্ৰলী",
+        optV6: "হেভী ডিউটি ট্ৰাক",
+        lblVNumber: "পঞ্জীয়ন নম্বৰ",
+        lblVCapacity: "সৰ্বোচ্চ ক্ষমতা (কেজি)",
+        btnSaveVehicle: "বাহন সংৰক্ষণ কৰক",
+        statLoads: "উপলব্ধ লোড",
+        statActive: "সক্ৰিয় পিকআপ",
+        statCompleted: "সম্পূৰ্ণ ডেলিভাৰী",
+        headingRequests: "উপলব্ধ পৰিবহণ অনুৰোধ",
+        headingActive: "পথত আছে",
+        btnAccept: "গ্ৰহণ কৰক",
+        btnComplete: "সম্পূৰ্ণ হ'ল",
+        badgeInTransit: "পথত আছে",
+        badgeSuitable: "উপযুক্ত"
+      }
+    };
+
+    function changeLanguage(lang) {
+      currentLang = lang;
+      const t = translations[lang] || translations['en'];
+
+      // Header translations
+      document.getElementById('header-welcome').innerText = t.welcome;
+      document.getElementById('btn-logout').innerText = t.logout;
+
+      // Vehicle form translations
+      document.getElementById('heading-vehicle').innerText = t.headingVehicle;
+      document.getElementById('lbl-v-type').innerText = t.lblVType;
+      document.getElementById('opt-v-select').innerText = t.optVSelect;
+      document.getElementById('opt-v-1').innerText = t.optV1;
+      document.getElementById('opt-v-2').innerText = t.optV2;
+      document.getElementById('opt-v-3').innerText = t.optV3;
+      document.getElementById('opt-v-4').innerText = t.optV4;
+      document.getElementById('opt-v-5').innerText = t.optV5;
+      document.getElementById('opt-v-6').innerText = t.optV6;
+      document.getElementById('lbl-v-number').innerText = t.lblVNumber;
+      document.getElementById('lbl-v-capacity').innerText = t.lblVCapacity;
+      document.getElementById('btn-save-vehicle').innerText = t.btnSaveVehicle;
+
+      // Stats labels
+      document.getElementById('stat-lbl-loads').innerText = t.statLoads;
+      document.getElementById('stat-lbl-active').innerText = t.statActive;
+      document.getElementById('stat-lbl-completed').innerText = t.statCompleted;
+
+      // Section titles
+      document.getElementById('heading-requests').innerText = t.headingRequests;
+      document.getElementById('heading-active').innerText = t.headingActive;
+
+      // Dynamic item card translations
+      document.querySelectorAll('.product-item').forEach(item => {
+        const titleSpan = item.querySelector('.item-title');
+        if (titleSpan && titleSpan.dataset[lang]) titleSpan.innerText = titleSpan.dataset[lang];
+
+        const detailsDiv = item.querySelector('.product-details');
+        if (detailsDiv && detailsDiv.dataset[lang]) detailsDiv.innerText = detailsDiv.dataset[lang];
+
+        const contactPerson = item.querySelector('.contact-person');
+        if (contactPerson && contactPerson.dataset[lang]) contactPerson.innerText = contactPerson.dataset[lang];
+
+        const contactPhone = item.querySelector('.contact-phone');
+        if (contactPhone && contactPhone.dataset[lang]) {
+          const phoneNum = contactPhone.querySelector('a') ? contactPhone.querySelector('a').innerText : '';
+          contactPhone.innerHTML = contactPhone.dataset[lang] + (phoneNum ? ` <a href="tel:${phoneNum}">${phoneNum}</a>` : '');
+        }
+
+        const contactAddress = item.querySelector('.contact-address');
+        if (contactAddress && contactAddress.dataset[lang]) contactAddress.innerText = contactAddress.dataset[lang];
+
+        const badge = item.querySelector('.status-badge');
+        if (badge) {
+          const isTransit = badge.style.background.includes('255') || item.closest('#active-list');
+          badge.innerText = isTransit ? t.badgeInTransit : t.badgeSuitable;
+        }
+
+        const btn = item.querySelector('.btn-action');
+        if (btn) {
+          btn.innerText = btn.classList.contains('btn-accept') ? t.btnAccept : t.btnComplete;
+        }
+      });
+    }
+
+    function saveVehicle(e) {
+      e.preventDefault();
+      document.getElementById('vehicle-banner').style.display = 'flex';
+      alert("Vehicle registered!");
+    }
+
+    function acceptJob(btn) {
+      const item = btn.closest('.product-item');
+      const t = translations[currentLang] || translations['en'];
+      const badge = item.querySelector('.status-badge');
+      badge.style.background = '#fff3cd';
+      badge.style.color = '#856404';
+      badge.innerText = t.badgeInTransit;
+      btn.className = 'btn-action btn-complete';
+      btn.innerText = t.btnComplete;
+      btn.onclick = function() { completeJob(this); };
+      document.getElementById('active-list').appendChild(item);
+    }
+
+    function completeJob(btn) {
+      btn.closest('.product-item').remove();
+      alert("Job Completed!");
+    }
+  </script>
+</body>
+</html>
