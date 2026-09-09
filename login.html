@@ -163,6 +163,11 @@
       background-color: var(--primary-hover);
     }
 
+    .btn-login:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
     .register-link {
       margin-top: 18px;
       font-size: 0.88rem;
@@ -186,25 +191,15 @@
   <main class="login-container">
 
     <div class="top-controls">
-
       <select
         id="languageSelect"
         class="language-select"
         aria-label="Select language"
       >
-
-        <option value="en">
-          English
-        </option>
-
-        <option value="hi">
-          हिन्दी
-        </option>
-
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
       </select>
-
     </div>
-
 
     <header class="brand">
 
@@ -214,9 +209,7 @@
         class="brand-logo"
       >
 
-      <h1>
-        AgriConnect
-      </h1>
+      <h1>AgriConnect</h1>
 
       <p
         class="tagline"
@@ -236,11 +229,7 @@
 
     </header>
 
-
     <form id="loginForm">
-
-
-      <!-- Email -->
 
       <div class="form-group">
 
@@ -249,8 +238,9 @@
           <svg
             class="left-icon"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
-            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
           </svg>
 
           <input
@@ -268,9 +258,6 @@
 
       </div>
 
-
-      <!-- Password -->
-
       <div class="form-group">
 
         <div class="input-wrapper">
@@ -278,8 +265,9 @@
           <svg
             class="left-icon"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
-            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+            <path d="M17 8h-1V6c0-2.21-1.79-4-4-4S8 3.79 8 6v2H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-5 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm2-9H10V6c0-1.1.9-2 2-2s2 .9 2 2v2z"/>
           </svg>
 
           <input
@@ -297,20 +285,21 @@
             class="right-icon toggle-password"
             data-target="password"
             viewBox="0 0 24 24"
+            role="button"
+            tabindex="0"
+            aria-label="Show password"
           >
-
-            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5-5-2.24-5-5-2.24-5-5-5z"/>
-
+            <path d="M12 5C7 5 2.73 8.11 1 12c1.73 3.89 6 7 11 7s9.27-3.11 11-7c-1.73-3.89-6-7-11-7zm0 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
           </svg>
 
         </div>
 
       </div>
 
-
       <button
         type="submit"
         class="btn-login"
+        id="loginButton"
         data-en="Log In"
         data-hi="लॉग इन"
       >
@@ -318,7 +307,6 @@
       </button>
 
     </form>
-
 
     <p class="register-link">
 
@@ -341,7 +329,6 @@
 
   </main>
 
-
   <script>
 
     const loginForm =
@@ -355,6 +342,9 @@
 
     const languageSelect =
       document.getElementById('languageSelect');
+
+    const loginButton =
+      document.getElementById('loginButton');
 
 
     function setLanguage(language) {
@@ -370,7 +360,6 @@
 
         });
 
-
       document
         .querySelectorAll(
           '[data-placeholder-en][data-placeholder-hi]'
@@ -384,12 +373,10 @@
 
         });
 
-
       document.documentElement.lang =
         language === 'hi'
           ? 'hi'
           : 'en';
-
 
       localStorage.setItem(
         'agriconnect_language',
@@ -426,38 +413,58 @@
     );
 
 
-    // Password visibility
-
     document
       .querySelectorAll('.toggle-password')
       .forEach(icon => {
 
+        const togglePassword = () => {
+
+          const targetId =
+            icon.getAttribute(
+              'data-target'
+            );
+
+          const inputField =
+            document.getElementById(
+              targetId
+            );
+
+          const showing =
+            inputField.type === 'text';
+
+          inputField.type =
+            showing
+              ? 'password'
+              : 'text';
+
+          icon.setAttribute(
+            'aria-label',
+            showing
+              ? 'Show password'
+              : 'Hide password'
+          );
+
+        };
+
+
         icon.addEventListener(
           'click',
-          function () {
+          togglePassword
+        );
 
-            const targetId =
-              this.getAttribute(
-                'data-target'
-              );
 
-            const inputField =
-              document.getElementById(
-                targetId
-              );
-
+        icon.addEventListener(
+          'keydown',
+          function(event) {
 
             if (
-              inputField.type === 'password'
+              event.key === 'Enter' ||
+              event.key === ' '
             ) {
 
-              inputField.type =
-                'text';
+              event.preventDefault();
 
-            } else {
-
-              inputField.type =
-                'password';
+              togglePassword();
 
             }
 
@@ -467,11 +474,9 @@
       });
 
 
-    // Login
-
     loginForm.addEventListener(
       'submit',
-      async function (event) {
+      async function(event) {
 
         event.preventDefault();
 
@@ -481,6 +486,21 @@
 
         const password =
           passwordInput.value;
+
+
+        if (!email || !password) {
+          return;
+        }
+
+
+        loginButton.disabled =
+          true;
+
+
+        loginButton.textContent =
+          languageSelect.value === 'hi'
+            ? 'लॉग इन हो रहा है...'
+            : 'Logging in...';
 
 
         try {
@@ -497,66 +517,29 @@
                 },
 
                 body: JSON.stringify({
-
-                  email:
-                    email,
-
-                  password:
-                    password
-
+                  email: email,
+                  password: password
                 })
 
               }
             );
 
 
-          const data =
-            await response.json();
+          let data = {};
+
+          try {
+
+            data =
+              await response.json();
+
+          } catch (jsonError) {
+
+            data = {};
+
+          }
 
 
-          if (response.ok) {
-
-            localStorage.setItem(
-              'agriconnect_user',
-              JSON.stringify(
-                data.user
-              )
-            );
-
-
-            alert(
-              languageSelect.value === 'hi'
-                ? 'लॉग इन सफल रहा!'
-                : 'Login successful!'
-            );
-
-
-            if (
-              data.user.role === 'farmer'
-            ) {
-
-              window.location.href =
-                '/farmerdashboard.html';
-
-            } else if (
-              data.user.role === 'buyer'
-            ) {
-
-              window.location.href =
-                '/consumerdashboard.html';
-
-            } else {
-
-              alert(
-                languageSelect.value === 'hi'
-                  ? 'अज्ञात उपयोगकर्ता भूमिका।'
-                  : 'Unknown user role.'
-              );
-
-            }
-
-
-          } else {
+          if (!response.ok) {
 
             alert(
               data.error ||
@@ -567,8 +550,76 @@
               )
             );
 
+            return;
+
           }
 
+
+          if (
+            !data.user ||
+            !data.user.role
+          ) {
+
+            alert(
+              languageSelect.value === 'hi'
+                ? 'लॉगिन प्रतिक्रिया अमान्य है।'
+                : 'Invalid login response from server.'
+            );
+
+            return;
+
+          }
+
+
+          localStorage.setItem(
+            'agriconnect_user',
+            JSON.stringify(
+              data.user
+            )
+          );
+
+
+          alert(
+            languageSelect.value === 'hi'
+              ? 'लॉग इन सफल रहा!'
+              : 'Login successful!'
+          );
+
+
+          if (
+            data.user.role === 'farmer'
+          ) {
+
+            window.location.href =
+              '/farmerdashboard.html';
+
+          } else if (
+            data.user.role === 'buyer'
+          ) {
+
+            window.location.href =
+              '/consumerdashboard.html';
+
+          } else if (
+            data.user.role === 'driver'
+          ) {
+
+            window.location.href =
+              '/driverdashboard.html';
+
+          } else {
+
+            localStorage.removeItem(
+              'agriconnect_user'
+            );
+
+            alert(
+              languageSelect.value === 'hi'
+                ? 'अज्ञात उपयोगकर्ता भूमिका।'
+                : 'Unknown user role.'
+            );
+
+          }
 
         } catch (error) {
 
@@ -583,6 +634,16 @@
               ? 'AgriConnect सर्वर से कनेक्ट नहीं हो सका।'
               : 'Could not connect to the AgriConnect server.'
           );
+
+        } finally {
+
+          loginButton.disabled =
+            false;
+
+          loginButton.textContent =
+            languageSelect.value === 'hi'
+              ? 'लॉग इन'
+              : 'Log In';
 
         }
 
