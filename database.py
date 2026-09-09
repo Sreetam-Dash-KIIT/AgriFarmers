@@ -53,4 +53,3 @@ connection.close()
 print("Database created successfully!")
 print("Database path:", DB_PATH)
 print("Tables:", [table[0] for table in tables])
-
