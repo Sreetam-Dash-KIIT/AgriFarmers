@@ -124,6 +124,107 @@
       gap: 24px;
     }
 
+    .insurance-card {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 30px 32px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #2d5a27 0%, #4f7d45 100%);
+      color: #ffffff;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(45, 90, 39, 0.18);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .insurance-card::before {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -70px;
+      top: -100px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .insurance-card::after {
+      content: "";
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      left: -60px;
+      bottom: -80px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .insurance-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 38px rgba(45, 90, 39, 0.28);
+    }
+
+    .insurance-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .insurance-icon {
+      width: 70px;
+      height: 70px;
+      flex-shrink: 0;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.1rem;
+      backdrop-filter: blur(6px);
+    }
+
+    .insurance-content h2 {
+      font-size: 1.45rem;
+      font-weight: 750;
+      margin-bottom: 4px;
+    }
+
+    .insurance-content p {
+      font-size: 0.92rem;
+      opacity: 0.9;
+      max-width: 550px;
+    }
+
+    .insurance-action {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 20px;
+      background: #ffffff;
+      color: var(--primary);
+      border-radius: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: gap 0.2s ease, background 0.2s ease;
+    }
+
+    .insurance-card:hover .insurance-action {
+      gap: 15px;
+      background: #f5f8f4;
+    }
+
+    .insurance-arrow {
+      font-size: 1.15rem;
+    }
+
     .dashboard-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -259,7 +360,8 @@
       cursor: pointer;
     }
 
-    .btn-refresh {
+    .btn-refresh,
+    .btn-refresh-interest {
       padding: 9px 14px;
       background: var(--accent);
       color: var(--primary);
@@ -269,7 +371,8 @@
       cursor: pointer;
     }
 
-    .btn-refresh:hover {
+    .btn-refresh:hover,
+    .btn-refresh-interest:hover {
       background: var(--primary);
       color: #ffffff;
     }
@@ -331,7 +434,8 @@
       color: var(--primary);
     }
 
-    .empty-message {
+    .empty-message,
+    .interest-empty {
       text-align: center;
       color: var(--text-muted);
       padding: 25px;
@@ -399,27 +503,6 @@
       font-weight: 700;
       background: #e6f4ea;
       color: var(--success);
-    }
-
-    .btn-refresh-interest {
-      padding: 9px 14px;
-      background: var(--accent);
-      color: var(--primary);
-      border: 1px solid var(--primary);
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .btn-refresh-interest:hover {
-      background: var(--primary);
-      color: #ffffff;
-    }
-
-    .interest-empty {
-      text-align: center;
-      color: var(--text-muted);
-      padding: 25px;
     }
 
     .interest-count {
@@ -608,6 +691,23 @@
       }
     }
 
+    @media (max-width: 650px) {
+      .insurance-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px;
+      }
+
+      .insurance-left {
+        align-items: flex-start;
+      }
+
+      .insurance-action {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
     @media (max-width: 600px) {
       .nav-container {
         flex-wrap: wrap;
@@ -647,6 +747,15 @@
       .sort-select,
       .btn-refresh {
         width: 100%;
+      }
+
+      .insurance-left {
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .insurance-content h2 {
+        font-size: 1.25rem;
       }
     }
   </style>
@@ -705,6 +814,59 @@
 
   <main class="dashboard-container">
 
+    <!-- CROP INSURANCE -->
+
+    <a
+      href="/myinsurance.html"
+      class="insurance-card"
+      aria-label="Open Crop Insurance"
+    >
+
+      <div class="insurance-left">
+
+        <div class="insurance-icon">
+          🛡️
+        </div>
+
+        <div class="insurance-content">
+
+          <h2
+            data-en="Protect Your Crops"
+            data-hi="अपनी फसलों की सुरक्षा करें"
+          >
+            Protect Your Crops
+          </h2>
+
+          <p
+            data-en="Explore crop insurance options and learn how you can protect your farm from unexpected losses."
+            data-hi="फसल बीमा विकल्प देखें और जानें कि आप अपनी खेती को अप्रत्याशित नुकसान से कैसे सुरक्षित रख सकते हैं।"
+          >
+            Explore crop insurance options and learn how you can protect your farm from unexpected losses.
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="insurance-action">
+
+        <span
+          data-en="Explore Crop Insurance"
+          data-hi="फसल बीमा देखें"
+        >
+          Explore Crop Insurance
+        </span>
+
+        <span class="insurance-arrow">
+          →
+        </span>
+
+      </div>
+
+    </a>
+
+    <!-- DASHBOARD OVERVIEW -->
+
     <section class="dashboard-card">
 
       <h2
@@ -718,7 +880,13 @@
       <div class="stats-grid">
 
         <div class="stat-card">
-          <div class="stat-value" id="totalListings">0</div>
+          <div
+            class="stat-value"
+            id="totalListings"
+          >
+            0
+          </div>
+
           <div
             class="stat-label"
             data-en="Active Listings"
@@ -729,7 +897,14 @@
         </div>
 
         <div class="stat-card">
-          <div class="stat-value" id="totalQuantity">0</div>
+
+          <div
+            class="stat-value"
+            id="totalQuantity"
+          >
+            0
+          </div>
+
           <div
             class="stat-label"
             data-en="Total Stock (kg)"
@@ -737,10 +912,18 @@
           >
             Total Stock (kg)
           </div>
+
         </div>
 
         <div class="stat-card">
-          <div class="stat-value" id="averagePrice">₹0</div>
+
+          <div
+            class="stat-value"
+            id="averagePrice"
+          >
+            ₹0
+          </div>
+
           <div
             class="stat-label"
             data-en="Average Price"
@@ -748,10 +931,18 @@
           >
             Average Price
           </div>
+
         </div>
 
         <div class="stat-card">
-          <div class="stat-value" id="topCrop">—</div>
+
+          <div
+            class="stat-value"
+            id="topCrop"
+          >
+            —
+          </div>
+
           <div
             class="stat-label"
             data-en="Most Listed Crop"
@@ -759,10 +950,14 @@
           >
             Most Listed Crop
           </div>
+
         </div>
 
       </div>
+
     </section>
+
+    <!-- FARMER PROFILE -->
 
     <section class="dashboard-card">
 
@@ -777,6 +972,7 @@
       <div class="profile-grid">
 
         <div class="profile-item">
+
           <span
             class="profile-label"
             data-en="Name"
@@ -791,9 +987,11 @@
           >
             —
           </span>
+
         </div>
 
         <div class="profile-item">
+
           <span
             class="profile-label"
             data-en="Email"
@@ -808,9 +1006,11 @@
           >
             —
           </span>
+
         </div>
 
         <div class="profile-item">
+
           <span
             class="profile-label"
             data-en="Location"
@@ -825,9 +1025,11 @@
           >
             —
           </span>
+
         </div>
 
         <div class="profile-item">
+
           <span
             class="profile-label"
             data-en="Account Type"
@@ -843,10 +1045,14 @@
           >
             Farmer
           </span>
+
         </div>
 
       </div>
+
     </section>
+
+    <!-- ADD PRODUCT -->
 
     <section class="dashboard-card">
 
@@ -858,7 +1064,10 @@
         Add Product
       </h2>
 
-      <form id="addProductForm" class="form-grid">
+      <form
+        id="addProductForm"
+        class="form-grid"
+      >
 
         <div class="form-group">
 
@@ -878,6 +1087,7 @@
             placeholder="e.g. Tomato"
             required
           >
+
         </div>
 
         <div class="form-group">
@@ -900,6 +1110,7 @@
             step="0.01"
             required
           >
+
         </div>
 
         <div class="form-group">
@@ -922,6 +1133,7 @@
             step="0.01"
             required
           >
+
         </div>
 
         <div class="form-group">
@@ -942,6 +1154,7 @@
             placeholder="e.g. Bhubaneswar"
             required
           >
+
         </div>
 
         <button
@@ -954,9 +1167,15 @@
         </button>
 
       </form>
+
     </section>
 
-    <div id="message" class="message"></div>
+    <div
+      id="message"
+      class="message"
+    ></div>
+
+    <!-- MY LISTINGS -->
 
     <section class="dashboard-card">
 
@@ -970,7 +1189,10 @@
 
       <div class="listings-toolbar">
 
-        <select id="sortSelect" class="sort-select">
+        <select
+          id="sortSelect"
+          class="sort-select"
+        >
 
           <option
             value="newest"
@@ -1007,7 +1229,7 @@
           <option
             value="quantityHigh"
             data-en="Quantity: High to Low"
-            data-hi="मात्रा: अधिक से कम"
+            data-hi="मात्रा: अधिक से अधिक"
           >
             Quantity: High to Low
           </option>
@@ -1025,25 +1247,34 @@
 
       </div>
 
-      <div class="product-list" id="productList">
+      <div
+        class="product-list"
+        id="productList"
+      >
 
         <div
           class="empty-message"
-          data-en="Loading your listings..."
-          data-hi="आपकी सूचियां लोड हो रही हैं..."
         >
           Loading your listings...
         </div>
 
       </div>
 
-      <div class="last-updated" id="lastUpdated">
+      <div
+        class="last-updated"
+        id="lastUpdated"
+      >
         Last updated: —
       </div>
 
     </section>
 
-    <section class="dashboard-card" id="interestedCustomersSection">
+    <!-- INTERESTED CUSTOMERS -->
+
+    <section
+      class="dashboard-card"
+      id="interestedCustomersSection"
+    >
 
       <div class="listings-toolbar">
 
@@ -1054,7 +1285,13 @@
           style="margin-bottom: 0;"
         >
           Interested Customers
-          <span class="interest-count" id="interestCount">0</span>
+
+          <span
+            class="interest-count"
+            id="interestCount"
+          >
+            0
+          </span>
         </h2>
 
         <button
@@ -1067,7 +1304,10 @@
 
       </div>
 
-      <div class="interest-list" id="interestList">
+      <div
+        class="interest-list"
+        id="interestList"
+      >
 
         <div class="interest-empty">
           Loading interested customers...
@@ -1079,15 +1319,25 @@
 
   </main>
 
+  <!-- AI BUTTON -->
+
   <button
     type="button"
     class="ai-toggle"
     id="aiToggle"
   >
-    🤖 <span id="aiToggleText">AgriConnect AI</span>
+    🤖
+    <span id="aiToggleText">
+      AgriConnect AI
+    </span>
   </button>
 
-  <div class="ai-panel" id="aiPanel">
+  <!-- AI PANEL -->
+
+  <div
+    class="ai-panel"
+    id="aiPanel"
+  >
 
     <div class="ai-header">
 
@@ -1150,126 +1400,139 @@
 
     const loggedInUser =
       JSON.parse(
-        localStorage.getItem('agriconnect_user')
+        localStorage.getItem(
+          "agriconnect_user"
+        )
       );
 
     if (!loggedInUser) {
-      window.location.href = '/login.html';
+
+      window.location.href =
+        "/login.html";
+
     }
 
     if (
       loggedInUser &&
-      loggedInUser.role !== 'farmer'
+      loggedInUser.role !== "farmer"
     ) {
+
       alert(
-        'Access denied. Farmer account required.'
+        "Access denied. Farmer account required."
       );
 
-      window.location.href = '/login.html';
+      window.location.href =
+        "/login.html";
+
     }
 
     const languageSelect =
       document.getElementById(
-        'languageSelect'
+        "languageSelect"
       );
 
     const productList =
       document.getElementById(
-        'productList'
+        "productList"
       );
 
     const sortSelect =
       document.getElementById(
-        'sortSelect'
+        "sortSelect"
       );
 
     const message =
       document.getElementById(
-        'message'
+        "message"
       );
 
     const interestList =
       document.getElementById(
-        'interestList'
+        "interestList"
       );
 
     const interestCount =
       document.getElementById(
-        'interestCount'
+        "interestCount"
       );
 
     const refreshInterestBtn =
       document.getElementById(
-        'refreshInterestBtn'
+        "refreshInterestBtn"
       );
 
     let myProducts = [];
     let myInterests = [];
 
-    function setLanguage(language) {
+    function setLanguage(
+      language
+    ) {
 
       document
         .querySelectorAll(
-          '[data-en][data-hi]'
+          "[data-en][data-hi]"
         )
-        .forEach(element => {
+        .forEach(
+          element => {
 
-          element.textContent =
-            element.getAttribute(
-              `data-${language}`
-            );
+            element.textContent =
+              element.getAttribute(
+                `data-${language}`
+              );
 
-        });
+          }
+        );
 
       document
         .querySelectorAll(
-          '[data-placeholder-en][data-placeholder-hi]'
+          "[data-placeholder-en][data-placeholder-hi]"
         )
-        .forEach(input => {
+        .forEach(
+          input => {
 
-          input.placeholder =
-            input.getAttribute(
-              `data-placeholder-${language}`
-            );
+            input.placeholder =
+              input.getAttribute(
+                `data-placeholder-${language}`
+              );
 
-        });
+          }
+        );
 
       if (loggedInUser) {
 
         document.getElementById(
-          'welcomeText'
+          "welcomeText"
         ).textContent =
-          language === 'hi'
+          language === "hi"
             ? `स्वागत है, ${loggedInUser.name} 👋`
             : `Welcome, ${loggedInUser.name} 👋`;
 
       }
 
       document.getElementById(
-        'lastUpdated'
+        "lastUpdated"
       ).textContent =
-        language === 'hi'
-          ? 'अंतिम अपडेट: —'
-          : 'Last updated: —';
+        language === "hi"
+          ? "अंतिम अपडेट: —"
+          : "Last updated: —";
 
       document.documentElement.lang =
-        language === 'hi'
-          ? 'hi'
-          : 'en';
+        language;
 
       localStorage.setItem(
-        'agriconnect_language',
+        "agriconnect_language",
         language
       );
 
-      updateAITexts(language);
-
+      updateAITexts(
+        language
+      );
     }
 
     const savedLanguage =
       localStorage.getItem(
-        'agriconnect_language'
-      ) || 'en';
+        "agriconnect_language"
+      ) || "en";
 
     languageSelect.value =
       savedLanguage;
@@ -1277,22 +1540,22 @@
     if (loggedInUser) {
 
       document.getElementById(
-        'welcomeText'
+        "welcomeText"
       ).textContent =
         `Welcome, ${loggedInUser.name} 👋`;
 
       document.getElementById(
-        'profileName'
+        "profileName"
       ).textContent =
         loggedInUser.name;
 
       document.getElementById(
-        'profileEmail'
+        "profileEmail"
       ).textContent =
         loggedInUser.email;
 
       document.getElementById(
-        'profileLocation'
+        "profileLocation"
       ).textContent =
         loggedInUser.location;
 
@@ -1300,7 +1563,7 @@
 
     function showMessage(
       text,
-      type = 'success'
+      type = "success"
     ) {
 
       message.textContent =
@@ -1309,29 +1572,33 @@
       message.className =
         `message ${type}`;
 
-      setTimeout(() => {
+      setTimeout(
+        () => {
 
-        message.className =
-          'message';
+          message.className =
+            "message";
 
-      }, 4000);
-
+        },
+        4000
+      );
     }
 
     document
-      .getElementById('logoutBtn')
+      .getElementById(
+        "logoutBtn"
+      )
       .addEventListener(
-        'click',
-        function () {
+        "click",
+        function() {
 
           localStorage.removeItem(
-            'agriconnect_user'
+            "agriconnect_user"
           );
 
           sessionStorage.clear();
 
           window.location.href =
-            '/login.html';
+            "/login.html";
 
         }
       );
@@ -1341,12 +1608,14 @@
       try {
 
         const response =
-          await fetch('/products');
+          await fetch(
+            "/products"
+          );
 
         if (!response.ok) {
 
           throw new Error(
-            'Failed to load products'
+            "Failed to load products"
           );
 
         }
@@ -1357,8 +1626,12 @@
         myProducts =
           products.filter(
             product =>
-              Number(product.farmer_id) ===
-              Number(loggedInUser.id)
+              Number(
+                product.farmer_id
+              ) ===
+              Number(
+                loggedInUser.id
+              )
           );
 
         renderProducts();
@@ -1369,16 +1642,16 @@
           new Date();
 
         document.getElementById(
-          'lastUpdated'
+          "lastUpdated"
         ).textContent =
-          languageSelect.value === 'hi'
+          languageSelect.value === "hi"
             ? `अंतिम अपडेट: ${now.toLocaleTimeString()}`
             : `Last updated: ${now.toLocaleTimeString()}`;
 
       } catch (error) {
 
         console.error(
-          'Error loading products:',
+          "Error loading products:",
           error
         );
 
@@ -1387,9 +1660,9 @@
           <div class="empty-message">
 
             ${
-              languageSelect.value === 'hi'
-                ? 'आपकी सूचियां लोड नहीं हो सकीं।'
-                : 'Could not load your listings.'
+              languageSelect.value === "hi"
+                ? "आपकी सूचियां लोड नहीं हो सकीं।"
+                : "Could not load your listings."
             }
 
           </div>
@@ -1407,9 +1680,9 @@
         <div class="interest-empty">
 
           ${
-            languageSelect.value === 'hi'
-              ? 'रुचि रखने वाले ग्राहक लोड हो रहे हैं...'
-              : 'Loading interested customers...'
+            languageSelect.value === "hi"
+              ? "रुचि रखने वाले ग्राहक लोड हो रहे हैं..."
+              : "Loading interested customers..."
           }
 
         </div>
@@ -1420,7 +1693,9 @@
 
         const response =
           await fetch(
-            `/interests?farmer_id=${encodeURIComponent(loggedInUser.id)}`
+            `/interests?farmer_id=${encodeURIComponent(
+              loggedInUser.id
+            )}`
           );
 
         const text =
@@ -1429,11 +1704,18 @@
         let data = null;
 
         try {
-          data = JSON.parse(text);
+
+          data =
+            JSON.parse(
+              text
+            );
+
         } catch {
+
           throw new Error(
             `Server returned invalid data: ${text}`
           );
+
         }
 
         if (!response.ok) {
@@ -1449,7 +1731,9 @@
           Array.isArray(data)
             ? data
             : (
-                Array.isArray(data.interests)
+                Array.isArray(
+                  data.interests
+                )
                   ? data.interests
                   : []
               );
@@ -1459,29 +1743,31 @@
       } catch (error) {
 
         console.error(
-          'Error loading interests:',
+          "Error loading interests:",
           error
         );
 
         myInterests = [];
 
         interestCount.textContent =
-          '0';
+          "0";
 
         interestList.innerHTML = `
 
           <div class="interest-empty">
 
             ${
-              languageSelect.value === 'hi'
-                ? 'रुचि रखने वाले ग्राहकों की जानकारी लोड नहीं हो सकी।'
-                : 'Could not load interested customers.'
+              languageSelect.value === "hi"
+                ? "रुचि रखने वाले ग्राहकों की जानकारी लोड नहीं हो सकी।"
+                : "Could not load interested customers."
             }
 
             <br><br>
 
             <small>
-              ${escapeHtml(error.message)}
+              ${escapeHtml(
+                error.message
+              )}
             </small>
 
           </div>
@@ -1495,18 +1781,22 @@
     function renderInterests() {
 
       interestCount.textContent =
-        String(myInterests.length);
+        String(
+          myInterests.length
+        );
 
-      if (myInterests.length === 0) {
+      if (
+        myInterests.length === 0
+      ) {
 
         interestList.innerHTML = `
 
           <div class="interest-empty">
 
             ${
-              languageSelect.value === 'hi'
-                ? 'अभी किसी ग्राहक ने आपके उत्पाद में रुचि नहीं दिखाई है।'
-                : 'No customers have shown interest in your products yet.'
+              languageSelect.value === "hi"
+                ? "अभी किसी ग्राहक ने आपके उत्पाद में रुचि नहीं दिखाई है।"
+                : "No customers have shown interest in your products yet."
             }
 
           </div>
@@ -1514,26 +1804,28 @@
         `;
 
         return;
-
       }
 
-      interestList.innerHTML = '';
+      interestList.innerHTML =
+        "";
 
       myInterests.forEach(
         interest => {
 
           const item =
-            document.createElement('div');
+            document.createElement(
+              "div"
+            );
 
           item.className =
-            'interest-item';
+            "interest-item";
 
           const customerName =
             escapeHtml(
               interest.buyer_name ||
               interest.customer_name ||
               interest.name ||
-              'Unknown customer'
+              "Unknown customer"
             );
 
           const customerEmail =
@@ -1541,7 +1833,7 @@
               interest.buyer_email ||
               interest.customer_email ||
               interest.email ||
-              'Not provided'
+              "Not provided"
             );
 
           const crop =
@@ -1549,7 +1841,7 @@
               interest.product_crop ||
               interest.crop ||
               interest.product_name ||
-              'Unknown product'
+              "Unknown product"
             );
 
           const quantity =
@@ -1564,25 +1856,32 @@
             escapeHtml(
               interest.product_location ||
               interest.location ||
-              ''
+              ""
             );
 
           const interestedAt =
             interest.created_at ||
             interest.interested_at ||
             interest.timestamp ||
-            '';
+            "";
 
-          let dateText = '';
+          let dateText =
+            "";
 
           if (interestedAt) {
 
             const parsedDate =
-              new Date(interestedAt);
+              new Date(
+                interestedAt
+              );
 
             dateText =
-              isNaN(parsedDate.getTime())
-                ? String(interestedAt)
+              isNaN(
+                parsedDate.getTime()
+              )
+                ? String(
+                    interestedAt
+                  )
                 : parsedDate.toLocaleString();
 
           }
@@ -1599,9 +1898,9 @@
 
                 <div>
                   ${
-                    languageSelect.value === 'hi'
-                      ? 'ईमेल:'
-                      : 'Email:'
+                    languageSelect.value === "hi"
+                      ? "ईमेल:"
+                      : "Email:"
                   }
 
                   <strong>
@@ -1612,9 +1911,9 @@
                 <div>
                   🌱
                   ${
-                    languageSelect.value === 'hi'
-                      ? 'उत्पाद:'
-                      : 'Product:'
+                    languageSelect.value === "hi"
+                      ? "उत्पाद:"
+                      : "Product:"
                   }
 
                   <strong>
@@ -1627,17 +1926,19 @@
                     ? `
                       <div>
                         ${
-                          languageSelect.value === 'hi'
-                            ? 'मात्रा:'
-                            : 'Quantity:'
+                          languageSelect.value === "hi"
+                            ? "मात्रा:"
+                            : "Quantity:"
                         }
 
                         <strong>
-                          ${escapeHtml(quantity)} kg
+                          ${escapeHtml(
+                            quantity
+                          )} kg
                         </strong>
                       </div>
                     `
-                    : ''
+                    : ""
                 }
 
                 ${
@@ -1645,17 +1946,19 @@
                     ? `
                       <div>
                         ${
-                          languageSelect.value === 'hi'
-                            ? 'कीमत:'
-                            : 'Price:'
+                          languageSelect.value === "hi"
+                            ? "कीमत:"
+                            : "Price:"
                         }
 
                         <strong>
-                          ₹${escapeHtml(price)}/kg
+                          ₹${escapeHtml(
+                            price
+                          )}/kg
                         </strong>
                       </div>
                     `
-                    : ''
+                    : ""
                 }
 
                 ${
@@ -1664,9 +1967,9 @@
                       <div>
                         📍
                         ${
-                          languageSelect.value === 'hi'
-                            ? 'स्थान:'
-                            : 'Location:'
+                          languageSelect.value === "hi"
+                            ? "स्थान:"
+                            : "Location:"
                         }
 
                         <strong>
@@ -1674,7 +1977,7 @@
                         </strong>
                       </div>
                     `
-                    : ''
+                    : ""
                 }
 
                 ${
@@ -1682,25 +1985,27 @@
                     ? `
                       <div>
                         ${
-                          languageSelect.value === 'hi'
-                            ? 'रुचि दर्ज की गई:'
-                            : 'Interested on:'
+                          languageSelect.value === "hi"
+                            ? "रुचि दर्ज की गई:"
+                            : "Interested on:"
                         }
 
                         <strong>
-                          ${escapeHtml(dateText)}
+                          ${escapeHtml(
+                            dateText
+                          )}
                         </strong>
                       </div>
                     `
-                    : ''
+                    : ""
                 }
 
                 <span class="interest-badge">
 
                   ${
-                    languageSelect.value === 'hi'
-                      ? 'रुचि दिखाई ✓'
-                      : 'Interested ✓'
+                    languageSelect.value === "hi"
+                      ? "रुचि दिखाई ✓"
+                      : "Interested ✓"
                   }
 
                 </span>
@@ -1727,20 +2032,31 @@
 
       const totalQuantity =
         myProducts.reduce(
-          (total, product) =>
+          (
+            total,
+            product
+          ) =>
             total +
-            Number(product.quantity),
+            Number(
+              product.quantity
+            ),
           0
         );
 
       const averagePrice =
         totalListings > 0
           ? myProducts.reduce(
-              (total, product) =>
+              (
+                total,
+                product
+              ) =>
                 total +
-                Number(product.price),
+                Number(
+                  product.price
+                ),
               0
-            ) / totalListings
+            ) /
+            totalListings
           : 0;
 
       const cropCounts = {};
@@ -1749,25 +2065,37 @@
         product => {
 
           const crop =
-            product.crop.toLowerCase();
+            String(
+              product.crop
+            ).toLowerCase();
 
           cropCounts[crop] =
-            (cropCounts[crop] || 0) + 1;
+            (
+              cropCounts[crop] ||
+              0
+            ) + 1;
 
         }
       );
 
       let mostListedCrop =
-        '—';
+        "—";
 
       const cropNames =
-        Object.keys(cropCounts);
+        Object.keys(
+          cropCounts
+        );
 
-      if (cropNames.length > 0) {
+      if (
+        cropNames.length > 0
+      ) {
 
         mostListedCrop =
           cropNames.reduce(
-            (highest, crop) =>
+            (
+              highest,
+              crop
+            ) =>
               cropCounts[crop] >
               cropCounts[highest]
                 ? crop
@@ -1776,28 +2104,34 @@
           );
 
         mostListedCrop =
-          mostListedCrop.charAt(0).toUpperCase() +
-          mostListedCrop.slice(1);
+          mostListedCrop.charAt(
+            0
+          ).toUpperCase() +
+          mostListedCrop.slice(
+            1
+          );
 
       }
 
       document.getElementById(
-        'totalListings'
+        "totalListings"
       ).textContent =
         totalListings;
 
       document.getElementById(
-        'totalQuantity'
+        "totalQuantity"
       ).textContent =
-        totalQuantity.toFixed(1);
+        totalQuantity.toFixed(
+          1
+        );
 
       document.getElementById(
-        'averagePrice'
+        "averagePrice"
       ).textContent =
         `₹${averagePrice.toFixed(2)}`;
 
       document.getElementById(
-        'topCrop'
+        "topCrop"
       ).textContent =
         mostListedCrop;
 
@@ -1805,17 +2139,20 @@
 
     function renderProducts() {
 
-      productList.innerHTML = '';
+      productList.innerHTML =
+        "";
 
-      if (myProducts.length === 0) {
+      if (
+        myProducts.length === 0
+      ) {
 
         productList.innerHTML = `
 
           <div class="empty-message">
 
             ${
-              languageSelect.value === 'hi'
-                ? 'आपने अभी तक कोई उत्पाद नहीं जोड़ा है।'
+              languageSelect.value === "hi"
+                ? "आपने अभी तक कोई उत्पाद नहीं जोड़ा है।"
                 : "You haven't added any products yet."
             }
 
@@ -1824,7 +2161,6 @@
         `;
 
         return;
-
       }
 
       const sortedProducts =
@@ -1833,52 +2169,87 @@
       const sortType =
         sortSelect.value;
 
-      if (sortType === 'priceLow') {
+      if (
+        sortType ===
+        "priceLow"
+      ) {
 
         sortedProducts.sort(
           (a, b) =>
-            Number(a.price) -
-            Number(b.price)
+            Number(
+              a.price
+            ) -
+            Number(
+              b.price
+            )
         );
 
       }
 
-      if (sortType === 'priceHigh') {
+      if (
+        sortType ===
+        "priceHigh"
+      ) {
 
         sortedProducts.sort(
           (a, b) =>
-            Number(b.price) -
-            Number(a.price)
+            Number(
+              b.price
+            ) -
+            Number(
+              a.price
+            )
         );
 
       }
 
-      if (sortType === 'quantityLow') {
+      if (
+        sortType ===
+        "quantityLow"
+      ) {
 
         sortedProducts.sort(
           (a, b) =>
-            Number(a.quantity) -
-            Number(b.quantity)
+            Number(
+              a.quantity
+            ) -
+            Number(
+              b.quantity
+            )
         );
 
       }
 
-      if (sortType === 'quantityHigh') {
+      if (
+        sortType ===
+        "quantityHigh"
+      ) {
 
         sortedProducts.sort(
           (a, b) =>
-            Number(b.quantity) -
-            Number(a.quantity)
+            Number(
+              b.quantity
+            ) -
+            Number(
+              a.quantity
+            )
         );
 
       }
 
-      if (sortType === 'newest') {
+      if (
+        sortType ===
+        "newest"
+      ) {
 
         sortedProducts.sort(
           (a, b) =>
-            Number(b.id) -
-            Number(a.id)
+            Number(
+              b.id
+            ) -
+            Number(
+              a.id
+            )
         );
 
       }
@@ -1887,46 +2258,54 @@
         product => {
 
           const item =
-            document.createElement('div');
+            document.createElement(
+              "div"
+            );
 
           item.className =
-            'product-item';
+            "product-item";
 
           const quantity =
-            Number(product.quantity);
+            Number(
+              product.quantity
+            );
 
           let stockText;
           let stockClass;
 
-          if (quantity < 50) {
+          if (
+            quantity < 50
+          ) {
 
             stockText =
-              languageSelect.value === 'hi'
-                ? 'कम स्टॉक'
-                : 'Low Stock';
+              languageSelect.value === "hi"
+                ? "कम स्टॉक"
+                : "Low Stock";
 
             stockClass =
-              'stock-low';
+              "stock-low";
 
-          } else if (quantity < 500) {
+          } else if (
+            quantity < 500
+          ) {
 
             stockText =
-              languageSelect.value === 'hi'
-                ? 'उपलब्ध'
-                : 'Available';
+              languageSelect.value === "hi"
+                ? "उपलब्ध"
+                : "Available";
 
             stockClass =
-              'stock-available';
+              "stock-available";
 
           } else {
 
             stockText =
-              languageSelect.value === 'hi'
-                ? 'उच्च स्टॉक'
-                : 'High Stock';
+              languageSelect.value === "hi"
+                ? "उच्च स्टॉक"
+                : "High Stock";
 
             stockClass =
-              'stock-high';
+              "stock-high";
 
           }
 
@@ -1935,19 +2314,23 @@
             <div class="product-info">
 
               <h4>
-                🌱 ${escapeHtml(product.crop)}
+                🌱 ${escapeHtml(
+                  product.crop
+                )}
               </h4>
 
               <div class="product-meta">
 
                 ${
-                  languageSelect.value === 'hi'
-                    ? 'मात्रा:'
-                    : 'Quantity:'
+                  languageSelect.value === "hi"
+                    ? "मात्रा:"
+                    : "Quantity:"
                 }
 
                 <strong>
-                  ${product.quantity} kg
+                  ${escapeHtml(
+                    product.quantity
+                  )} kg
                 </strong>
 
               </div>
@@ -1955,13 +2338,15 @@
               <div class="product-meta">
 
                 ${
-                  languageSelect.value === 'hi'
-                    ? 'कीमत:'
-                    : 'Price:'
+                  languageSelect.value === "hi"
+                    ? "कीमत:"
+                    : "Price:"
                 }
 
                 <strong>
-                  ₹${product.price}/kg
+                  ₹${escapeHtml(
+                    product.price
+                  )}/kg
                 </strong>
 
               </div>
@@ -1969,20 +2354,24 @@
               <div class="product-meta">
 
                 ${
-                  languageSelect.value === 'hi'
-                    ? 'स्थान:'
-                    : 'Location:'
+                  languageSelect.value === "hi"
+                    ? "स्थान:"
+                    : "Location:"
                 }
 
                 📍
 
                 <strong>
-                  ${escapeHtml(product.location)}
+                  ${escapeHtml(
+                    product.location
+                  )}
                 </strong>
 
               </div>
 
-              <span class="stock-badge ${stockClass}">
+              <span
+                class="stock-badge ${stockClass}"
+              >
                 ${stockText}
               </span>
 
@@ -2000,51 +2389,67 @@
     }
 
     document
-      .getElementById('addProductForm')
+      .getElementById(
+        "addProductForm"
+      )
       .addEventListener(
-        'submit',
-        async function (event) {
+        "submit",
+        async function(event) {
 
           event.preventDefault();
 
           const crop =
             document
-              .getElementById('crop')
+              .getElementById(
+                "crop"
+              )
               .value
               .trim();
 
           const quantity =
             parseFloat(
               document
-                .getElementById('quantity')
+                .getElementById(
+                  "quantity"
+                )
                 .value
             );
 
           const price =
             parseFloat(
               document
-                .getElementById('price')
+                .getElementById(
+                  "price"
+                )
                 .value
             );
 
           const location =
             document
-              .getElementById('location')
+              .getElementById(
+                "location"
+              )
               .value
               .trim();
 
           if (
             !crop ||
             !location ||
+            !Number.isFinite(
+              quantity
+            ) ||
+            !Number.isFinite(
+              price
+            ) ||
             quantity <= 0 ||
             price <= 0
           ) {
 
             showMessage(
-              languageSelect.value === 'hi'
-                ? 'कृपया सही उत्पाद विवरण दर्ज करें।'
-                : 'Please enter valid product details.',
-              'error'
+              languageSelect.value === "hi"
+                ? "कृपया सही उत्पाद विवरण दर्ज करें।"
+                : "Please enter valid product details.",
+              "error"
             );
 
             return;
@@ -2055,34 +2460,32 @@
 
             const response =
               await fetch(
-                '/products',
+                "/products",
                 {
-                  method: 'POST',
+                  method: "POST",
 
                   headers: {
-                    'Content-Type':
-                      'application/json'
+                    "Content-Type":
+                      "application/json"
                   },
 
-                  body: JSON.stringify({
+                  body:
+                    JSON.stringify({
+                      farmer_id:
+                        loggedInUser.id,
 
-                    farmer_id:
-                      loggedInUser.id,
+                      crop:
+                        crop,
 
-                    crop:
-                      crop,
+                      quantity:
+                        quantity,
 
-                    quantity:
-                      quantity,
+                      price:
+                        price,
 
-                    price:
-                      price,
-
-                    location:
-                      location
-
-                  })
-
+                      location:
+                        location
+                    })
                 }
               );
 
@@ -2094,11 +2497,11 @@
               showMessage(
                 data.error ||
                 (
-                  languageSelect.value === 'hi'
-                    ? 'उत्पाद जोड़ने में समस्या हुई।'
-                    : 'Failed to add product.'
+                  languageSelect.value === "hi"
+                    ? "उत्पाद जोड़ने में समस्या हुई।"
+                    : "Failed to add product."
                 ),
-                'error'
+                "error"
               );
 
               return;
@@ -2106,15 +2509,15 @@
             }
 
             showMessage(
-              languageSelect.value === 'hi'
-                ? 'उत्पाद सफलतापूर्वक जोड़ा गया!'
-                : 'Product added successfully!',
-              'success'
+              languageSelect.value === "hi"
+                ? "उत्पाद सफलतापूर्वक जोड़ा गया!"
+                : "Product added successfully!",
+              "success"
             );
 
             document
               .getElementById(
-                'addProductForm'
+                "addProductForm"
               )
               .reset();
 
@@ -2123,15 +2526,15 @@
           } catch (error) {
 
             console.error(
-              'Error adding product:',
+              "Error adding product:",
               error
             );
 
             showMessage(
-              languageSelect.value === 'hi'
-                ? 'AgriConnect सर्वर से कनेक्ट नहीं हो सका।'
-                : 'Could not connect to the AgriConnect server.',
-              'error'
+              languageSelect.value === "hi"
+                ? "AgriConnect सर्वर से कनेक्ट नहीं हो सका।"
+                : "Could not connect to the AgriConnect server.",
+              "error"
             );
 
           }
@@ -2140,27 +2543,27 @@
       );
 
     document
-      .getElementById('refreshBtn')
+      .getElementById(
+        "refreshBtn"
+      )
       .addEventListener(
-        'click',
+        "click",
         loadProducts
       );
 
     sortSelect.addEventListener(
-      'change',
+      "change",
       renderProducts
     );
 
     refreshInterestBtn.addEventListener(
-      'click',
-      function () {
-        loadInterests();
-      }
+      "click",
+      loadInterests
     );
 
     languageSelect.addEventListener(
-      'change',
-      function () {
+      "change",
+      function() {
 
         setLanguage(
           this.value
@@ -2172,84 +2575,83 @@
       }
     );
 
-    function escapeHtml(value) {
+    function escapeHtml(
+      value
+    ) {
 
       const div =
         document.createElement(
-          'div'
+          "div"
         );
 
       div.textContent =
         value == null
-          ? ''
-          : String(value);
+          ? ""
+          : String(
+              value
+            );
 
       return div.innerHTML;
 
     }
 
-
     const aiToggle =
       document.getElementById(
-        'aiToggle'
+        "aiToggle"
       );
 
     const aiPanel =
       document.getElementById(
-        'aiPanel'
+        "aiPanel"
       );
 
     const aiClose =
       document.getElementById(
-        'aiClose'
+        "aiClose"
       );
 
     const aiMessages =
       document.getElementById(
-        'aiMessages'
+        "aiMessages"
       );
 
     const aiInput =
       document.getElementById(
-        'aiInput'
+        "aiInput"
       );
 
     const aiSend =
       document.getElementById(
-        'aiSend'
+        "aiSend"
       );
 
-
-    function updateAITexts(language) {
-
-      document.getElementById(
-        'aiToggleText'
-      ).textContent =
-        language === 'hi'
-          ? 'AgriConnect AI'
-          : 'AgriConnect AI';
+    function updateAITexts(
+      language
+    ) {
 
       document.getElementById(
-        'aiTitle'
+        "aiToggleText"
       ).textContent =
-        language === 'hi'
-          ? 'AgriConnect AI'
-          : 'AgriConnect AI';
+        "AgriConnect AI";
 
       document.getElementById(
-        'aiSubtitle'
+        "aiTitle"
       ).textContent =
-        language === 'hi'
-          ? 'आपका कृषि सहायक'
-          : 'Your farming assistant';
+        "AgriConnect AI";
+
+      document.getElementById(
+        "aiSubtitle"
+      ).textContent =
+        language === "hi"
+          ? "आपका कृषि सहायक"
+          : "Your farming assistant";
 
       aiInput.placeholder =
-        language === 'hi'
-          ? 'AgriConnect AI से पूछें...'
-          : 'Ask AgriConnect AI...';
+        language === "hi"
+          ? "AgriConnect AI से पूछें..."
+          : "Ask AgriConnect AI...";
 
     }
-
 
     function addAIMessage(
       text,
@@ -2258,7 +2660,7 @@
 
       const messageElement =
         document.createElement(
-          'div'
+          "div"
         );
 
       messageElement.className =
@@ -2278,11 +2680,10 @@
 
     }
 
-
     function openAIPanel() {
 
       aiPanel.classList.add(
-        'open'
+        "open"
       );
 
       aiInput.focus();
@@ -2292,25 +2693,23 @@
       ) {
 
         addAIMessage(
-          languageSelect.value === 'hi'
+          languageSelect.value === "hi"
             ? `नमस्ते ${loggedInUser.name}! मैं AgriConnect AI हूँ। खेती, फसलों, उत्पाद बेचने या AgriConnect के बारे में कुछ भी पूछें।`
             : `Hello ${loggedInUser.name}! I'm AgriConnect AI. Ask me anything about farming, crops, selling products, or using AgriConnect.`,
-          'bot'
+          "bot"
         );
 
       }
 
     }
 
-
     function closeAIPanel() {
 
       aiPanel.classList.remove(
-        'open'
+        "open"
       );
 
     }
-
 
     async function sendAIMessage() {
 
@@ -2323,46 +2722,47 @@
 
       addAIMessage(
         userMessage,
-        'user'
+        "user"
       );
 
       aiInput.value =
-        '';
+        "";
 
       aiSend.disabled =
         true;
 
       const typingMessage =
         addAIMessage(
-          languageSelect.value === 'hi'
-            ? 'AI सोच रहा है...'
-            : 'AI is thinking...',
-          'bot typing'
+          languageSelect.value === "hi"
+            ? "AI सोच रहा है..."
+            : "AI is thinking...",
+          "bot typing"
         );
 
       try {
 
         const response =
           await fetch(
-            '/chat',
+            "/chat",
             {
-              method: 'POST',
+              method: "POST",
 
               headers: {
-                'Content-Type':
-                  'application/json'
+                "Content-Type":
+                  "application/json"
               },
 
-              body: JSON.stringify({
-                message:
-                  userMessage,
+              body:
+                JSON.stringify({
+                  message:
+                    userMessage,
 
-                role:
-                  'farmer',
+                  role:
+                    "farmer",
 
-		 user_id:
-                  loggedInUser.id
-              })
+                  user_id:
+                    loggedInUser.id
+                })
             }
           );
 
@@ -2376,11 +2776,11 @@
           addAIMessage(
             data.error ||
             (
-              languageSelect.value === 'hi'
-                ? 'AI से जवाब प्राप्त नहीं हो सका।'
-                : 'Could not get a response from the AI.'
+              languageSelect.value === "hi"
+                ? "AI से जवाब प्राप्त नहीं हो सका।"
+                : "Could not get a response from the AI."
             ),
-            'bot'
+            "bot"
           );
 
           return;
@@ -2390,27 +2790,27 @@
         addAIMessage(
           data.reply ||
           (
-            languageSelect.value === 'hi'
-              ? 'AI ने कोई जवाब नहीं दिया।'
-              : 'The AI did not return a response.'
+            languageSelect.value === "hi"
+              ? "AI ने कोई जवाब नहीं दिया।"
+              : "The AI did not return a response."
           ),
-          'bot'
+          "bot"
         );
 
       } catch (error) {
 
         console.error(
-          'AI chat error:',
+          "AI chat error:",
           error
         );
 
         typingMessage.remove();
 
         addAIMessage(
-          languageSelect.value === 'hi'
-            ? 'AI से कनेक्ट नहीं हो सका। कृपया दोबारा प्रयास करें।'
-            : 'Could not connect to the AI. Please try again.',
-          'bot'
+          languageSelect.value === "hi"
+            ? "AI से कनेक्ट नहीं हो सका। कृपया दोबारा प्रयास करें।"
+            : "Could not connect to the AI. Please try again.",
+          "bot"
         );
 
       } finally {
@@ -2424,31 +2824,27 @@
 
     }
 
-
     aiToggle.addEventListener(
-      'click',
+      "click",
       openAIPanel
     );
 
-
     aiClose.addEventListener(
-      'click',
+      "click",
       closeAIPanel
     );
 
-
     aiSend.addEventListener(
-      'click',
+      "click",
       sendAIMessage
     );
 
-
     aiInput.addEventListener(
-      'keydown',
-      function (event) {
+      "keydown",
+      function(event) {
 
         if (
-          event.key === 'Enter' &&
+          event.key === "Enter" &&
           !event.shiftKey
         ) {
 
@@ -2461,15 +2857,13 @@
       }
     );
 
-
     setLanguage(
       savedLanguage
     );
 
-
     if (
       loggedInUser &&
-      loggedInUser.role === 'farmer'
+      loggedInUser.role === "farmer"
     ) {
 
       loadProducts();
@@ -2481,5 +2875,3 @@
 
 </body>
 </html>
-      
-
