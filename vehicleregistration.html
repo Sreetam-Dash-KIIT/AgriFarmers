@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriConnect - Vehicle Registration</title>
+  <style>
+    :root {
+      --bg-color: #f8faf8;
+      --card-bg: #ffffff;
+      --primary: #2d5a27;
+      --primary-hover: #1e3e1a;
+      --accent: #e8f0e6;
+      --text-main: #1d211d;
+      --text-muted: #667060;
+      --border: #e2e8e2;
+      --focus-ring: rgba(45, 90, 39, 0.2);
+      --danger: #d9381e;
+      --danger-hover: #b82d16;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .brand-logo-group img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lang-dropdown {
+      padding: 4px 6px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: var(--bg-color);
+      color: var(--text-main);
+      outline: none;
+      cursor: pointer;
+      width: 125px;
+      text-overflow: ellipsis;
+    }
+
+    .btn-logout-header {
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid var(--danger);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 5px 14px;
+      border-radius: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-logout-header:hover {
+      background: rgba(217, 56, 30, 0.08);
+      border-color: var(--danger-hover);
+      color: var(--danger-hover);
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 30px auto 40px;
+      padding: 0 16px;
+      width: 100%;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-header h2 {
+      font-size: 1.3rem;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .form-header p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      background: var(--bg-color);
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--focus-ring);
+      background: #ffffff;
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-hover);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo-group">
+        <img src="logo.png.jpeg" alt="AgriConnect Logo">
+        <span class="brand-name">AgriConnect</span>
+      </a>
+
+      <div class="header-right">
+        <select id="lang-select" class="lang-dropdown" onchange="changeLanguage(this.value)">
+          <option value="en">English</option>
+          <option value="hi">हिंदी (Hindi)</option>
+          <option value="mr">मराठी (Marathi)</option>
+          <option value="or">ଓଡ଼ିଆ (Odia)</option>
+          <option value="bn">বাংলা (Bengali)</option>
+          <option value="bho">भोजपुरी (Bhojpuri)</option>
+          <option value="ta">தமிழ் (Tamil)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="as">অসমীয়া (Assamese)</option>
+        </select>
+
+        <a href="login.html" class="btn-logout-header" id="btn-logout">Logout</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Registration Form Card -->
+  <div class="container">
+    <div class="card">
+      <div class="form-header">
+        <h2 id="lbl-title">Register Your Vehicle</h2>
+        <p id="lbl-subtitle">Enter your logistics details to start accepting freight jobs</p>
+      </div>
+
+      <form id="vehicle-form" onsubmit="handleRegister(event)">
+        
+        <div class="form-group">
+          <label for="vehicle-type" id="lbl-vtype">Vehicle Type</label>
+          <select id="vehicle-type" class="form-control" required>
+            <option value="" disabled selected>Select vehicle type</option>
+            <option value="Mini Truck / Pickup (e.g., Tata Ace)">Mini Truck / Pickup (e.g., Tata Ace)</option>
+            <option value="Medium Commercial Truck">Medium Commercial Truck</option>
+            <option value="Heavy Freight Truck">Heavy Freight Truck</option>
+            <option value="Tractor with Trailer">Tractor with Trailer</option>
+            <option value="Refrigerated / Cold Storage Truck">Refrigerated / Cold Storage Truck</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="vehicle-number" id="lbl-vnum">Vehicle Registration Number</label>
+          <input type="text" id="vehicle-number" class="form-control" placeholder="e.g. OD-02-AB-1234" required style="text-transform: uppercase;">
+        </div>
+
+        <div class="input-row">
+          <div class="form-group">
+            <label for="vehicle-capacity" id="lbl-vcap">Max Capacity (Tons)</label>
+            <input type="number" id="vehicle-capacity" class="form-control" placeholder="e.g. 3.5" step="0.1" min="0.1" required>
+          </div>
+
+          <div class="form-group">
+            <label for="fuel-type" id="lbl-fuel">Fuel Type</label>
+            <select id="fuel-type" class="form-control" required>
+              <option value="Diesel">Diesel</option>
+              <option value="CNG">CNG</option>
+              <option value="Electric">Electric</option>
+              <option value="Petrol">Petrol</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btn-submit">Complete Registration</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const translations = {
+      en: {
+        title: "Register Your Vehicle",
+        subtitle: "Enter your logistics details to start accepting freight jobs",
+        vtype: "Vehicle Type",
+        vnum: "Vehicle Registration Number",
+        vcap: "Max Capacity (Tons)",
+        fuel: "Fuel Type",
+        lic: "Driving License Number",
+        submit: "Complete Registration",
+        logout: "Logout"
+      },
+      hi: {
+        title: "अपना वाहन पंजीकृत करें",
+        subtitle: "भाड़ा कार्य स्वीकार करना शुरू करने के लिए अपना विवरण दर्ज करें",
+        vtype: "वाहन का प्रकार",
+        vnum: "वाहन पंजीकरण संख्या",
+        vcap: "अधिकतम क्षमता (टन)",
+        fuel: "ईंधन का प्रकार",
+        lic: "ड्राइविंग लाइसेंस नंबर",
+        submit: "पंजीकरण पूरा करें",
+        logout: "लॉग आउट"
+      }
+    };
+
+    function changeLanguage(lang) {
+      const t = translations[lang] || translations['en'];
+      document.getElementById('lbl-title').innerText = t.title;
+      document.getElementById('lbl-subtitle').innerText = t.subtitle;
+      document.getElementById('lbl-vtype').innerText = t.vtype;
+      document.getElementById('lbl-vnum').innerText = t.vnum;
+      document.getElementById('lbl-vcap').innerText = t.vcap;
+      document.getElementById('lbl-fuel').innerText = t.fuel;
+      document.getElementById('lbl-lic').innerText = t.lic;
+      document.getElementById('btn-submit').innerText = t.submit;
+      document.getElementById('btn-logout').innerText = t.logout;
+    }
+
+    function handleRegister(event) {
+      event.preventDefault();
+
+      const vehicleData = {
+        type: document.getElementById('vehicle-type').value,
+        number: document.getElementById('vehicle-number').value.toUpperCase(),
+        capacity: document.getElementById('vehicle-capacity').value + " Tons"
+      };
+
+      localStorage.setItem('agri_driver_vehicle', JSON.stringify(vehicleData));
+
+      // Redirects to driverdashboard.html
+      window.location.href = "driverdashboard.html";
+    }
+  </script>
+</body>
+</html>
