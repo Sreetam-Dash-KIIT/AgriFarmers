@@ -379,25 +379,6 @@
   </div>
 
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-  // Retrieve saved vehicle data from localStorage
-  const savedVehicle = localStorage.getItem('agri_driver_vehicle');
-  
-  if (savedVehicle) {
-    const data = JSON.parse(savedVehicle);
-    
-    // Update the profile section elements on the driver dashboard
-    if (document.getElementById('driver-v-type')) {
-      document.getElementById('driver-v-type').innerText = data.type;
-    }
-    if (document.getElementById('driver-v-number')) {
-      document.getElementById('driver-v-number').innerText = data.number;
-    }
-    if (document.getElementById('driver-v-capacity')) {
-      document.getElementById('driver-v-capacity').innerText = data.capacity;
-    }
-  }
-});
     let currentLang = 'en';
 
     // Multi-language dictionary
