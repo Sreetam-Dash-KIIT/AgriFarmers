@@ -276,59 +276,216 @@
     </div>
   </div>
 
-  <script>
-    const translations = {
-      en: {
-        title: "Register Your Vehicle",
-        subtitle: "Enter your logistics details to start accepting freight jobs",
-        vtype: "Vehicle Type",
-        vnum: "Vehicle Registration Number",
-        vcap: "Max Capacity (Tons)",
-        fuel: "Fuel Type",
-        lic: "Driving License Number",
-        submit: "Complete Registration",
-        logout: "Logout"
-      },
-      hi: {
-        title: "अपना वाहन पंजीकृत करें",
-        subtitle: "भाड़ा कार्य स्वीकार करना शुरू करने के लिए अपना विवरण दर्ज करें",
-        vtype: "वाहन का प्रकार",
-        vnum: "वाहन पंजीकरण संख्या",
-        vcap: "अधिकतम क्षमता (टन)",
-        fuel: "ईंधन का प्रकार",
-        lic: "ड्राइविंग लाइसेंस नंबर",
-        submit: "पंजीकरण पूरा करें",
-        logout: "लॉग आउट"
+<script>
+  const translations = {
+    en: {
+      title: "Register Your Vehicle",
+      subtitle: "Enter your logistics details to start accepting freight jobs",
+      vtype: "Vehicle Type",
+      vnum: "Vehicle Registration Number",
+      vcap: "Max Capacity (Tons)",
+      fuel: "Fuel Type",
+      submit: "Complete Registration",
+      logout: "Logout"
+    },
+    hi: {
+      title: "अपना वाहन पंजीकृत करें",
+      subtitle: "भाड़ा कार्य स्वीकार करना शुरू करने के लिए अपना विवरण दर्ज करें",
+      vtype: "वाहन का प्रकार",
+      vnum: "वाहन पंजीकरण संख्या",
+      vcap: "अधिकतम क्षमता (टन)",
+      fuel: "ईंधन का प्रकार",
+      submit: "पंजीकरण पूरा करें",
+      logout: "लॉग आउट"
+    }
+  };
+
+  function changeLanguage(lang) {
+    const t = translations[lang] || translations.en;
+
+    document.getElementById("lbl-title").innerText = t.title;
+    document.getElementById("lbl-subtitle").innerText = t.subtitle;
+    document.getElementById("lbl-vtype").innerText = t.vtype;
+    document.getElementById("lbl-vnum").innerText = t.vnum;
+    document.getElementById("lbl-vcap").innerText = t.vcap;
+    document.getElementById("lbl-fuel").innerText = t.fuel;
+    document.getElementById("btn-submit").innerText = t.submit;
+    document.getElementById("btn-logout").innerText = t.logout;
+
+    localStorage.setItem("agriconnect_vehicle_language", lang);
+  }
+
+  async function getDriver() {
+    const response = await fetch("/me", {
+      method: "GET",
+      credentials: "include",
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error("Not authenticated");
+    }
+
+    const user = await response.json();
+
+    if (!user || user.role !== "driver") {
+      throw new Error("Not a driver");
+    }
+
+    localStorage.setItem("agriconnect_user", JSON.stringify(user));
+    return user;
+  }
+
+  async function getExistingVehicle(driver) {
+    const response = await fetch(
+      `/vehicles/${encodeURIComponent(driver.id)}`,
+      {
+        method: "GET",
+        credentials: "include",
+        cache: "no-store"
       }
-    };
+    );
 
-    function changeLanguage(lang) {
-      const t = translations[lang] || translations['en'];
-      document.getElementById('lbl-title').innerText = t.title;
-      document.getElementById('lbl-subtitle').innerText = t.subtitle;
-      document.getElementById('lbl-vtype').innerText = t.vtype;
-      document.getElementById('lbl-vnum').innerText = t.vnum;
-      document.getElementById('lbl-vcap').innerText = t.vcap;
-      document.getElementById('lbl-fuel').innerText = t.fuel;
-      document.getElementById('lbl-lic').innerText = t.lic;
-      document.getElementById('btn-submit').innerText = t.submit;
-      document.getElementById('btn-logout').innerText = t.logout;
+    if (response.status === 404) {
+      return null;
     }
 
-    function handleRegister(event) {
-      event.preventDefault();
-
-      const vehicleData = {
-        type: document.getElementById('vehicle-type').value,
-        number: document.getElementById('vehicle-number').value.toUpperCase(),
-        capacity: document.getElementById('vehicle-capacity').value + " Tons"
-      };
-
-      localStorage.setItem('agri_driver_vehicle', JSON.stringify(vehicleData));
-
-      // Redirects to driverdashboard.html
-      window.location.href = "driverdashboard.html";
+    if (!response.ok) {
+      throw new Error("Unable to check vehicle");
     }
-  </script>
-</body>
-</html>
+
+    return await response.json();
+  }
+
+  async function initializeRegistrationPage() {
+    try {
+      const driver = await getDriver();
+      const existingVehicle = await getExistingVehicle(driver);
+
+      if (existingVehicle) {
+        localStorage.setItem(
+          "agri_driver_vehicle",
+          JSON.stringify({
+            type: existingVehicle.vehicle_type,
+            number: existingVehicle.vehicle_number,
+            capacity: existingVehicle.capacity + " kg",
+            fuel: existingVehicle.fuel_type
+          })
+        );
+
+        window.location.replace("/driverdashboard.html");
+        return;
+      }
+
+      const savedLanguage =
+        localStorage.getItem("agriconnect_vehicle_language") || "en";
+
+      document.getElementById("lang-select").value = savedLanguage;
+      changeLanguage(savedLanguage);
+
+    } catch (error) {
+      console.error("Vehicle registration access error:", error);
+      alert("Please log in as a driver first.");
+      window.location.replace("/login.html");
+    }
+  }
+
+  async function handleRegister(event) {
+    event.preventDefault();
+
+    const button = document.getElementById("btn-submit");
+    button.disabled = true;
+
+    try {
+      const currentUser = await getDriver();
+
+      const vehicleType =
+        document.getElementById("vehicle-type").value;
+
+      const vehicleNumber =
+        document.getElementById("vehicle-number").value
+          .trim()
+          .toUpperCase();
+
+      const capacityTons =
+        parseFloat(
+          document.getElementById("vehicle-capacity").value
+        );
+
+      const fuelType =
+        document.getElementById("fuel-type").value;
+
+      if (
+        !vehicleType ||
+        !vehicleNumber ||
+        !Number.isFinite(capacityTons) ||
+        capacityTons <= 0 ||
+        !fuelType
+      ) {
+        alert("Please enter valid vehicle details.");
+        button.disabled = false;
+        return;
+      }
+
+      const existingVehicle = await getExistingVehicle(currentUser);
+
+      if (existingVehicle) {
+        alert("Your vehicle is already registered. Opening your dashboard.");
+        window.location.replace("/driverdashboard.html");
+        return;
+      }
+
+      const capacityKg = capacityTons * 1000;
+
+      const response = await fetch("/vehicles", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          vehicle_type: vehicleType,
+          vehicle_number: vehicleNumber,
+          capacity: capacityKg,
+          fuel_type: fuelType
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (response.status === 409) {
+          alert("This vehicle is already registered. Opening your dashboard.");
+          window.location.replace("/driverdashboard.html");
+          return;
+        }
+
+        alert(data.error || "Vehicle registration failed.");
+        button.disabled = false;
+        return;
+      }
+
+      const vehicle = data.vehicle;
+
+      localStorage.setItem(
+        "agri_driver_vehicle",
+        JSON.stringify({
+          type: vehicle.vehicle_type,
+          number: vehicle.vehicle_number,
+          capacity: vehicle.capacity + " kg",
+          fuel: vehicle.fuel_type
+        })
+      );
+
+      alert("Vehicle registered successfully!");
+      window.location.replace("/driverdashboard.html");
+
+    } catch (error) {
+      console.error("Vehicle registration error:", error);
+      alert("Could not connect to the AgriConnect server.");
+      button.disabled = false;
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", initializeRegistrationPage);
+</script>
