@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 openrouter_client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.environ.get("OPENROUTER_API_KEY")
+    api_key=os.environ.get("MY_API_KEY")
 )
 
 
@@ -1458,7 +1458,7 @@ def chat():
             "understand and use the platform."
         )
 
-    if not os.environ.get("OPENROUTER_API_KEY"):
+    if not os.environ.get("MY_API_KEY"):
         return jsonify({
             "error": "AI service is not configured"
         }), 503
