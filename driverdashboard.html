@@ -18,291 +18,85 @@
       --danger-hover: #b82d16;
       --badge-bg: #e1f5fe;
       --badge-text: #0288d1;
+      --warning-bg: #fff8e1;
+      --warning-text: #8a5a00;
+      --success-bg: #e8f5e9;
+      --success-text: #2e7d32;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      line-height: 1.5;
-      padding-bottom: 40px;
-    }
-
-    /* Clean Sticky Header */
-    header {
-      background: var(--card-bg);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
-    }
-
-    .nav-container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 10px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .brand-logo-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-    }
-
-    .brand-logo-group img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .brand-name {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .welcome-text {
-      font-weight: 700;
-      color: var(--primary);
-      font-size: 0.95rem;
-    }
-
-    /* Compact Language Dropdown Box */
-    .lang-dropdown {
-      padding: 4px 6px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      background: var(--bg-color);
-      color: var(--text-main);
-      outline: none;
-      cursor: pointer;
-      width: 125px;
-      text-overflow: ellipsis;
-    }
-
-    /* Red Text & Red Border Logout Button in Header */
-    .btn-logout-header {
-      background: transparent;
-      color: var(--danger);
-      border: 1px solid var(--danger);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.85rem;
-      padding: 5px 14px;
-      border-radius: 20px;
-      transition: all 0.2s ease;
-    }
-
-    .btn-logout-header:hover {
-      background: rgba(217, 56, 30, 0.08);
-      border-color: var(--danger-hover);
-      color: var(--danger-hover);
-    }
-
-    /* Dashboard Layout */
-    .dashboard-container {
-      max-width: 1100px;
-      margin: 20px auto 0;
-      padding: 0 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    /* Compact Stats Cards */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .stat-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 10px;
-      text-align: center;
-    }
-
-    .stat-card h3 {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      margin-bottom: 2px;
-    }
-
-    .stat-card .stat-value {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    .dashboard-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 18px;
-    }
-
-    .section-header {
-      font-size: 1.1rem;
-      color: var(--primary);
-      margin-bottom: 14px;
-      border-bottom: 2px solid var(--accent);
-      padding-bottom: 6px;
-      font-weight: 700;
-    }
-
-    /* Registered Vehicle Display Card Styling */
-    .vehicle-display-card {
-      background: var(--accent);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .vehicle-info-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.9rem;
-    }
-
-    .vehicle-info-label {
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-
-    .vehicle-info-val {
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    .product-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .empty-state {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      text-align: center;
-      padding: 16px 0;
-      font-style: italic;
-    }
-
-    .product-item {
-      background: var(--bg-color);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .product-info h4 {
-      font-size: 0.95rem;
-      color: var(--primary);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .product-details {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .contact-info {
-      margin-top: 6px;
-      padding-top: 6px;
-      border-top: 1px dashed var(--border);
-      font-size: 0.8rem;
-      color: var(--text-main);
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .contact-info a {
-      color: var(--primary);
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .btn-action {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      border: none;
-    }
-
-    .btn-accept {
-      background: var(--primary);
-      color: #ffffff;
-    }
-
-    .btn-complete {
-      background: #2e7d32;
-      color: #ffffff;
-    }
-
-    .status-badge {
-      padding: 2px 8px;
-      border-radius: 12px;
-      background: var(--badge-bg);
-      color: var(--badge-text);
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.5; padding-bottom: 40px; }
+    header { background: var(--card-bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
+    .nav-container { max-width: 1100px; margin: 0 auto; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
+    .brand-logo-group { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .brand-logo-group img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+    .brand-name { font-size: 1.15rem; font-weight: 700; color: var(--primary); }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .welcome-text { font-weight: 700; color: var(--primary); font-size: 0.95rem; }
+    .lang-dropdown { padding: 4px 6px; border: 1px solid var(--border); border-radius: 12px; font-size: 0.82rem; font-weight: 600; background: var(--bg-color); color: var(--text-main); outline: none; cursor: pointer; width: 125px; text-overflow: ellipsis; }
+    .btn-logout-header { background: transparent; color: var(--danger); border: 1px solid var(--danger); text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 5px 14px; border-radius: 20px; transition: all 0.2s ease; cursor: pointer; }
+    .btn-logout-header:hover { background: rgba(217,56,30,0.08); border-color: var(--danger-hover); color: var(--danger-hover); }
+    .dashboard-container { max-width: 1100px; margin: 20px auto 0; padding: 0 16px; display: flex; flex-direction: column; gap: 20px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px 10px; text-align: center; }
+    .stat-card h3 { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 2px; }
+    .stat-card .stat-value { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+    .dashboard-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+    .section-header { font-size: 1.1rem; color: var(--primary); margin-bottom: 14px; border-bottom: 2px solid var(--accent); padding-bottom: 6px; font-weight: 700; }
+    .vehicle-display-card { background: var(--accent); border: 1px solid var(--border); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .vehicle-info-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+    .vehicle-info-label { font-weight: 600; color: var(--text-muted); }
+    .vehicle-info-val { font-weight: 700; color: var(--primary); }
+    .product-list { display: flex; flex-direction: column; gap: 12px; }
+    .empty-state { font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 16px 0; font-style: italic; }
+    .product-item { background: var(--bg-color); border: 1px solid var(--border); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .product-info h4 { font-size: 0.95rem; color: var(--primary); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .product-details { font-size: 0.82rem; color: var(--text-muted); margin-top: 4px; }
+    .contact-info { margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--border); font-size: 0.8rem; color: var(--text-main); display: flex; flex-direction: column; gap: 2px; }
+    .contact-info a { color: var(--primary); font-weight: 600; text-decoration: none; }
+    .btn-action { width: 100%; padding: 10px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer; border: none; }
+    .btn-accept { background: var(--primary); color: #ffffff; }
+    .btn-complete { background: #2e7d32; color: #ffffff; }
+    .status-badge { padding: 2px 8px; border-radius: 12px; background: var(--badge-bg); color: var(--badge-text); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
+    .filter-row { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .filter-input, .filter-select { width: 100%; padding: 9px 10px; border: 1px solid var(--border); border-radius: 7px; background: #fff; color: var(--text-main); outline: none; font-size: 0.84rem; }
+    .filter-input:focus, .filter-select:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(45,90,39,0.08); }
+    .match-banner { background: var(--accent); border: 1px solid var(--border); border-radius: 9px; padding: 10px 12px; margin-bottom: 12px; font-size: 0.82rem; color: var(--primary); font-weight: 600; display: none; }
+    .load-meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 14px; margin-top: 8px; }
+    .load-meta span { font-size: 0.78rem; color: var(--text-muted); }
+    .load-meta strong { color: var(--text-main); }
+    .capacity-warning { background: var(--warning-bg); color: var(--warning-text); border: 1px solid #f0d98a; border-radius: 7px; padding: 7px 9px; font-size: 0.77rem; font-weight: 600; }
+    .capacity-good { background: var(--success-bg); color: var(--success-text); border: 1px solid #b7dcb9; border-radius: 7px; padding: 7px 9px; font-size: 0.77rem; font-weight: 600; }
+    .route-card { background: #fff; border: 1px solid var(--border); border-radius: 9px; padding: 10px 12px; }
+    .route-line { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; font-weight: 600; }
+    .route-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex: 0 0 auto; }
+    .route-arrow { color: var(--text-muted); }
+    .active-progress { height: 8px; background: #e7ece7; border-radius: 999px; overflow: hidden; margin-top: 7px; }
+    .active-progress-fill { height: 100%; width: 55%; background: var(--primary); border-radius: 999px; }
+    .small-note { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+    .refresh-btn { border: 1px solid var(--border); background: #fff; color: var(--primary); border-radius: 7px; padding: 6px 10px; font-weight: 700; cursor: pointer; font-size: 0.76rem; }
+    .section-title-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .section-title-row .section-header { margin-bottom: 0; flex: 1; }
+    @media (max-width: 700px) {
+      .header-right { gap: 6px; }
+      .welcome-text { display: none; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .filter-row { grid-template-columns: 1fr; }
+      .load-meta { grid-template-columns: 1fr; }
+      .vehicle-info-row { gap: 12px; }
+      .vehicle-info-val { text-align: right; }
     }
   </style>
 </head>
 <body>
-
-  <!-- Header -->
   <header>
     <div class="nav-container">
       <a href="index.html" class="brand-logo-group">
         <img src="logo.png.jpeg" alt="AgriConnect Logo">
         <span class="brand-name">AgriConnect</span>
       </a>
-
       <div class="header-right">
-        <!-- Welcome Text -->
         <span class="welcome-text" id="header-welcome">Welcome!</span>
-
-        <!-- Expanded Language Selector -->
         <select id="lang-select" class="lang-dropdown" onchange="changeLanguage(this.value)">
           <option value="en">English</option>
           <option value="hi">हिंदी (Hindi)</option>
@@ -314,24 +108,19 @@
           <option value="te">తెలుగు (Telugu)</option>
           <option value="as">অসমীয়া (Assamese)</option>
         </select>
-
-        <!-- Red Border & Red Text Logout Link -->
-        <a href="login.html" class="btn-logout-header" id="btn-logout">Logout</a>
+        <button class="btn-logout-header" id="btn-logout" onclick="logout()">Logout</button>
       </div>
     </div>
   </header>
 
-  <!-- Dashboard Container -->
   <div class="dashboard-container">
-
-    <!-- Compact Stats -->
     <section class="stats-grid">
       <div class="stat-card">
         <h3 id="stat-lbl-loads">Available loads</h3>
         <div class="stat-value" id="stat-loads">0</div>
       </div>
       <div class="stat-card">
-        <h3 id="stat-lbl-active">Active pickup</h3>
+        <h3 id="stat-lbl-active">Active pickups</h3>
         <div class="stat-value" id="stat-active">0</div>
       </div>
       <div class="stat-card">
@@ -340,301 +129,435 @@
       </div>
     </section>
 
-    <!-- Registered Vehicle Profile Section (Read-Only) -->
     <section class="dashboard-card">
       <h2 class="section-header" id="heading-vehicle">Registered Vehicle Profile</h2>
-      
       <div class="vehicle-display-card">
-        <div class="vehicle-info-row">
-          <span class="vehicle-info-label" id="lbl-v-type">Vehicle Type:</span>
-          <span class="vehicle-info-val" id="driver-v-type">--</span>
-        </div>
-        <div class="vehicle-info-row">
-          <span class="vehicle-info-label" id="lbl-v-number">Registration Number:</span>
-          <span class="vehicle-info-val" id="driver-v-number">--</span>
-        </div>
-        <div class="vehicle-info-row">
-          <span class="vehicle-info-label" id="lbl-v-capacity">Max Capacity:</span>
-          <span class="vehicle-info-val" id="driver-v-capacity">--</span>
-        </div>
+        <div class="vehicle-info-row"><span class="vehicle-info-label" id="lbl-v-type">Vehicle Type:</span><span class="vehicle-info-val" id="driver-v-type">--</span></div>
+        <div class="vehicle-info-row"><span class="vehicle-info-label" id="lbl-v-number">Registration Number:</span><span class="vehicle-info-val" id="driver-v-number">--</span></div>
+        <div class="vehicle-info-row"><span class="vehicle-info-label" id="lbl-v-capacity">Max Capacity:</span><span class="vehicle-info-val" id="driver-v-capacity">--</span></div>
       </div>
     </section>
 
-    <!-- Available Freight Requests -->
     <section class="dashboard-card">
-      <h2 class="section-header" id="heading-requests">Available Freight Requests</h2>
+      <div class="section-title-row">
+        <h2 class="section-header" id="heading-requests">Available Freight Requests</h2>
+        <button class="refresh-btn" onclick="loadDashboardData()" id="refresh-btn">Refresh</button>
+      </div>
+      <div class="filter-row">
+        <input class="filter-input" id="filter-location" placeholder="Filter by pickup/location">
+        <input class="filter-input" id="filter-crop" placeholder="Filter by crop">
+        <select class="filter-select" id="filter-capacity">
+          <option value="all">All loads</option>
+          <option value="fit">Fits my vehicle</option>
+        </select>
+      </div>
+      <div class="match-banner" id="match-banner"></div>
       <div class="product-list" id="available-list">
         <p class="empty-state" id="empty-available">No available freight requests at the moment.</p>
       </div>
     </section>
 
-    <!-- Active In-Transit -->
     <section class="dashboard-card">
-      <h2 class="section-header" id="heading-active">Active In-Transit</h2>
+      <div class="section-title-row">
+        <h2 class="section-header" id="heading-active">Active In-Transit</h2>
+        <button class="refresh-btn" onclick="loadDashboardData()" id="refresh-active-btn">Refresh</button>
+      </div>
       <div class="product-list" id="active-list">
         <p class="empty-state" id="empty-active">No active shipments in transit.</p>
       </div>
     </section>
-
   </div>
 
   <script>
     let currentLang = 'en';
+    let allLoads = [];
+    let activeJobs = [];
+    let completedJobs = Number(localStorage.getItem('agriconnect_completed_jobs') || 0);
+    let driverUser = null;
+    let driverVehicle = null;
 
-    // Multi-language dictionary
     const translations = {
       en: {
-        welcome: "Welcome!",
-        logout: "Logout",
-        headingVehicle: "Registered Vehicle Profile",
-        lblVType: "Vehicle Type",
-        lblVNumber: "Registration Number",
-        lblVCapacity: "Max Capacity",
-        statLoads: "Available loads",
-        statActive: "Active pickups",
-        statCompleted: "Completed deliveries",
-        headingRequests: "Available Freight Requests",
-        headingActive: "Active In-Transit",
-        emptyAvailable: "No available freight requests at the moment.",
-        emptyActive: "No active shipments in transit.",
-        btnAccept: "Accept Job",
-        btnComplete: "Mark Delivered",
-        badgeInTransit: "In Transit",
-        badgeSuitable: "Suitable"
+        welcome: "Welcome!", logout: "Logout", headingVehicle: "Registered Vehicle Profile",
+        lblVType: "Vehicle Type", lblVNumber: "Registration Number", lblVCapacity: "Max Capacity",
+        statLoads: "Available loads", statActive: "Active pickups", statCompleted: "Completed deliveries",
+        headingRequests: "Available Freight Requests", headingActive: "Active In-Transit",
+        emptyAvailable: "No available freight requests at the moment.", emptyActive: "No active shipments in transit.",
+        btnAccept: "Accept Job", btnComplete: "Mark Delivered", badgeInTransit: "In Transit", badgeSuitable: "Suitable",
+        refresh: "Refresh", allLoads: "All loads", fitLoads: "Fits my vehicle", location: "Filter by pickup/location", crop: "Filter by crop",
+        capacityGood: "Fits your vehicle capacity", capacityBad: "Load exceeds your vehicle capacity",
+        noMatches: "No freight requests match your filters.", pickup: "Pickup", destination: "Destination",
+        quantity: "Quantity", farmer: "Farmer", phone: "Phone", route: "Route", progress: "Shipment progress",
+        completedAlert: "Job completed successfully.", loginRequired: "Please log in as a driver."
       },
       hi: {
-        welcome: "स्वागत है!",
-        logout: "लॉग आउट",
-        headingVehicle: "पंजीकृत वाहन प्रोफ़ाइल",
-        lblVType: "वाहन का प्रकार",
-        lblVNumber: "पंजीकरण संख्या",
-        lblVCapacity: "अधिकतम क्षमता",
-        statLoads: "उपलब्ध लोड",
-        statActive: "सक्रिय पिकअप",
-        statCompleted: "पूर्ण डिलीवरी",
-        headingRequests: "उपलब्ध लोड अनुरोध",
-        headingActive: "सक्रिय ऑर्डर",
-        emptyAvailable: "फिलहाल कोई उपलब्ध लोड अनुरोध नहीं है।",
-        emptyActive: "कोई सक्रिय ऑर्डर नहीं है।",
-        btnAccept: "स्वीकार करें",
-        btnComplete: "पहुंचा दिया",
-        badgeInTransit: "रास्ते में",
-        badgeSuitable: "उपयुक्त"
+        welcome: "स्वागत है!", logout: "लॉग आउट", headingVehicle: "पंजीकृत वाहन प्रोफ़ाइल",
+        lblVType: "वाहन का प्रकार", lblVNumber: "पंजीकरण संख्या", lblVCapacity: "अधिकतम क्षमता",
+        statLoads: "उपलब्ध लोड", statActive: "सक्रिय पिकअप", statCompleted: "पूर्ण डिलीवरी",
+        headingRequests: "उपलब्ध लोड अनुरोध", headingActive: "सक्रिय ऑर्डर",
+        emptyAvailable: "फिलहाल कोई उपलब्ध लोड अनुरोध नहीं है।", emptyActive: "कोई सक्रिय ऑर्डर नहीं है।",
+        btnAccept: "स्वीकार करें", btnComplete: "पहुंचा दिया", badgeInTransit: "रास्ते में", badgeSuitable: "उपयुक्त",
+        refresh: "रिफ्रेश", allLoads: "सभी लोड", fitLoads: "मेरे वाहन में फिट", location: "पिकअप/स्थान से खोजें", crop: "फसल से खोजें",
+        capacityGood: "आपके वाहन की क्षमता के अनुसार", capacityBad: "लोड आपके वाहन की क्षमता से अधिक है",
+        noMatches: "आपके फ़िल्टर से कोई लोड नहीं मिला।", pickup: "पिकअप", destination: "गंतव्य",
+        quantity: "मात्रा", farmer: "किसान", phone: "फोन", route: "मार्ग", progress: "शिपमेंट प्रगति",
+        completedAlert: "डिलीवरी सफलतापूर्वक पूरी हुई।", loginRequired: "कृपया ड्राइवर के रूप में लॉग इन करें।"
       },
       mr: {
-        welcome: "सुस्वागतम!",
-        logout: "लॉग आउट",
-        headingVehicle: "नोंदणीकृत वाहन प्रोफाइल",
-        lblVType: "वाहनाचा प्रकार",
-        lblVNumber: "नोंदणी क्रमांक",
-        lblVCapacity: "कमाल क्षमता",
-        statLoads: "उपलब्ध लोड",
-        statActive: "सक्रिय पिकअप",
-        statCompleted: "पूर्ण झालेली डिलिव्हरी",
-        headingRequests: "उपलब्ध मालवाहतूक विनंत्या",
-        headingActive: "मार्गावर असलेले ऑर्डर",
-        emptyAvailable: "सध्या कोणतीही मागणी उपलब्ध नाही.",
-        emptyActive: "सध्या कोणताही मार्गस्थ ऑर्डर नाही.",
-        btnAccept: "स्वीकार करा",
-        btnComplete: "डिलिव्हरी पूर्ण झाली",
-        badgeInTransit: "मार्गावर",
-        badgeSuitable: "योग्य"
+        welcome: "सुस्वागतम!", logout: "लॉग आउट", headingVehicle: "नोंदणीकृत वाहन प्रोफाइल",
+        lblVType: "वाहनाचा प्रकार", lblVNumber: "नोंदणी क्रमांक", lblVCapacity: "कमाल क्षमता",
+        statLoads: "उपलब्ध लोड", statActive: "सक्रिय पिकअप", statCompleted: "पूर्ण झालेली डिलिव्हरी",
+        headingRequests: "उपलब्ध मालवाहतूक विनंत्या", headingActive: "मार्गावर असलेले ऑर्डर",
+        emptyAvailable: "सध्या कोणतीही मागणी उपलब्ध नाही.", emptyActive: "सध्या कोणताही मार्गस्थ ऑर्डर नाही.",
+        btnAccept: "स्वीकार करा", btnComplete: "डिलिव्हरी पूर्ण झाली", badgeInTransit: "मार्गावर", badgeSuitable: "योग्य",
+        refresh: "रिफ्रेश", allLoads: "सर्व लोड", fitLoads: "माझ्या वाहनात बसेल", location: "पिकअप/स्थान शोधा", crop: "पिकानुसार शोधा",
+        capacityGood: "तुमच्या वाहनाच्या क्षमतेत बसते", capacityBad: "लोड वाहनाच्या क्षमतेपेक्षा जास्त आहे",
+        noMatches: "तुमच्या फिल्टरशी जुळणारे लोड नाहीत.", pickup: "पिकअप", destination: "गंतव्य",
+        quantity: "प्रमाण", farmer: "शेतकरी", phone: "फोन", route: "मार्ग", progress: "डिलिव्हरी प्रगती",
+        completedAlert: "डिलिव्हरी यशस्वीरित्या पूर्ण झाली.", loginRequired: "कृपया ड्रायव्हर म्हणून लॉग इन करा."
       },
       or: {
-        welcome: "ସ୍ୱାଗତ!",
-        logout: "ଲଗ୍ ଆଉଟ୍",
-        headingVehicle: "ପଞ୍ଜୀକୃତ ଗାଡି ପ୍ରୋଫାଇଲ୍",
-        lblVType: "ଗାଡିର ପ୍ରକାର",
-        lblVNumber: "ପଞ୍ଜୀକରଣ ସଂଖ୍ୟା",
-        lblVCapacity: "ସର୍ବାଧିକ କ୍ଷମତା",
-        statLoads: "ଉପଲବ୍ଧ ଲୋଡ୍",
-        statActive: "ସକ୍ରିୟ ପିକଅପ୍",
-        statCompleted: "ସମ୍ପୂର୍ଣ୍ଣ ଡେଲିଭରୀ",
-        headingRequests: "ଉପଲବ୍ଧ ପରିବହନ ଅନୁରୋଧ",
-        headingActive: "ଚାଲୁଥିବା ପରିବହନ",
-        emptyAvailable: "ବର୍ତ୍ତମାନ କୌଣସି ପରିବହନ ଅନୁରୋଧ ଉପଲବ୍ଧ ନାହିଁ।",
-        emptyActive: "ବର୍ତ୍ତମାନ କୌଣସି ଚାଲୁଥିବା ପରିବହନ ନାହିଁ।",
-        btnAccept: "ଗ୍ରହଣ କରନ୍ତୁ",
-        btnComplete: "ଡେଲିଭରୀ ଶେଷ",
-        badgeInTransit: "ବାଟରେ ଅଛି",
-        badgeSuitable: "ଉପଯୁକ୍ତ"
+        welcome: "ସ୍ୱାଗତ!", logout: "ଲଗ୍ ଆଉଟ୍", headingVehicle: "ପଞ୍ଜୀକୃତ ଗାଡି ପ୍ରୋଫାଇଲ୍",
+        lblVType: "ଗାଡିର ପ୍ରକାର", lblVNumber: "ପଞ୍ଜୀକରଣ ସଂଖ୍ୟା", lblVCapacity: "ସର୍ବାଧିକ କ୍ଷମତା",
+        statLoads: "ଉପଲବ୍ଧ ଲୋଡ୍", statActive: "ସକ୍ରିୟ ପିକଅପ୍", statCompleted: "ସମ୍ପୂର୍ଣ୍ଣ ଡେଲିଭରୀ",
+        headingRequests: "ଉପଲବ୍ଧ ପରିବହନ ଅନୁରୋଧ", headingActive: "ଚାଲୁଥିବା ପରିବହନ",
+        emptyAvailable: "ବର୍ତ୍ତମାନ କୌଣସି ପରିବହନ ଅନୁରୋଧ ଉପଲବ୍ଧ ନାହିଁ।", emptyActive: "ବର୍ତ୍ତମାନ କୌଣସି ଚାଲୁଥିବା ପରିବହନ ନାହିଁ।",
+        btnAccept: "ଗ୍ରହଣ କରନ୍ତୁ", btnComplete: "ଡେଲିଭରୀ ଶେଷ", badgeInTransit: "ବାଟରେ ଅଛି", badgeSuitable: "ଉପଯୁକ୍ତ",
+        refresh: "ରିଫ୍ରେଶ", allLoads: "ସମସ୍ତ ଲୋଡ୍", fitLoads: "ମୋ ଗାଡିରେ ଫିଟ୍", location: "ପିକଅପ୍/ସ୍ଥାନ ଖୋଜନ୍ତୁ", crop: "ଫସଲ ଖୋଜନ୍ତୁ",
+        capacityGood: "ଆପଣଙ୍କ ଗାଡି କ୍ଷମତା ମଧ୍ୟରେ ଅଛି", capacityBad: "ଲୋଡ୍ ଗାଡି କ୍ଷମତାଠାରୁ ଅଧିକ",
+        noMatches: "ଆପଣଙ୍କ ଫିଲ୍ଟର ସହିତ କୌଣସି ଲୋଡ୍ ମେଳ ଖାଉନାହିଁ।", pickup: "ପିକଅପ୍", destination: "ଗନ୍ତବ୍ୟ",
+        quantity: "ପରିମାଣ", farmer: "ଚାଷୀ", phone: "ଫୋନ୍", route: "ମାର୍ଗ", progress: "ପରିବହନ ପ୍ରଗତି",
+        completedAlert: "ଡେଲିଭରୀ ସଫଳତାର ସହିତ ସମାପ୍ତ।", loginRequired: "ଦୟାକରି ଡ୍ରାଇଭର ଭାବେ ଲଗ୍ ଇନ୍ କରନ୍ତୁ।"
       },
       bn: {
-        welcome: "স্বাগতম!",
-        logout: "লগ আউট",
-        headingVehicle: "নিবন্ধিত যানবাহনের প্রোফাইল",
-        lblVType: "যানবাহনের ধরন",
-        lblVNumber: "নিবন্ধন নম্বর",
-        lblVCapacity: "সর্বোচ্চ ক্ষমতা",
-        statLoads: "উপলব্ধ লোড",
-        statActive: "সক্রিয় পিকআপ",
-        statCompleted: "সম্পন্ন ডেলিভারি",
-        headingRequests: "উপলব্ধ পরিবহন অনুরোধ",
-        headingActive: "চলমান ডেলিভারি",
-        emptyAvailable: "এই মুহূর্তে কোনো পরিবহন অনুরোধ উপলব্ধ নেই।",
-        emptyActive: "কোনো চলমান ডেলিভারি নেই।",
-        btnAccept: "গ্রহণ করুন",
-        btnComplete: "সম্পন্ন চিহ্নিত করুন",
-        badgeInTransit: "পথে আছে",
-        badgeSuitable: "উপযুক্ত"
+        welcome: "স্বাগতম!", logout: "লগ আউট", headingVehicle: "নিবন্ধিত যানবাহনের প্রোফাইল",
+        lblVType: "যানবাহনের ধরন", lblVNumber: "নিবন্ধন নম্বর", lblVCapacity: "সর্বোচ্চ ক্ষমতা",
+        statLoads: "উপলব্ধ লোড", statActive: "সক্রিয় পিকআপ", statCompleted: "সম্পন্ন ডেলিভারি",
+        headingRequests: "উপলব্ধ পরিবহন অনুরোধ", headingActive: "চলমান ডেলিভারি",
+        emptyAvailable: "এই মুহূর্তে কোনো পরিবহন অনুরোধ উপলব্ধ নেই।", emptyActive: "কোনো চলমান ডেলিভারি নেই।",
+        btnAccept: "গ্রহণ করুন", btnComplete: "সম্পন্ন চিহ্নিত করুন", badgeInTransit: "পথে আছে", badgeSuitable: "উপযুক্ত",
+        refresh: "রিফ্রেশ", allLoads: "সব লোড", fitLoads: "আমার গাড়িতে ফিট", location: "পিকআপ/স্থান দিয়ে খুঁজুন", crop: "ফসল দিয়ে খুঁজুন",
+        capacityGood: "আপনার গাড়ির ক্ষমতার মধ্যে", capacityBad: "লোড গাড়ির ক্ষমতার চেয়ে বেশি",
+        noMatches: "আপনার ফিল্টারের সঙ্গে কোনো লোড মেলেনি।", pickup: "পিকআপ", destination: "গন্তব্য",
+        quantity: "পরিমাণ", farmer: "কৃষক", phone: "ফোন", route: "রুট", progress: "ডেলিভারি অগ্রগতি",
+        completedAlert: "ডেলিভারি সফলভাবে সম্পন্ন হয়েছে।", loginRequired: "দয়া করে ড্রাইভার হিসেবে লগ ইন করুন।"
       },
       bho: {
-        welcome: "रउआ सब के स्वागत बा!",
-        logout: "लॉग आउट",
-        headingVehicle: "रजिस्टर्ड गाड़ी प्रोफाइल",
-        lblVType: "गाड़ी के प्रकार",
-        lblVNumber: "गाड़ी नंबर",
-        lblVCapacity: "अधिकतम क्षमता",
-        statLoads: "उपलब्ध लोड",
-        statActive: "चालू पिकअप",
-        statCompleted: "पूरा भइल डिलीवरी",
-        headingRequests: "उपलब्ध भाड़ा के मांग",
-        headingActive: "रस्ते में बा",
-        emptyAvailable: "अबहीं कउनो भाड़ा के मांग उपलब्ध नइखे।",
-        emptyActive: "कउनो ऑर्डर रस्ते में नइखे।",
-        btnAccept: "स्वीकार करीं",
-        btnComplete: "पहुंच गइल",
-        badgeInTransit: "रस्ते में",
-        badgeSuitable: "उपयुक्त"
+        welcome: "रउआ सब के स्वागत बा!", logout: "लॉग आउट", headingVehicle: "रजिस्टर्ड गाड़ी प्रोफाइल",
+        lblVType: "गाड़ी के प्रकार", lblVNumber: "गाड़ी नंबर", lblVCapacity: "अधिकतम क्षमता",
+        statLoads: "उपलब्ध लोड", statActive: "चालू पिकअप", statCompleted: "पूरा भइल डिलीवरी",
+        headingRequests: "उपलब्ध भाड़ा के मांग", headingActive: "रस्ते में बा",
+        emptyAvailable: "अबहीं कउनो भाड़ा के मांग उपलब्ध नइखे।", emptyActive: "कउनो ऑर्डर रस्ते में नइखे।",
+        btnAccept: "स्वीकार करीं", btnComplete: "पहुंच गइल", badgeInTransit: "रस्ते में", badgeSuitable: "उपयुक्त",
+        refresh: "रिफ्रेश", allLoads: "सभे लोड", fitLoads: "हमार गाड़ी में फिट", location: "पिकअप/जगह से खोजीं", crop: "फसल से खोजीं",
+        capacityGood: "रउआ के गाड़ी के क्षमता में बा", capacityBad: "लोड गाड़ी के क्षमता से जादे बा",
+        noMatches: "रउआ के फिल्टर से कउनो लोड नइखे मिलल।", pickup: "पिकअप", destination: "मंजिल",
+        quantity: "मात्रा", farmer: "किसान", phone: "फोन", route: "रास्ता", progress: "डिलीवरी प्रगति",
+        completedAlert: "काम सफलतापूर्वक पूरा भइल।", loginRequired: "ड्राइवर के रूप में लॉग इन करीं।"
       },
       ta: {
-        welcome: "நல்வரவு!",
-        logout: "லாக் அவுட்",
-        headingVehicle: "பதிவுசெய்யப்பட்ட வாகன விவரம்",
-        lblVType: "வாகன வகை",
-        lblVNumber: "பதிவு எண்",
-        lblVCapacity: "அதிகபட்ச கொள்ளளவு",
-        statLoads: "கிடைக்கும் சுமைகள்",
-        statActive: "செயலில் உள்ள பிக்கப்",
-        statCompleted: "முடிக்கப்பட்ட விநியோகம்",
-        headingRequests: "கிடைக்கும் சரக்கு கோரிக்கைகள்",
-        headingActive: "வழியில் உள்ளது",
-        emptyAvailable: "தற்போது எந்தக் கோரிக்கைகளும் இல்லை.",
-        emptyActive: "செயலில் உள்ள விநியோகம் எதுவும் இல்லை.",
-        btnAccept: "ஏற்றுக்கொள்",
-        btnComplete: "டெலிவரி முடிந்தது",
-        badgeInTransit: "பயணத்தில்",
-        badgeSuitable: "பொருத்தமானது"
+        welcome: "நல்வரவு!", logout: "லாக் அவுட்", headingVehicle: "பதிவுசெய்யப்பட்ட வாகன விவரம்",
+        lblVType: "வாகன வகை", lblVNumber: "பதிவு எண்", lblVCapacity: "அதிகபட்ச கொள்ளளவு",
+        statLoads: "கிடைக்கும் சுமைகள்", statActive: "செயலில் உள்ள பிக்கப்", statCompleted: "முடிக்கப்பட்ட விநியோகம்",
+        headingRequests: "கிடைக்கும் சரக்கு கோரிக்கைகள்", headingActive: "வழியில் உள்ளது",
+        emptyAvailable: "தற்போது எந்தக் கோரிக்கைகளும் இல்லை.", emptyActive: "செயலில் உள்ள விநியோகம் எதுவும் இல்லை.",
+        btnAccept: "ஏற்றுக்கொள்", btnComplete: "டெலிவரி முடிந்தது", badgeInTransit: "பயணத்தில்", badgeSuitable: "பொருத்தமானது",
+        refresh: "புதுப்பி", allLoads: "அனைத்து சுமைகள்", fitLoads: "என் வாகனத்தில் பொருந்தும்", location: "பிக்கப்/இடம் மூலம் தேடு", crop: "பயிர் மூலம் தேடு",
+        capacityGood: "உங்கள் வாகன கொள்ளளவுக்குள் உள்ளது", capacityBad: "சுமை வாகன கொள்ளளவை மீறுகிறது",
+        noMatches: "உங்கள் வடிகட்டிகளுக்கு சுமைகள் எதுவும் இல்லை.", pickup: "பிக்கப்", destination: "இலக்கு",
+        quantity: "அளவு", farmer: "விவசாயி", phone: "தொலைபேசி", route: "வழி", progress: "விநியோக முன்னேற்றம்",
+        completedAlert: "வேலை வெற்றிகரமாக முடிந்தது.", loginRequired: "டிரைவராக உள்நுழையவும்."
       },
       te: {
-        welcome: "స్వాగతం!",
-        logout: "లాగ్ అవుట్",
-        headingVehicle: "నమోదిత వాహన ప్రొఫైల్",
-        lblVType: "వాహనం రకం",
-        lblVNumber: "రిజిస్ట్రేషన్ సంఖ్య",
-        lblVCapacity: "గరిష్ట సామర్థ్యం",
-        statLoads: "అందుబాటులో ఉన్న లోడ్‌లు",
-        statActive: "యాక్టివ్ పికప్",
-        statCompleted: "పూర్తయిన డెలివరీలు",
-        headingRequests: "అందుబాటులో ఉన్న రవాణా అభ్యర్థనలు",
-        headingActive: "రవాణాలో ఉంది",
-        emptyAvailable: "ప్రస్తుతం ఎలాంటి అభ్యర్థనలు అందుబాటులో లేవు.",
-        emptyActive: "ప్రస్తుతం రవాణాలో ఉన్న లోడ్‌లు లేవు.",
-        btnAccept: "అంగీకరించు",
-        btnComplete: "డెలివరీ పూర్తయింది",
-        badgeInTransit: "మార్గంలో ఉంది",
-        badgeSuitable: "అనుకూలమైనది"
+        welcome: "స్వాగతం!", logout: "లాగ్ అవుట్", headingVehicle: "నమోదిత వాహన ప్రొఫైల్",
+        lblVType: "వాహనం రకం", lblVNumber: "రిజిస్ట్రేషన్ సంఖ్య", lblVCapacity: "గరిష్ట సామర్థ్యం",
+        statLoads: "అందుబాటులో ఉన్న లోడ్‌లు", statActive: "యాక్టివ్ పికప్", statCompleted: "పూర్తయిన డెలివరీలు",
+        headingRequests: "అందుబాటులో ఉన్న రవాణా అభ్యర్థనలు", headingActive: "రవాణాలో ఉంది",
+        emptyAvailable: "ప్రస్తుతం ఎలాంటి అభ్యర్థనలు అందుబాటులో లేవు.", emptyActive: "ప్రస్తుతం రవాణాలో ఉన్న లోడ్‌లు లేవు.",
+        btnAccept: "అంగీకరించు", btnComplete: "డెలివరీ పూర్తయింది", badgeInTransit: "మార్గంలో ఉంది", badgeSuitable: "అనుకూలమైనది",
+        refresh: "రిఫ్రెష్", allLoads: "అన్ని లోడ్‌లు", fitLoads: "నా వాహనంలో సరిపోతుంది", location: "పికప్/స్థానం ద్వారా వెతుకు", crop: "పంట ద్వారా వెతుకు",
+        capacityGood: "మీ వాహన సామర్థ్యంలో ఉంది", capacityBad: "లోడ్ వాహన సామర్థ్యాన్ని మించింది",
+        noMatches: "మీ ఫిల్టర్‌లకు సరిపోయే లోడ్‌లు లేవు.", pickup: "పికప్", destination: "గమ్యం",
+        quantity: "పరిమాణం", farmer: "రైతు", phone: "ఫోన్", route: "మార్గం", progress: "డెలివరీ పురోగతి",
+        completedAlert: "డెలివరీ విజయవంతంగా పూర్తయింది.", loginRequired: "డ్రైవర్‌గా లాగిన్ అవ్వండి."
       },
       as: {
-        welcome: "স্বাগতম!",
-        logout: "লগ আউট",
-        headingVehicle: "পঞ্জীকৃত বাহনৰ প্ৰফাইল",
-        lblVType: "বাহনৰ প্ৰকাৰ",
-        lblVNumber: "পঞ্জীয়ন নম্বৰ",
-        lblVCapacity: "সৰ্বোচ্চ ক্ষমতা",
-        statLoads: "উপলব্ধ লোড",
-        statActive: "সক্ৰিয় পিকআপ",
-        statCompleted: "সম্পূৰ্ণ ডেলিভাৰী",
-        headingRequests: "উপলব্ধ পৰিবহণ অনুৰোধ",
-        headingActive: "পথত আছে",
-        emptyAvailable: "এই মুহূৰ্তত কোনো অনুৰোধ উপলব্ধ নাই।",
-        emptyActive: "কোনো সক্ৰিয় ডেলিভাৰী নাই।",
-        btnAccept: "গ্ৰহণ কৰক",
-        btnComplete: "সম্পূৰ্ণ হ'ল",
-        badgeInTransit: "পথত আছে",
-        badgeSuitable: "উপযুক্ত"
+        welcome: "স্বাগতম!", logout: "লগ আউট", headingVehicle: "পঞ্জীকৃত বাহনৰ প্ৰফাইল",
+        lblVType: "বাহনৰ প্ৰকাৰ", lblVNumber: "পঞ্জীয়ন নম্বৰ", lblVCapacity: "সৰ্বোচ্চ ক্ষমতা",
+        statLoads: "উপলব্ধ লোড", statActive: "সক্ৰিয় পিকআপ", statCompleted: "সম্পূৰ্ণ ডেলিভাৰী",
+        headingRequests: "উপলব্ধ পৰিবহণ অনুৰোধ", headingActive: "পথত আছে",
+        emptyAvailable: "এই মুহূৰ্তত কোনো অনুৰোধ উপলব্ধ নাই।", emptyActive: "কোনো সক্ৰিয় ডেলিভাৰী নাই।",
+        btnAccept: "গ্ৰহণ কৰক", btnComplete: "সম্পূৰ্ণ হ'ল", badgeInTransit: "পথত আছে", badgeSuitable: "উপযুক্ত",
+        refresh: "ৰিফ্ৰেশ", allLoads: "সকলো লোড", fitLoads: "মোৰ বাহনত ফিট", location: "পিকআপ/স্থান অনুসৰি", crop: "শস্য অনুসৰি",
+        capacityGood: "আপোনাৰ বাহনৰ ক্ষমতাৰ ভিতৰত আছে", capacityBad: "লোড বাহনৰ ক্ষমতাতকৈ অধিক",
+        noMatches: "আপোনাৰ ফিল্টাৰৰ সৈতে কোনো লোড মিল নাখালে।", pickup: "পিকআপ", destination: "গন্তব্য",
+        quantity: "পৰিমাণ", farmer: "কৃষক", phone: "ফোন", route: "পথ", progress: "ডেলিভাৰী অগ্ৰগতি",
+        completedAlert: "ডেলিভাৰী সফলভাৱে সম্পূৰ্ণ হ'ল।", loginRequired: "ড্ৰাইভাৰ হিচাপে লগ ইন কৰক।"
       }
     };
 
+    function getStoredUser() {
+      try {
+        const raw = localStorage.getItem('agriconnect_user');
+        return raw ? JSON.parse(raw) : null;
+      } catch { return null; }
+    }
+
+    async function ensureDriverSession() {
+      const res = await fetch('/me', { credentials: 'include' });
+      if (!res.ok) throw new Error('session');
+      const data = await res.json();
+      if (!data || data.role !== 'driver') throw new Error('driver');
+      driverUser = data;
+      localStorage.setItem('agriconnect_user', JSON.stringify(driverUser));
+      return driverUser;
+    }
+
+    async function loadVehicle() {
+      if (!driverUser) return;
+      const res = await fetch(`/vehicles/${encodeURIComponent(driverUser.id)}`, { credentials: 'include' });
+      if (!res.ok) return;
+      const data = await res.json();
+      driverVehicle = data;
+      if (!driverVehicle) return;
+      document.getElementById('driver-v-type').innerText = driverVehicle.vehicle_type || driverVehicle.type || '--';
+      document.getElementById('driver-v-number').innerText = driverVehicle.registration_number || driverVehicle.vehicle_number || '--';
+      document.getElementById('driver-v-capacity').innerText = driverVehicle.capacity != null ? `${driverVehicle.capacity} kg` : '--';
+    }
+
+    function normalizeProduct(p) {
+      const quantity = Number(p.quantity ?? p.quantity_kg ?? p.amount ?? 0);
+      const farmerName = p.farmer_name || p.farmer || p.seller_name || 'Farmer';
+      return {
+        id: p.id,
+        crop: p.crop || p.crop_name || 'Crop',
+        quantity,
+        price: p.price ?? p.price_per_kg ?? '',
+        location: p.location || p.farm_location || p.pickup_location || 'Location not specified',
+        destination: p.destination || p.delivery_location || p.buyer_location || p.to_location || 'Destination not specified',
+        farmer: farmerName,
+        phone: p.phone || p.farmer_phone || p.contact || '',
+        status: p.status || 'available'
+      };
+    }
+
+    async function loadDashboardData() {
+      try {
+        const res = await fetch('/search', { credentials: 'include', cache: 'no-store' });
+        if (!res.ok) throw new Error('products');
+        const data = await res.json();
+        const products = Array.isArray(data) ? data : (data.products || []);
+        allLoads = products.map(normalizeProduct).filter(p => !['completed', 'delivered'].includes(String(p.status).toLowerCase()));
+        renderAvailable();
+        renderActive();
+        updateStats();
+      } catch (err) {
+        document.getElementById('available-list').innerHTML = '<p class="empty-state">Unable to load freight requests.</p>';
+        document.getElementById('active-list').innerHTML = '<p class="empty-state">Unable to load active shipments.</p>';
+      }
+    }
+
+    function loadLocalJobs() {
+      try {
+        activeJobs = JSON.parse(localStorage.getItem(`agriconnect_driver_active_${driverUser.id}`) || '[]');
+        if (!Array.isArray(activeJobs)) activeJobs = [];
+      } catch { activeJobs = []; }
+    }
+
+    function saveLocalJobs() {
+      if (driverUser) localStorage.setItem(`agriconnect_driver_active_${driverUser.id}`, JSON.stringify(activeJobs));
+      localStorage.setItem('agriconnect_completed_jobs', String(completedJobs));
+    }
+
+    function getCapacity() {
+      if (!driverVehicle) return 0;
+      return Number(driverVehicle.capacity || driverVehicle.max_capacity || 0);
+    }
+
+    function renderAvailable() {
+      const list = document.getElementById('available-list');
+      const loc = document.getElementById('filter-location').value.trim().toLowerCase();
+      const crop = document.getElementById('filter-crop').value.trim().toLowerCase();
+      const fitOnly = document.getElementById('filter-capacity').value === 'fit';
+      const activeIds = new Set(activeJobs.map(j => String(j.id)));
+
+      const filtered = allLoads.filter(load => {
+        if (activeIds.has(String(load.id))) return false;
+        if (loc && !`${load.location} ${load.destination}`.toLowerCase().includes(loc)) return false;
+        if (crop && !load.crop.toLowerCase().includes(crop)) return false;
+        if (fitOnly && getCapacity() > 0 && load.quantity > getCapacity()) return false;
+        return true;
+      });
+
+      list.innerHTML = '';
+      const t = translations[currentLang] || translations.en;
+
+      if (!filtered.length) {
+        list.innerHTML = `<p class="empty-state">${t.noMatches}</p>`;
+        return;
+      }
+
+      filtered.forEach(load => {
+        const fits = getCapacity() <= 0 || load.quantity <= getCapacity();
+        const item = document.createElement('div');
+        item.className = 'product-item';
+        item.dataset.id = load.id;
+        item.innerHTML = `
+          <div class="product-info">
+            <h4><span class="item-title">${escapeHtml(load.crop)}</span><span class="status-badge">${t.badgeSuitable}</span></h4>
+            <div class="load-meta">
+              <span>${t.quantity}: <strong>${formatNumber(load.quantity)} kg</strong></span>
+              <span>${t.farmer}: <strong>${escapeHtml(load.farmer)}</strong></span>
+              <span>${t.pickup}: <strong>${escapeHtml(load.location)}</strong></span>
+              <span>${t.destination}: <strong>${escapeHtml(load.destination)}</strong></span>
+            </div>
+            ${load.phone ? `<div class="contact-info"><span>${t.phone}: <a href="tel:${escapeHtml(load.phone)}">${escapeHtml(load.phone)}</a></span></div>` : ''}
+          </div>
+          <div class="${fits ? 'capacity-good' : 'capacity-warning'}">${fits ? t.capacityGood : t.capacityBad}</div>
+          <button class="btn-action btn-accept" onclick="acceptJobById('${String(load.id).replace(/'/g, "\\'")}')">${t.btnAccept}</button>
+        `;
+        list.appendChild(item);
+      });
+
+      const banner = document.getElementById('match-banner');
+      banner.style.display = filtered.length ? 'block' : 'none';
+      banner.innerText = `${filtered.length} ${t.headingRequests.toLowerCase()}`;
+    }
+
+    function renderActive() {
+      const list = document.getElementById('active-list');
+      list.innerHTML = '';
+      const t = translations[currentLang] || translations.en;
+
+      if (!activeJobs.length) {
+        list.innerHTML = `<p class="empty-state">${t.emptyActive}</p>`;
+        return;
+      }
+
+      activeJobs.forEach(job => {
+        const item = document.createElement('div');
+        item.className = 'product-item';
+        item.innerHTML = `
+          <div class="product-info">
+            <h4><span>${escapeHtml(job.crop)}</span><span class="status-badge" style="background:#fff3cd;color:#856404">${t.badgeInTransit}</span></h4>
+            <div class="load-meta">
+              <span>${t.quantity}: <strong>${formatNumber(job.quantity)} kg</strong></span>
+              <span>${t.farmer}: <strong>${escapeHtml(job.farmer)}</strong></span>
+              <span>${t.pickup}: <strong>${escapeHtml(job.location)}</strong></span>
+              <span>${t.destination}: <strong>${escapeHtml(job.destination)}</strong></span>
+            </div>
+            ${job.phone ? `<div class="contact-info"><span>${t.phone}: <a href="tel:${escapeHtml(job.phone)}">${escapeHtml(job.phone)}</a></span></div>` : ''}
+          </div>
+          <div class="route-card">
+            <div class="route-line"><span class="route-dot"></span><span>${escapeHtml(job.location)}</span><span class="route-arrow">→</span><span>${escapeHtml(job.destination)}</span></div>
+            <div class="small-note">${t.progress}</div>
+            <div class="active-progress"><div class="active-progress-fill"></div></div>
+          </div>
+          <button class="btn-action btn-complete" onclick="completeJobById('${String(job.id).replace(/'/g, "\\'")}')">${t.btnComplete}</button>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function acceptJobById(id) {
+      const load = allLoads.find(x => String(x.id) === String(id));
+      if (!load) return;
+      if (activeJobs.some(x => String(x.id) === String(id))) return;
+
+      activeJobs.push({ ...load, acceptedAt: new Date().toISOString() });
+      saveLocalJobs();
+      renderAvailable();
+      renderActive();
+      updateStats();
+    }
+
+    function completeJobById(id) {
+      activeJobs = activeJobs.filter(x => String(x.id) !== String(id));
+      completedJobs += 1;
+      saveLocalJobs();
+      renderAvailable();
+      renderActive();
+      updateStats();
+      const t = translations[currentLang] || translations.en;
+      alert(t.completedAlert);
+    }
+
+    function updateStats() {
+      const activeIds = new Set(activeJobs.map(j => String(j.id)));
+      document.getElementById('stat-loads').innerText = allLoads.filter(x => !activeIds.has(String(x.id))).length;
+      document.getElementById('stat-active').innerText = activeJobs.length;
+      document.getElementById('stat-completed').innerText = completedJobs;
+    }
+
     function changeLanguage(lang) {
       currentLang = lang;
-      const t = translations[lang] || translations['en'];
-
-      // Header translations
+      localStorage.setItem('agriconnect_driver_lang', lang);
+      const t = translations[lang] || translations.en;
       document.getElementById('header-welcome').innerText = t.welcome;
       document.getElementById('btn-logout').innerText = t.logout;
-
-      // Registered Vehicle display card labels
       document.getElementById('heading-vehicle').innerText = t.headingVehicle;
       document.getElementById('lbl-v-type').innerText = t.lblVType + ":";
       document.getElementById('lbl-v-number').innerText = t.lblVNumber + ":";
       document.getElementById('lbl-v-capacity').innerText = t.lblVCapacity + ":";
-
-      // Stats labels
       document.getElementById('stat-lbl-loads').innerText = t.statLoads;
       document.getElementById('stat-lbl-active').innerText = t.statActive;
       document.getElementById('stat-lbl-completed').innerText = t.statCompleted;
-
-      // Section titles & Empty messages
       document.getElementById('heading-requests').innerText = t.headingRequests;
       document.getElementById('heading-active').innerText = t.headingActive;
-
-      const emptyAvail = document.getElementById('empty-available');
-      if (emptyAvail) emptyAvail.innerText = t.emptyAvailable;
-
-      const emptyAct = document.getElementById('empty-active');
-      if (emptyAct) emptyAct.innerText = t.emptyActive;
-
-      // Dynamic item card translations (if dynamic items exist)
-      document.querySelectorAll('.product-item').forEach(item => {
-        const titleSpan = item.querySelector('.item-title');
-        if (titleSpan && titleSpan.dataset[lang]) titleSpan.innerText = titleSpan.dataset[lang];
-
-        const detailsDiv = item.querySelector('.product-details');
-        if (detailsDiv && detailsDiv.dataset[lang]) detailsDiv.innerText = detailsDiv.dataset[lang];
-
-        const contactPerson = item.querySelector('.contact-person');
-        if (contactPerson && contactPerson.dataset[lang]) contactPerson.innerText = contactPerson.dataset[lang];
-
-        const contactPhone = item.querySelector('.contact-phone');
-        if (contactPhone && contactPhone.dataset[lang]) {
-          const phoneNum = contactPhone.querySelector('a') ? contactPhone.querySelector('a').innerText : '';
-          contactPhone.innerHTML = contactPhone.dataset[lang] + (phoneNum ? ` <a href="tel:${phoneNum}">${phoneNum}</a>` : '');
-        }
-
-        const contactAddress = item.querySelector('.contact-address');
-        if (contactAddress && contactAddress.dataset[lang]) contactAddress.innerText = contactAddress.dataset[lang];
-
-        const badge = item.querySelector('.status-badge');
-        if (badge) {
-          const isTransit = badge.style.background.includes('255') || item.closest('#active-list');
-          badge.innerText = isTransit ? t.badgeInTransit : t.badgeSuitable;
-        }
-
-        const btn = item.querySelector('.btn-action');
-        if (btn) {
-          btn.innerText = btn.classList.contains('btn-accept') ? t.btnAccept : t.btnComplete;
-        }
-      });
+      document.getElementById('empty-available').innerText = t.emptyAvailable;
+      document.getElementById('empty-active').innerText = t.emptyActive;
+      document.getElementById('refresh-btn').innerText = t.refresh;
+      document.getElementById('refresh-active-btn').innerText = t.refresh;
+      document.getElementById('filter-location').placeholder = t.location;
+      document.getElementById('filter-crop').placeholder = t.crop;
+      document.getElementById('filter-capacity').options[0].text = t.allLoads;
+      document.getElementById('filter-capacity').options[1].text = t.fitLoads;
+      renderAvailable();
+      renderActive();
+      updateStats();
     }
 
-    function acceptJob(btn) {
-      const item = btn.closest('.product-item');
-      const t = translations[currentLang] || translations['en'];
-      const badge = item.querySelector('.status-badge');
-      badge.style.background = '#fff3cd';
-      badge.style.color = '#856404';
-      badge.innerText = t.badgeInTransit;
-      btn.className = 'btn-action btn-complete';
-      btn.innerText = t.btnComplete;
-      btn.onclick = function() { completeJob(this); };
-      document.getElementById('active-list').appendChild(item);
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
     }
 
-    function completeJob(btn) {
-      btn.closest('.product-item').remove();
-      alert("Job Completed!");
+    function formatNumber(value) {
+      return Number(value || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
     }
+
+    async function logout() {
+      try {
+        await fetch('/logout', { method: 'POST', credentials: 'include' });
+      } catch {}
+      localStorage.removeItem('agriconnect_user');
+      window.location.href = 'login.html';
+    }
+
+    async function initDashboard() {
+      try {
+        const stored = getStoredUser();
+        if (stored && stored.role && stored.role !== 'driver') throw new Error('driver');
+        await ensureDriverSession();
+        loadLocalJobs();
+        const savedLang = localStorage.getItem('agriconnect_driver_lang');
+        if (savedLang && translations[savedLang]) {
+          currentLang = savedLang;
+          document.getElementById('lang-select').value = savedLang;
+        }
+        changeLanguage(currentLang);
+        await loadVehicle();
+        await loadDashboardData();
+      } catch (err) {
+        const t = translations[currentLang] || translations.en;
+        alert(t.loginRequired);
+        window.location.href = 'login.html';
+      }
+    }
+
+    document.getElementById('filter-location').addEventListener('input', renderAvailable);
+    document.getElementById('filter-crop').addEventListener('input', renderAvailable);
+    document.getElementById('filter-capacity').addEventListener('change', renderAvailable);
+    document.addEventListener('DOMContentLoaded', initDashboard);
   </script>
 </body>
 </html>
