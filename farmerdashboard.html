@@ -758,6 +758,105 @@
         font-size: 1.25rem;
       }
     }
+  
+    .price-intelligence {
+      background: linear-gradient(135deg, #f7fbf6 0%, #eef6ec 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 18px;
+    }
+
+    .price-intelligence-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .price-intelligence-title {
+      color: var(--primary);
+      font-size: 1rem;
+      font-weight: 750;
+    }
+
+    .price-intelligence-subtitle {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      margin-top: 3px;
+    }
+
+    .price-insight-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .price-insight {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 12px;
+    }
+
+    .price-insight-label {
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      margin-bottom: 3px;
+    }
+
+    .price-insight-value {
+      color: var(--primary);
+      font-size: 1rem;
+      font-weight: 750;
+    }
+
+    .price-verdict {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 9px;
+      font-size: 0.84rem;
+      font-weight: 650;
+    }
+
+    .price-verdict.good {
+      background: #e6f4ea;
+      color: #207a38;
+    }
+
+    .price-verdict.fair {
+      background: #fff8df;
+      color: #8a6500;
+    }
+
+    .price-verdict.high {
+      background: #fde8e8;
+      color: #a42c20;
+    }
+
+    .price-verdict.neutral {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    .price-loading {
+      color: var(--text-muted);
+      font-size: 0.84rem;
+    }
+
+    @media (max-width: 750px) {
+      .price-insight-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
+      .price-insight-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
   </style>
 </head>
 
@@ -1165,6 +1264,68 @@
         >
           ADD PRODUCT
         </button>
+
+        <div class="price-intelligence" id="priceIntelligence">
+          <div class="price-intelligence-header">
+            <div>
+              <div class="price-intelligence-title"
+                   data-en="💡 Price Intelligence"
+                   data-hi="💡 कीमत जानकारी">
+                💡 Price Intelligence
+              </div>
+              <div class="price-intelligence-subtitle"
+                   data-en="Enter a crop and price to compare your price with current AgriConnect listings."
+                   data-hi="फसल और कीमत दर्ज करके अपनी कीमत की तुलना मौजूदा AgriConnect सूचियों से करें।">
+                Enter a crop and price to compare your price with current AgriConnect listings.
+              </div>
+            </div>
+          </div>
+
+          <div class="price-insight-grid">
+            <div class="price-insight">
+              <div class="price-insight-label"
+                   data-en="Market Average"
+                   data-hi="बाजार औसत">
+                Market Average
+              </div>
+              <div class="price-insight-value" id="insightAverage">—</div>
+            </div>
+
+            <div class="price-insight">
+              <div class="price-insight-label"
+                   data-en="Lowest Listed"
+                   data-hi="सबसे कम कीमत">
+                Lowest Listed
+              </div>
+              <div class="price-insight-value" id="insightLowest">—</div>
+            </div>
+
+            <div class="price-insight">
+              <div class="price-insight-label"
+                   data-en="Highest Listed"
+                   data-hi="सबसे अधिक कीमत">
+                Highest Listed
+              </div>
+              <div class="price-insight-value" id="insightHighest">—</div>
+            </div>
+
+            <div class="price-insight">
+              <div class="price-insight-label"
+                   data-en="Your Price"
+                   data-hi="आपकी कीमत">
+                Your Price
+              </div>
+              <div class="price-insight-value" id="insightYourPrice">—</div>
+            </div>
+          </div>
+
+          <div class="price-verdict neutral"
+               id="priceVerdict"
+               data-en="Start entering a crop and price to see market insight."
+               data-hi="बाजार जानकारी देखने के लिए फसल और कीमत दर्ज करें।">
+            Start entering a crop and price to see market insight.
+          </div>
+        </div>
 
       </form>
 
@@ -2388,6 +2549,117 @@
 
     }
 
+    let allMarketplaceProducts = [];
+
+    async function loadPriceIntelligenceData() {
+      try {
+        const response = await fetch("/products");
+        if (!response.ok) {
+          throw new Error("Failed to load marketplace prices");
+        }
+
+        const products = await response.json();
+        allMarketplaceProducts = Array.isArray(products) ? products : [];
+        updatePriceIntelligence();
+      } catch (error) {
+        console.error("Price intelligence error:", error);
+      }
+    }
+
+    function updatePriceIntelligence() {
+      const cropInput = document.getElementById("crop");
+      const priceInput = document.getElementById("price");
+
+      if (!cropInput || !priceInput) return;
+
+      const crop = cropInput.value.trim().toLowerCase();
+      const yourPrice = parseFloat(priceInput.value);
+
+      const averageEl = document.getElementById("insightAverage");
+      const lowestEl = document.getElementById("insightLowest");
+      const highestEl = document.getElementById("insightHighest");
+      const yourPriceEl = document.getElementById("insightYourPrice");
+      const verdictEl = document.getElementById("priceVerdict");
+
+      yourPriceEl.textContent =
+        Number.isFinite(yourPrice) && yourPrice > 0
+          ? `₹${yourPrice.toFixed(2)}/kg`
+          : "—";
+
+      if (!crop) {
+        averageEl.textContent = "—";
+        lowestEl.textContent = "—";
+        highestEl.textContent = "—";
+        verdictEl.className = "price-verdict neutral";
+        verdictEl.textContent =
+          languageSelect.value === "hi"
+            ? "बाजार जानकारी देखने के लिए फसल दर्ज करें।"
+            : "Enter a crop to see market insight.";
+        return;
+      }
+
+      const matches = allMarketplaceProducts.filter(product => {
+        const productCrop = String(product.crop || "").trim().toLowerCase();
+        return productCrop === crop;
+      });
+
+      const prices = matches
+        .map(product => Number(product.price))
+        .filter(price => Number.isFinite(price) && price > 0);
+
+      if (prices.length === 0) {
+        averageEl.textContent = "—";
+        lowestEl.textContent = "—";
+        highestEl.textContent = "—";
+        verdictEl.className = "price-verdict neutral";
+        verdictEl.textContent =
+          languageSelect.value === "hi"
+            ? "इस फसल के लिए अभी पर्याप्त AgriConnect बाजार डेटा उपलब्ध नहीं है।"
+            : "Not enough AgriConnect marketplace data for this crop yet.";
+        return;
+      }
+
+      const average = prices.reduce((sum, value) => sum + value, 0) / prices.length;
+      const lowest = Math.min(...prices);
+      const highest = Math.max(...prices);
+
+      averageEl.textContent = `₹${average.toFixed(2)}/kg`;
+      lowestEl.textContent = `₹${lowest.toFixed(2)}/kg`;
+      highestEl.textContent = `₹${highest.toFixed(2)}/kg`;
+
+      if (!Number.isFinite(yourPrice) || yourPrice <= 0) {
+        verdictEl.className = "price-verdict neutral";
+        verdictEl.textContent =
+          languageSelect.value === "hi"
+            ? `${prices.length} मौजूदा सूची मिली। अपनी कीमत दर्ज करके तुलना करें।`
+            : `${prices.length} current listing${prices.length === 1 ? "" : "s"} found. Enter your price to compare.`;
+        return;
+      }
+
+      const differencePercent = ((yourPrice - average) / average) * 100;
+
+      if (differencePercent <= -10) {
+        verdictEl.className = "price-verdict good";
+        verdictEl.textContent =
+          languageSelect.value === "hi"
+            ? `🟢 अच्छी कीमत — आपकी कीमत बाजार औसत से ${Math.abs(differencePercent).toFixed(1)}% कम है।`
+            : `🟢 Good price — your price is ${Math.abs(differencePercent).toFixed(1)}% below the current marketplace average.`;
+      } else if (differencePercent <= 10) {
+        verdictEl.className = "price-verdict fair";
+        verdictEl.textContent =
+          languageSelect.value === "hi"
+            ? `🟡 उचित कीमत — आपकी कीमत बाजार औसत के लगभग बराबर है।`
+            : `🟡 Fair price — your price is within about 10% of the current marketplace average.`;
+      } else {
+        verdictEl.className = "price-verdict high";
+        verdictEl.textContent =
+          languageSelect.value === "hi"
+            ? `🔴 ऊंची कीमत — आपकी कीमत बाजार औसत से ${differencePercent.toFixed(1)}% अधिक है।`
+            : `🔴 Above average — your price is ${differencePercent.toFixed(1)}% above the current marketplace average.`;
+      }
+    }
+
+
     document
       .getElementById(
         "addProductForm"
@@ -2542,6 +2814,10 @@
         }
       );
 
+    document.getElementById("crop").addEventListener("input", updatePriceIntelligence);
+    document.getElementById("price").addEventListener("input", updatePriceIntelligence);
+
+
     document
       .getElementById(
         "refreshBtn"
@@ -2571,6 +2847,7 @@
 
         renderProducts();
         renderInterests();
+        updatePriceIntelligence();
 
       }
     );
@@ -2865,9 +3142,9 @@
       loggedInUser &&
       loggedInUser.role === "farmer"
     ) {
-
       loadProducts();
       loadInterests();
+      loadPriceIntelligenceData();
 
     }
 
