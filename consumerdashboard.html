@@ -292,6 +292,137 @@
       display: block;
     }
 
+
+    .request-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 10000;
+    }
+
+    .request-modal.open {
+      display: flex;
+    }
+
+    .request-dialog {
+      width: 100%;
+      max-width: 500px;
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+    }
+
+    .request-header {
+      background: var(--primary);
+      color: #ffffff;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .request-header h3 {
+      font-size: 1.05rem;
+      margin: 0;
+    }
+
+    .request-close {
+      border: none;
+      background: transparent;
+      color: #ffffff;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .request-body {
+      padding: 20px;
+      display: grid;
+      gap: 15px;
+    }
+
+    .request-product-summary {
+      background: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 0.88rem;
+    }
+
+    .request-product-summary strong {
+      color: var(--primary);
+    }
+
+    .request-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .btn-request-submit,
+    .btn-request-cancel {
+      flex: 1;
+      padding: 11px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--border);
+    }
+
+    .btn-request-submit {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .btn-request-submit:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-request-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-request-cancel {
+      background: var(--bg-color);
+      color: var(--text-muted);
+    }
+
+    .purchase-request-btn {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--primary);
+      color: #ffffff;
+      border: 1px solid var(--primary);
+      border-radius: 7px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .purchase-request-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .purchase-request-btn:disabled {
+      background: var(--border);
+      color: var(--text-muted);
+      border-color: var(--border);
+      cursor: not-allowed;
+    }
+
+    .request-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
     .ai-toggle {
       position: fixed;
       right: 24px;
@@ -447,6 +578,115 @@
       font-style: italic;
     }
 
+
+    .smart-match-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f3f8f1 100%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .smart-match-intro {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin: -8px 0 18px;
+    }
+
+    .match-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .match-grid .form-group.full {
+      grid-column: span 2;
+    }
+
+    .match-actions {
+      grid-column: span 2;
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .btn-match {
+      flex: 2;
+      padding: 12px;
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-match:hover {
+      background: var(--primary-hover);
+    }
+
+    .match-results {
+      margin-top: 20px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .match-summary {
+      background: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.9rem;
+    }
+
+    .match-result {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .match-result-title {
+      color: var(--primary);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .match-reasons {
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      margin-top: 7px;
+    }
+
+    .match-score {
+      min-width: 78px;
+      text-align: center;
+      border-radius: 10px;
+      padding: 9px 8px;
+      background: var(--accent);
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+
+    .match-score-label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      opacity: 0.8;
+    }
+
+    .match-empty {
+      color: var(--text-muted);
+      padding: 12px 0 0;
+      font-size: 0.9rem;
+    }
+
     @media (max-width: 700px) {
       .filter-grid {
         grid-template-columns: 1fr;
@@ -530,6 +770,13 @@
         >
           <option value="en">English</option>
           <option value="hi">हिन्दी</option>
+          <option value="or">ଓଡ଼ିଆ</option>
+          <option value="mr">मराठी</option>
+          <option value="bn">বাংলা</option>
+          <option value="ta">தமிழ்</option>
+          <option value="te">తెలుగు</option>
+          <option value="bho">भोजपुरी</option>
+          <option value="as">অসমীয়া</option>
         </select>
 
         <button
@@ -537,7 +784,7 @@
           id="logoutBtn"
           data-en="Logout"
           data-hi="लॉग आउट"
-        >
+         data-or="ଲଗ୍ ଆଉଟ୍" data-mr="लॉग आउट" data-bn="লগ আউট" data-ta="வெளியேறு" data-te="లాగ్ అవుట్" data-bho="लॉग आउट" data-as="লগ আউট">
           Logout
         </button>
 
@@ -558,7 +805,7 @@
         class="section-header"
         data-en="Search Harvest Listings"
         data-hi="फसल की सूची खोजें"
-      >
+       data-or="ଫସଲ ତାଲିକା ଖୋଜନ୍ତୁ" data-mr="पिकांची यादी शोधा" data-bn="ফসলের তালিকা খুঁজুন" data-ta="பயிர் பட்டியல்களைத் தேடுங்கள்" data-te="పంట జాబితాలను శోధించండి" data-bho="फसल के सूची खोजीं" data-as="শস্যৰ তালিকা বিচাৰক">
         Search Harvest Listings
       </h2>
 
@@ -573,7 +820,7 @@
             for="crop"
             data-en="Crop Name"
             data-hi="फसल का नाम"
-          >
+           data-or="ଫସଲର ନାମ" data-mr="पिकाचे नाव" data-bn="ফসলের নাম" data-ta="பயிரின் பெயர்" data-te="పంట పేరు" data-bho="फसल के नाम" data-as="শস্যৰ নাম">
             Crop Name
           </label>
 
@@ -583,7 +830,7 @@
             placeholder="e.g. Tomato or Rice"
             data-placeholder-en="e.g. Tomato or Rice"
             data-placeholder-hi="उदाहरण: टमाटर या चावल"
-          >
+           data-placeholder-or="ଉଦାହରଣ: ଟମାଟୋ କିମ୍ବା ଚାଉଳ" data-placeholder-mr="उदा. टोमॅटो किंवा तांदूळ" data-placeholder-bn="উদাহরণ: টমেটো বা চাল" data-placeholder-ta="எ.கா. தக்காளி அல்லது அரிசி" data-placeholder-te="ఉదా: టమాటా లేదా బియ్యం" data-placeholder-bho="उदाहरण: टमाटर या चावल" data-placeholder-as="উদাহৰণ: বিলাহী বা চাউল">
 
         </div>
 
@@ -593,7 +840,7 @@
             for="location"
             data-en="Location"
             data-hi="स्थान"
-          >
+           data-or="ସ୍ଥାନ" data-mr="स्थान" data-bn="অবস্থান" data-ta="இடம்" data-te="స్థానం" data-bho="स्थान" data-as="স্থান">
             Location
           </label>
 
@@ -603,7 +850,7 @@
             placeholder="e.g. Bhubaneswar"
             data-placeholder-en="e.g. Bhubaneswar"
             data-placeholder-hi="उदाहरण: भुवनेश्वर"
-          >
+           data-placeholder-or="ଉଦାହରଣ: ଭୁବନେଶ୍ୱର" data-placeholder-mr="उदा. भुवनेश्वर" data-placeholder-bn="উদাহরণ: ভুবনেশ্বর" data-placeholder-ta="எ.கா. புவனேஸ்வர்" data-placeholder-te="ఉదా: భువనేశ్వర్" data-placeholder-bho="उदाहरण: भुवनेश्वर" data-placeholder-as="উদাহৰণ: ভুৱনেশ্বৰ">
 
         </div>
 
@@ -613,7 +860,7 @@
             for="minPrice"
             data-en="Minimum Price (₹/kg)"
             data-hi="न्यूनतम कीमत (₹/किग्रा)"
-          >
+           data-or="ସର୍ବନିମ୍ନ ମୂଲ୍ୟ (₹/କିଗ୍ରା)" data-mr="किमान किंमत (₹/किलो)" data-bn="সর্বনিম্ন মূল্য (₹/কেজি)" data-ta="குறைந்தபட்ச விலை (₹/கிலோ)" data-te="కనిష్ట ధర (₹/కిలో)" data-bho="न्यूनतम दाम (₹/किलो)" data-as="সৰ্বনিম্ন মূল্য (₹/কেজি)">
             Minimum Price (₹/kg)
           </label>
 
@@ -625,7 +872,7 @@
             placeholder="e.g. 20"
             data-placeholder-en="e.g. 20"
             data-placeholder-hi="उदाहरण: 20"
-          >
+           data-placeholder-or="ଉଦାହରଣ: 20" data-placeholder-mr="उदा. 20" data-placeholder-bn="উদাহরণ: 20" data-placeholder-ta="எ.கா. 20" data-placeholder-te="ఉదా: 20" data-placeholder-bho="उदाहरण: 20" data-placeholder-as="উদাহৰণ: 20">
 
         </div>
 
@@ -635,7 +882,7 @@
             for="maxPrice"
             data-en="Maximum Price (₹/kg)"
             data-hi="अधिकतम कीमत (₹/किग्रा)"
-          >
+           data-or="ସର୍ବାଧିକ ମୂଲ୍ୟ (₹/କିଗ୍ରା)" data-mr="कमाल किंमत (₹/किलो)" data-bn="সর্বোচ্চ মূল্য (₹/কেজি)" data-ta="அதிகபட்ச விலை (₹/கிலோ)" data-te="గరిష్ఠ ధర (₹/కిలో)" data-bho="अधिकतम दाम (₹/किलो)" data-as="সৰ্বাধিক মূল্য (₹/কেজি)">
             Maximum Price (₹/kg)
           </label>
 
@@ -647,7 +894,7 @@
             placeholder="e.g. 100"
             data-placeholder-en="e.g. 100"
             data-placeholder-hi="उदाहरण: 100"
-          >
+           data-placeholder-or="ଉଦାହରଣ: 100" data-placeholder-mr="उदा. 100" data-placeholder-bn="উদাহরণ: 100" data-placeholder-ta="எ.கா. 100" data-placeholder-te="ఉదా: 100" data-placeholder-bho="उदाहरण: 100" data-placeholder-as="উদাহৰণ: 100">
 
         </div>
 
@@ -658,7 +905,7 @@
             class="btn-search"
             data-en="SEARCH PRODUCTS"
             data-hi="उत्पाद खोजें"
-          >
+           data-or="ଉତ୍ପାଦ ଖୋଜନ୍ତୁ" data-mr="उत्पादने शोधा" data-bn="পণ্য খুঁজুন" data-ta="பொருட்களைத் தேடுங்கள்" data-te="ఉత్పత్తులను శోధించండి" data-bho="उत्पाद खोजीं" data-as="উৎপাদ বিচাৰক">
             SEARCH PRODUCTS
           </button>
 
@@ -668,7 +915,7 @@
             id="resetBtn"
             data-en="RESET"
             data-hi="रीसेट"
-          >
+           data-or="ରିସେଟ୍" data-mr="रीसेट" data-bn="রিসেট" data-ta="மீட்டமை" data-te="రీసెట్" data-bho="रीसेट" data-as="ৰিছেট">
             RESET
           </button>
 
@@ -677,13 +924,123 @@
       </form>
     </section>
 
+
+    <section class="smart-match-card">
+
+      <h2
+        class="section-header"
+        data-en="Smart Buyer Match"
+        data-hi="स्मार्ट खरीदार मैच"
+       data-or="ସ୍ମାର୍ଟ କ୍ରେତା ମ୍ୟାଚ୍" data-mr="स्मार्ट खरेदीदार जुळणी" data-bn="স্মার্ট ক্রেতা ম্যাচ" data-ta="ஸ்மார்ட் வாங்குபவர் பொருத்தம்" data-te="స్మార్ట్ కొనుగోలుదారు మ్యాచ్" data-bho="स्मार्ट खरीदार मैच" data-as="স্মাৰ্ট ক্ৰেতা মিল">
+        Smart Buyer Match
+      </h2>
+
+      <p
+        class="smart-match-intro"
+        data-en="Tell AgriConnect what you need. It will rank available farmers and show why each listing matches your requirement."
+        data-hi="अपनी खरीद की जरूरत बताएं। AgriConnect उपलब्ध किसानों की लिस्टिंग को रैंक करेगा और बताएगा कि कौन सी लिस्टिंग आपकी जरूरत से मेल खाती है।"
+       data-or="ଆପଣଙ୍କୁ କଣ ଦରକାର ତାହା କୁହନ୍ତୁ। AgriConnect ଉପଲବ୍ଧ ଚାଷୀଙ୍କ ତାଲିକାକୁ ର୍ୟାଙ୍କ କରିବ ଏବଂ ପ୍ରତ୍ୟେକ ତାଲିକା ଆପଣଙ୍କ ଆବଶ୍ୟକତା ସହ କାହିଁକି ମେଳ ଖାଉଛି ଦେଖାଇବ।" data-mr="तुम्हाला काय हवे आहे ते सांगा. AgriConnect उपलब्ध शेतकऱ्यांच्या नोंदी क्रमवारीत लावेल आणि प्रत्येक नोंद तुमच्या गरजेशी का जुळते ते दाखवेल." data-bn="আপনার কী প্রয়োজন তা জানান। AgriConnect উপলব্ধ কৃষকদের তালিকা র‍্যাঙ্ক করবে এবং প্রতিটি তালিকা আপনার প্রয়োজনের সঙ্গে কেন মেলে তা দেখাবে।" data-ta="உங்களுக்கு என்ன தேவை என்பதைச் சொல்லுங்கள். AgriConnect கிடைக்கும் விவசாயிகளின் பட்டியலை வரிசைப்படுத்தி, ஒவ்வொரு பட்டியலும் உங்கள் தேவைக்கு ஏன் பொருந்துகிறது என்பதைக் காட்டும்." data-te="మీకు ఏమి కావాలో చెప్పండి. AgriConnect అందుబాటులో ఉన్న రైతుల జాబితాలను ర్యాంక్ చేసి, ప్రతి జాబితా మీ అవసరానికి ఎందుకు సరిపోతుందో చూపిస్తుంది." data-bho="रउआ के का चाहीं बताईं। AgriConnect उपलब्ध किसान लोग के लिस्टिंग के रैंक करी आ बताई कि हर लिस्टिंग रउआ के जरूरत से काहे मिलत बा।" data-as="আপোনাক কি লাগে জনাওক। AgriConnect উপলব্ধ কৃষকৰ তালিকাসমূহ ৰেংক কৰিব আৰু প্ৰতিখন তালিকা আপোনাৰ প্ৰয়োজনৰ সৈতে কিয় মিলে সেয়া দেখুৱাব।">
+        Tell AgriConnect what you need. It will rank available farmers and show why each listing matches your requirement.
+      </p>
+
+      <form id="matchForm" class="match-grid">
+
+        <div class="form-group">
+          <label
+            for="matchCrop"
+            data-en="Required Crop"
+            data-hi="आवश्यक फसल"
+           data-or="ଆବଶ୍ୟକ ଫସଲ" data-mr="आवश्यक पीक" data-bn="প্রয়োজনীয় ফসল" data-ta="தேவையான பயிர்" data-te="అవసరమైన పంట" data-bho="जरूरी फसल" data-as="প্ৰয়োজনীয় শস্য">
+            Required Crop
+          </label>
+          <input
+            type="text"
+            id="matchCrop"
+            placeholder="e.g. Tomato"
+            data-placeholder-en="e.g. Tomato"
+            data-placeholder-hi="उदाहरण: टमाटर"
+           data-placeholder-or="ଉଦାହରଣ: ଟମାଟୋ" data-placeholder-mr="उदा. टोमॅटो" data-placeholder-bn="উদাহরণ: টমেটো" data-placeholder-ta="எ.கா. தக்காளி" data-placeholder-te="ఉదా: టమాటా" data-placeholder-bho="उदाहरण: टमाटर" data-placeholder-as="উদাহৰণ: বিলাহী">
+        </div>
+
+        <div class="form-group">
+          <label
+            for="matchLocation"
+            data-en="Preferred Location"
+            data-hi="पसंदीदा स्थान"
+           data-or="ପସନ୍ଦର ସ୍ଥାନ" data-mr="पसंतीचे स्थान" data-bn="পছন্দের অবস্থান" data-ta="விருப்பமான இடம்" data-te="ఇష్టమైన స్థానం" data-bho="पसंद के स्थान" data-as="পছন্দৰ স্থান">
+            Preferred Location
+          </label>
+          <input
+            type="text"
+            id="matchLocation"
+            placeholder="e.g. Bhubaneswar"
+            data-placeholder-en="e.g. Bhubaneswar"
+            data-placeholder-hi="उदाहरण: भुवनेश्वर"
+           data-placeholder-or="ଉଦାହରଣ: ଭୁବନେଶ୍ୱର" data-placeholder-mr="उदा. भुवनेश्वर" data-placeholder-bn="উদাহরণ: ভুবনেশ্বর" data-placeholder-ta="எ.கா. புவனேஸ்வர்" data-placeholder-te="ఉదా: భువనేశ్వర్" data-placeholder-bho="उदाहरण: भुवनेश्वर" data-placeholder-as="উদাহৰণ: ভুৱনেশ্বৰ">
+        </div>
+
+        <div class="form-group">
+          <label
+            for="matchQuantity"
+            data-en="Required Quantity (kg)"
+            data-hi="आवश्यक मात्रा (किग्रा)"
+           data-or="ଆବଶ୍ୟକ ପରିମାଣ (କିଗ୍ରା)" data-mr="आवश्यक प्रमाण (किलो)" data-bn="প্রয়োজনীয় পরিমাণ (কেজি)" data-ta="தேவையான அளவு (கிலோ)" data-te="అవసరమైన పరిమాణం (కిలో)" data-bho="जरूरी मात्रा (किलो)" data-as="প্ৰয়োজনীয় পৰিমাণ (কেজি)">
+            Required Quantity (kg)
+          </label>
+          <input
+            type="number"
+            id="matchQuantity"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 500"
+            data-placeholder-en="e.g. 500"
+            data-placeholder-hi="उदाहरण: 500"
+           data-placeholder-or="ଉଦାହରଣ: 500" data-placeholder-mr="उदा. 500" data-placeholder-bn="উদাহরণ: 500" data-placeholder-ta="எ.கா. 500" data-placeholder-te="ఉదా: 500" data-placeholder-bho="उदाहरण: 500" data-placeholder-as="উদাহৰণ: 500">
+        </div>
+
+        <div class="form-group">
+          <label
+            for="matchMaxPrice"
+            data-en="Maximum Price (₹/kg)"
+            data-hi="अधिकतम कीमत (₹/किग्रा)"
+           data-or="ସର୍ବାଧିକ ମୂଲ୍ୟ (₹/କିଗ୍ରା)" data-mr="कमाल किंमत (₹/किलो)" data-bn="সর্বোচ্চ মূল্য (₹/কেজি)" data-ta="அதிகபட்ச விலை (₹/கிலோ)" data-te="గరిష్ఠ ధర (₹/కిలో)" data-bho="अधिकतम दाम (₹/किलो)" data-as="সৰ্বাধিক মূল্য (₹/কেজি)">
+            Maximum Price (₹/kg)
+          </label>
+          <input
+            type="number"
+            id="matchMaxPrice"
+            min="0"
+            step="0.01"
+            placeholder="e.g. 30"
+            data-placeholder-en="e.g. 30"
+            data-placeholder-hi="उदाहरण: 30"
+           data-placeholder-or="ଉଦାହରଣ: 30" data-placeholder-mr="उदा. 30" data-placeholder-bn="উদাহরণ: 30" data-placeholder-ta="எ.கா. 30" data-placeholder-te="ఉదా: 30" data-placeholder-bho="उदाहरण: 30" data-placeholder-as="উদাহৰণ: 30">
+        </div>
+
+        <div class="match-actions">
+          <button
+            type="submit"
+            class="btn-match"
+            data-en="FIND BEST MATCHES"
+            data-hi="सर्वश्रेष्ठ मैच खोजें"
+           data-or="ସର୍ବୋତ୍ତମ ମେଳ ଖୋଜନ୍ତୁ" data-mr="सर्वोत्तम जुळण्या शोधा" data-bn="সেরা ম্যাচ খুঁজুন" data-ta="சிறந்த பொருத்தங்களைக் கண்டறியுங்கள்" data-te="ఉత్తమ మ్యాచ్‌లను కనుగొనండి" data-bho="सबसे बढ़िया मैच खोजीं" data-as="শ্ৰেষ্ঠ মিল বিচাৰক">
+            FIND BEST MATCHES
+          </button>
+        </div>
+
+      </form>
+
+      <div id="matchResults" class="match-results"></div>
+
+    </section>
+
     <section class="dashboard-card">
 
       <h2
         class="section-header"
         data-en="Available Listings"
         data-hi="उपलब्ध सूची"
-      >
+       data-or="ଉପଲବ୍ଧ ତାଲିକା" data-mr="उपलब्ध नोंदी" data-bn="উপলব্ধ তালিকা" data-ta="கிடைக்கும் பட்டியல்கள்" data-te="అందుబాటులో ఉన్న జాబితాలు" data-bho="उपलब्ध लिस्टिंग" data-as="উপলব্ধ তালিকা">
         Available Listings
       </h2>
 
@@ -695,7 +1052,7 @@
         <p
           data-en="Loading products..."
           data-hi="उत्पाद लोड हो रहे हैं..."
-        >
+         data-or="ଉତ୍ପାଦ ଲୋଡ୍ ହେଉଛି..." data-mr="उत्पादने लोड होत आहेत..." data-bn="পণ্য লোড হচ্ছে..." data-ta="பொருட்கள் ஏற்றப்படுகின்றன..." data-te="ఉత్పత్తులు లోడ్ అవుతున్నాయి..." data-bho="उत्पाद लोड हो रहल बा..." data-as="উৎপাদ লোড হৈ আছে...">
           Loading products...
         </p>
 
@@ -704,6 +1061,47 @@
     </section>
 
   </main>
+
+
+  <div class="request-modal" id="requestModal">
+    <div class="request-dialog" role="dialog" aria-modal="true" aria-labelledby="requestTitle">
+      <div class="request-header">
+        <h3 id="requestTitle">Request Purchase</h3>
+        <button type="button" class="request-close" id="requestClose" aria-label="Close">×</button>
+      </div>
+
+      <form id="purchaseRequestForm" class="request-body">
+        <div class="request-product-summary" id="requestProductSummary"></div>
+
+        <div class="form-group">
+          <label for="requestQuantity" data-en="Requested Quantity (kg)" data-hi="आवश्यक मात्रा (किग्रा)" data-or="ଅନୁରୋଧିତ ପରିମାଣ (କିଗ୍ରା)" data-mr="विनंती केलेले प्रमाण (किलो)" data-bn="অনুরোধ করা পরিমাণ (কেজি)" data-ta="கோரப்பட்ட அளவு (கிலோ)" data-te="అభ్యర్థించిన పరిమాణం (కిలో)" data-bho="मंगावल मात्रा (किलो)" data-as="অনুৰোধ কৰা পৰিমাণ (কেজি)">Requested Quantity (kg)</label>
+          <input type="number" id="requestQuantity" min="0.01" step="0.01" required>
+        </div>
+
+        <div class="form-group">
+          <label for="requestPrice" data-en="Proposed Price (₹/kg)" data-hi="प्रस्तावित कीमत (₹/किग्रा)" data-or="ପ୍ରସ୍ତାବିତ ମୂଲ୍ୟ (₹/କିଗ୍ରା)" data-mr="प्रस्तावित किंमत (₹/किलो)" data-bn="প্রস্তাবিত মূল্য (₹/কেজি)" data-ta="முன்மொழியப்பட்ட விலை (₹/கிலோ)" data-te="ప్రతిపాదిత ధర (₹/కిలో)" data-bho="प्रस्तावित दाम (₹/किलो)" data-as="প্ৰস্তাৱিত মূল্য (₹/কেজি)">Proposed Price (₹/kg)</label>
+          <input type="number" id="requestPrice" min="0.01" step="0.01" required>
+        </div>
+
+        <div class="form-group">
+          <label for="requestMessage" data-en="Message to Farmer (optional)" data-hi="किसान के लिए संदेश (वैकल्पिक)" data-or="ଚାଷୀଙ୍କ ପାଇଁ ବାର୍ତ୍ତା (ବୈକଳ୍ପିକ)" data-mr="शेतकऱ्याला संदेश (पर्यायी)" data-bn="কৃষককে বার্তা (ঐচ্ছিক)" data-ta="விவசாயிக்கு செய்தி (விருப்பத்தேர்வு)" data-te="రైతుకు సందేశం (ఐచ్ఛికం)" data-bho="किसान खातिर संदेश (वैकल्पिक)" data-as="কৃষকলৈ বাৰ্তা (ঐচ্ছিক)">Message to Farmer (optional)</label>
+          <textarea id="requestMessage" rows="3"
+            placeholder="Example: I can arrange pickup after confirmation."
+            data-placeholder-en="Example: I can arrange pickup after confirmation."
+            data-placeholder-hi="उदाहरण: पुष्टि के बाद मैं पिकअप की व्यवस्था कर सकता हूँ।" data-placeholder-or="ଉଦାହରଣ: ନିଶ୍ଚିତ ହେବା ପରେ ମୁଁ ପିକଅପ୍ ବ୍ୟବସ୍ଥା କରିପାରିବି।" data-placeholder-mr="उदा. पुष्टीनंतर मी पिकअपची व्यवस्था करू शकतो." data-placeholder-bn="উদাহরণ: নিশ্চিতকরণের পরে আমি পিকআপের ব্যবস্থা করতে পারি।" data-placeholder-ta="எடுத்துக்காட்டு: உறுதிப்படுத்திய பிறகு நான் பிக்கப்பை ஏற்பாடு செய்யலாம்." data-placeholder-te="ఉదాహరణ: నిర్ధారణ తర్వాత నేను పికప్ ఏర్పాటు చేయగలను." data-placeholder-bho="उदाहरण: पुष्टि के बाद हम पिकअप के इंतजाम कर सकेनी।" data-placeholder-as="উদাহৰণ: নিশ্চিত কৰাৰ পিছত মই পিকআপৰ ব্যৱস্থা কৰিব পাৰোঁ।"></textarea>
+        </div>
+
+        <div class="request-note" data-en="This sends a purchase request to the farmer for review." data-hi="यह खरीद अनुरोध किसान को समीक्षा के लिए भेजेगा।" data-or="ଏହା ସମୀକ୍ଷା ପାଇଁ ଚାଷୀଙ୍କୁ କ୍ରୟ ଅନୁରୋଧ ପଠାଇବ।" data-mr="हे खरेदीचे विनंतीपत्र शेतकऱ्याला तपासणीसाठी पाठवेल." data-bn="এটি পর্যালোচনার জন্য কৃষকের কাছে ক্রয় অনুরোধ পাঠাবে।" data-ta="இது விவசாயியின் பரிசீலனைக்காக கொள்முதல் கோரிக்கையை அனுப்பும்." data-te="ఇది సమీక్ష కోసం రైతుకు కొనుగోలు అభ్యర్థనను పంపుతుంది." data-bho="ई खरीद अनुरोध किसान के समीक्षा खातिर भेजी." data-as="ই কৃষকৰ পৰ্যালোচনাৰ বাবে ক্ৰয় অনুৰোধ পঠিয়াব।">
+          This sends a purchase request to the farmer for review.
+        </div>
+
+        <div class="request-actions">
+          <button type="button" class="btn-request-cancel" id="requestCancel" data-en="CANCEL" data-hi="रद्द करें" data-or="ବାତିଲ୍ କରନ୍ତୁ" data-mr="रद्द करा" data-bn="বাতিল করুন" data-ta="ரத்து செய்" data-te="రద్దు చేయండి" data-bho="रद्द करीं" data-as="বাতিল কৰক">CANCEL</button>
+          <button type="submit" class="btn-request-submit" id="requestSubmit" data-en="SEND REQUEST" data-hi="अनुरोध भेजें" data-or="ଅନୁରୋଧ ପଠାନ୍ତୁ" data-mr="विनंती पाठवा" data-bn="অনুরোধ পাঠান" data-ta="கோரிக்கையை அனுப்புங்கள்" data-te="అభ్యర్థనను పంపండి" data-bho="अनुरोध भेजीं" data-as="অনুৰোধ পঠিয়াওক">SEND REQUEST</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <button
     type="button"
@@ -802,116 +1200,147 @@
       );
 
     let lastProducts = [];
+    let selectedRequestProduct = null;
+    const requestModal = document.getElementById('requestModal');
+    const requestProductSummary = document.getElementById('requestProductSummary');
+    const requestQuantity = document.getElementById('requestQuantity');
+    const requestPrice = document.getElementById('requestPrice');
+    const requestMessage = document.getElementById('requestMessage');
+    const purchaseRequestForm = document.getElementById('purchaseRequestForm');
+    const requestSubmit = document.getElementById('requestSubmit');
+    const requestClose = document.getElementById('requestClose');
+    const requestCancel = document.getElementById('requestCancel');
+
 
     function setLanguage(language) {
+      const supported = Object.prototype.hasOwnProperty.call(LANGUAGE_CODES, language)
+        ? language
+        : 'en';
 
-      document
-        .querySelectorAll(
-          '[data-en][data-hi]'
-        )
-        .forEach(element => {
+      languageSelect.value = supported;
 
-          element.textContent =
-            element.getAttribute(
-              `data-${language}`
-            );
+      document.querySelectorAll('[data-en]').forEach(element => {
+        const translated = element.getAttribute(`data-${supported}`);
+        const english = element.getAttribute('data-en');
+        element.textContent = translated || english || '';
+      });
 
-        });
-
-      document
-        .querySelectorAll(
-          '[data-placeholder-en][data-placeholder-hi]'
-        )
-        .forEach(element => {
-
-          element.placeholder =
-            element.getAttribute(
-              `data-placeholder-${language}`
-            );
-
-        });
+      document.querySelectorAll('[data-placeholder-en]').forEach(element => {
+        const translated = element.getAttribute(`data-placeholder-${supported}`);
+        const english = element.getAttribute('data-placeholder-en');
+        element.placeholder = translated || english || '';
+      });
 
       if (currentUser) {
-
-        document.getElementById(
-          'welcomeMessage'
-        ).textContent =
-          language === 'hi'
-            ? `स्वागत है, ${currentUser.name} 👋`
-            : `Welcome, ${currentUser.name} 👋`;
-
+        const welcome = document.getElementById('welcomeMessage');
+        const welcomeNames = {
+          en: `Welcome, ${currentUser.name} 👋`,
+          hi: `स्वागत है, ${currentUser.name} 👋`,
+          or: `ସ୍ୱାଗତ, ${currentUser.name} 👋`,
+          mr: `स्वागत आहे, ${currentUser.name} 👋`,
+          bn: `স্বাগতম, ${currentUser.name} 👋`,
+          ta: `வரவேற்கிறோம், ${currentUser.name} 👋`,
+          te: `స్వాగతం, ${currentUser.name} 👋`,
+          bho: `स्वागत बा, ${currentUser.name} 👋`,
+          as: `স্বাগতম, ${currentUser.name} 👋`
+        };
+        welcome.textContent = welcomeNames[supported] || welcomeNames.en;
       }
 
-      document.documentElement.lang =
-        language === 'hi'
-          ? 'hi'
-          : 'en';
-
-      localStorage.setItem(
-        'agriconnect_language',
-        language
-      );
-
-      updateAITexts(language);
+      document.documentElement.lang = supported;
+      localStorage.setItem('agriconnect_language', supported);
+      updateAITexts(supported);
     }
 
     function updateAITexts(language) {
+      const aiToggleText = document.getElementById('aiToggleText');
+      const aiTitle = document.getElementById('aiTitle');
+      const aiSubtitle = document.getElementById('aiSubtitle');
+      const aiInput = document.getElementById('aiInput');
 
-      const aiToggleText =
-        document.getElementById(
-          'aiToggleText'
-        );
+      const ai = {
+        en: {
+          subtitle: 'Your smart farming marketplace assistant',
+          placeholder: 'Ask about crops, prices, farmers, or listings...'
+        },
+        hi: {
+          subtitle: 'आपका स्मार्ट कृषि बाज़ार सहायक',
+          placeholder: 'फसल, कीमत, किसान या लिस्टिंग के बारे में पूछें...'
+        },
+        or: {
+          subtitle: 'ଆପଣଙ୍କ ସ୍ମାର୍ଟ କୃଷି ବଜାର ସହାୟକ',
+          placeholder: 'ଫସଲ, ମୂଲ୍ୟ, ଚାଷୀ କିମ୍ବା ତାଲିକା ବିଷୟରେ ପଚାରନ୍ତୁ...'
+        },
+        mr: {
+          subtitle: 'तुमचा स्मार्ट कृषी बाजार सहाय्यक',
+          placeholder: 'पिके, किंमती, शेतकरी किंवा नोंदींबद्दल विचारा...'
+        },
+        bn: {
+          subtitle: 'আপনার স্মার্ট কৃষি বাজার সহকারী',
+          placeholder: 'ফসল, দাম, কৃষক বা তালিকা সম্পর্কে জিজ্ঞাসা করুন...'
+        },
+        ta: {
+          subtitle: 'உங்கள் ஸ்மார்ட் விவசாய சந்தை உதவியாளர்',
+          placeholder: 'பயிர்கள், விலைகள், விவசாயிகள் அல்லது பட்டியல்கள் பற்றி கேளுங்கள்...'
+        },
+        te: {
+          subtitle: 'మీ స్మార్ట్ వ్యవసాయ మార్కెట్ సహాయకుడు',
+          placeholder: 'పంటలు, ధరలు, రైతులు లేదా జాబితాల గురించి అడగండి...'
+        },
+        bho: {
+          subtitle: 'रउआ के स्मार्ट कृषि बाजार सहायक',
+          placeholder: 'फसल, दाम, किसान या लिस्टिंग के बारे में पूछीं...'
+        },
+        as: {
+          subtitle: 'আপোনাৰ স্মাৰ্ট কৃষি বজাৰ সহায়ক',
+          placeholder: 'শস্য, মূল্য, কৃষক বা তালিকাৰ বিষয়ে সোধক...'
+        }
+      };
 
-      const aiTitle =
-        document.getElementById(
-          'aiTitle'
-        );
+      const current = ai[language] || ai.en;
+      aiToggleText.textContent = 'AgriConnect AI';
+      aiTitle.textContent = 'AgriConnect AI';
+      aiSubtitle.textContent = current.subtitle;
+      aiInput.placeholder = current.placeholder;
+    }
 
-      const aiSubtitle =
-        document.getElementById(
-          'aiSubtitle'
-        );
+    const LANGUAGE_CODES = {
+      en: 'en',
+      hi: 'hi',
+      or: 'or',
+      mr: 'mr',
+      bn: 'bn',
+      ta: 'ta',
+      te: 'te',
+      bho: 'bho',
+      as: 'as'
+    };
 
-      const aiInput =
-        document.getElementById(
-          'aiInput'
-        );
+    const TRANSLATIONS = {"Logout": {"en": "Logout", "hi": "लॉग आउट", "or": "ଲଗ୍ ଆଉଟ୍", "mr": "लॉग आउट", "bn": "লগ আউট", "ta": "வெளியேறு", "te": "లాగ్ అవుట్", "bho": "लॉग आउट", "as": "লগ আউট"}, "Search Harvest Listings": {"en": "Search Harvest Listings", "hi": "फसल की सूची खोजें", "or": "ଫସଲ ତାଲିକା ଖୋଜନ୍ତୁ", "mr": "पिकांची यादी शोधा", "bn": "ফসলের তালিকা খুঁজুন", "ta": "பயிர் பட்டியல்களைத் தேடுங்கள்", "te": "పంట జాబితాలను శోధించండి", "bho": "फसल के सूची खोजीं", "as": "শস্যৰ তালিকা বিচাৰক"}, "Crop Name": {"en": "Crop Name", "hi": "फसल का नाम", "or": "ଫସଲର ନାମ", "mr": "पिकाचे नाव", "bn": "ফসলের নাম", "ta": "பயிரின் பெயர்", "te": "పంట పేరు", "bho": "फसल के नाम", "as": "শস্যৰ নাম"}, "Location": {"en": "Location", "hi": "स्थान", "or": "ସ୍ଥାନ", "mr": "स्थान", "bn": "অবস্থান", "ta": "இடம்", "te": "స్థానం", "bho": "स्थान", "as": "স্থান"}, "Minimum Price (₹/kg)": {"en": "Minimum Price (₹/kg)", "hi": "न्यूनतम कीमत (₹/किग्रा)", "or": "ସର୍ବନିମ୍ନ ମୂଲ୍ୟ (₹/କିଗ୍ରା)", "mr": "किमान किंमत (₹/किलो)", "bn": "সর্বনিম্ন মূল্য (₹/কেজি)", "ta": "குறைந்தபட்ச விலை (₹/கிலோ)", "te": "కనిష్ట ధర (₹/కిలో)", "bho": "न्यूनतम दाम (₹/किलो)", "as": "সৰ্বনিম্ন মূল্য (₹/কেজি)"}, "Maximum Price (₹/kg)": {"en": "Maximum Price (₹/kg)", "hi": "अधिकतम कीमत (₹/किग्रा)", "or": "ସର୍ବାଧିକ ମୂଲ୍ୟ (₹/କିଗ୍ରା)", "mr": "कमाल किंमत (₹/किलो)", "bn": "সর্বোচ্চ মূল্য (₹/কেজি)", "ta": "அதிகபட்ச விலை (₹/கிலோ)", "te": "గరిష్ఠ ధర (₹/కిలో)", "bho": "अधिकतम दाम (₹/किलो)", "as": "সৰ্বাধিক মূল্য (₹/কেজি)"}, "SEARCH PRODUCTS": {"en": "SEARCH PRODUCTS", "hi": "उत्पाद खोजें", "or": "ଉତ୍ପାଦ ଖୋଜନ୍ତୁ", "mr": "उत्पादने शोधा", "bn": "পণ্য খুঁজুন", "ta": "பொருட்களைத் தேடுங்கள்", "te": "ఉత్పత్తులను శోధించండి", "bho": "उत्पाद खोजीं", "as": "উৎপাদ বিচাৰক"}, "RESET": {"en": "RESET", "hi": "रीसेट", "or": "ରିସେଟ୍", "mr": "रीसेट", "bn": "রিসেট", "ta": "மீட்டமை", "te": "రీసెట్", "bho": "रीसेट", "as": "ৰিছেট"}, "Smart Buyer Match": {"en": "Smart Buyer Match", "hi": "स्मार्ट खरीदार मैच", "or": "ସ୍ମାର୍ଟ କ୍ରେତା ମ୍ୟାଚ୍", "mr": "स्मार्ट खरेदीदार जुळणी", "bn": "স্মার্ট ক্রেতা ম্যাচ", "ta": "ஸ்மார்ட் வாங்குபவர் பொருத்தம்", "te": "స్మార్ట్ కొనుగోలుదారు మ్యాచ్", "bho": "स्मार्ट खरीदार मैच", "as": "স্মাৰ্ট ক্ৰেতা মিল"}, "Tell AgriConnect what you need. It will rank available farmers and show why each listing matches your requirement.": {"en": "Tell AgriConnect what you need. It will rank available farmers and show why each listing matches your requirement.", "hi": "अपनी खरीद की जरूरत बताएं। AgriConnect उपलब्ध किसानों की लिस्टिंग को रैंक करेगा और बताएगा कि कौन सी लिस्टिंग आपकी जरूरत से मेल खाती है।", "or": "ଆପଣଙ୍କୁ କଣ ଦରକାର ତାହା କୁହନ୍ତୁ। AgriConnect ଉପଲବ୍ଧ ଚାଷୀଙ୍କ ତାଲିକାକୁ ର୍ୟାଙ୍କ କରିବ ଏବଂ ପ୍ରତ୍ୟେକ ତାଲିକା ଆପଣଙ୍କ ଆବଶ୍ୟକତା ସହ କାହିଁକି ମେଳ ଖାଉଛି ଦେଖାଇବ।", "mr": "तुम्हाला काय हवे आहे ते सांगा. AgriConnect उपलब्ध शेतकऱ्यांच्या नोंदी क्रमवारीत लावेल आणि प्रत्येक नोंद तुमच्या गरजेशी का जुळते ते दाखवेल.", "bn": "আপনার কী প্রয়োজন তা জানান। AgriConnect উপলব্ধ কৃষকদের তালিকা র‍্যাঙ্ক করবে এবং প্রতিটি তালিকা আপনার প্রয়োজনের সঙ্গে কেন মেলে তা দেখাবে।", "ta": "உங்களுக்கு என்ன தேவை என்பதைச் சொல்லுங்கள். AgriConnect கிடைக்கும் விவசாயிகளின் பட்டியலை வரிசைப்படுத்தி, ஒவ்வொரு பட்டியலும் உங்கள் தேவைக்கு ஏன் பொருந்துகிறது என்பதைக் காட்டும்.", "te": "మీకు ఏమి కావాలో చెప్పండి. AgriConnect అందుబాటులో ఉన్న రైతుల జాబితాలను ర్యాంక్ చేసి, ప్రతి జాబితా మీ అవసరానికి ఎందుకు సరిపోతుందో చూపిస్తుంది.", "bho": "रउआ के का चाहीं बताईं। AgriConnect उपलब्ध किसान लोग के लिस्टिंग के रैंक करी आ बताई कि हर लिस्टिंग रउआ के जरूरत से काहे मिलत बा।", "as": "আপোনাক কি লাগে জনাওক। AgriConnect উপলব্ধ কৃষকৰ তালিকাসমূহ ৰেংক কৰিব আৰু প্ৰতিখন তালিকা আপোনাৰ প্ৰয়োজনৰ সৈতে কিয় মিলে সেয়া দেখুৱাব।"}, "Required Crop": {"en": "Required Crop", "hi": "आवश्यक फसल", "or": "ଆବଶ୍ୟକ ଫସଲ", "mr": "आवश्यक पीक", "bn": "প্রয়োজনীয় ফসল", "ta": "தேவையான பயிர்", "te": "అవసరమైన పంట", "bho": "जरूरी फसल", "as": "প্ৰয়োজনীয় শস্য"}, "Preferred Location": {"en": "Preferred Location", "hi": "पसंदीदा स्थान", "or": "ପସନ୍ଦର ସ୍ଥାନ", "mr": "पसंतीचे स्थान", "bn": "পছন্দের অবস্থান", "ta": "விருப்பமான இடம்", "te": "ఇష్టమైన స్థానం", "bho": "पसंद के स्थान", "as": "পছন্দৰ স্থান"}, "Required Quantity (kg)": {"en": "Required Quantity (kg)", "hi": "आवश्यक मात्रा (किग्रा)", "or": "ଆବଶ୍ୟକ ପରିମାଣ (କିଗ୍ରା)", "mr": "आवश्यक प्रमाण (किलो)", "bn": "প্রয়োজনীয় পরিমাণ (কেজি)", "ta": "தேவையான அளவு (கிலோ)", "te": "అవసరమైన పరిమాణం (కిలో)", "bho": "जरूरी मात्रा (किलो)", "as": "প্ৰয়োজনীয় পৰিমাণ (কেজি)"}, "FIND BEST MATCHES": {"en": "FIND BEST MATCHES", "hi": "सर्वश्रेष्ठ मैच खोजें", "or": "ସର୍ବୋତ୍ତମ ମେଳ ଖୋଜନ୍ତୁ", "mr": "सर्वोत्तम जुळण्या शोधा", "bn": "সেরা ম্যাচ খুঁজুন", "ta": "சிறந்த பொருத்தங்களைக் கண்டறியுங்கள்", "te": "ఉత్తమ మ్యాచ్‌లను కనుగొనండి", "bho": "सबसे बढ़िया मैच खोजीं", "as": "শ্ৰেষ্ঠ মিল বিচাৰক"}, "Available Listings": {"en": "Available Listings", "hi": "उपलब्ध सूची", "or": "ଉପଲବ୍ଧ ତାଲିକା", "mr": "उपलब्ध नोंदी", "bn": "উপলব্ধ তালিকা", "ta": "கிடைக்கும் பட்டியல்கள்", "te": "అందుబాటులో ఉన్న జాబితాలు", "bho": "उपलब्ध लिस्टिंग", "as": "উপলব্ধ তালিকা"}, "Loading products...": {"en": "Loading products...", "hi": "उत्पाद लोड हो रहे हैं...", "or": "ଉତ୍ପାଦ ଲୋଡ୍ ହେଉଛି...", "mr": "उत्पादने लोड होत आहेत...", "bn": "পণ্য লোড হচ্ছে...", "ta": "பொருட்கள் ஏற்றப்படுகின்றன...", "te": "ఉత్పత్తులు లోడ్ అవుతున్నాయి...", "bho": "उत्पाद लोड हो रहल बा...", "as": "উৎপাদ লোড হৈ আছে..."}, "Message to Farmer (optional)": {"en": "Message to Farmer (optional)", "hi": "किसान के लिए संदेश (वैकल्पिक)", "or": "ଚାଷୀଙ୍କ ପାଇଁ ବାର୍ତ୍ତା (ବୈକଳ୍ପିକ)", "mr": "शेतकऱ्याला संदेश (पर्यायी)", "bn": "কৃষককে বার্তা (ঐচ্ছিক)", "ta": "விவசாயிக்கு செய்தி (விருப்பத்தேர்வு)", "te": "రైతుకు సందేశం (ఐచ్ఛికం)", "bho": "किसान खातिर संदेश (वैकल्पिक)", "as": "কৃষকলৈ বাৰ্তা (ঐচ্ছিক)"}, "This sends a purchase request to the farmer for review.": {"en": "This sends a purchase request to the farmer for review.", "hi": "यह खरीद अनुरोध किसान को समीक्षा के लिए भेजेगा।", "or": "ଏହା ସମୀକ୍ଷା ପାଇଁ ଚାଷୀଙ୍କୁ କ୍ରୟ ଅନୁରୋଧ ପଠାଇବ।", "mr": "हे खरेदीचे विनंतीपत्र शेतकऱ्याला तपासणीसाठी पाठवेल.", "bn": "এটি পর্যালোচনার জন্য কৃষকের কাছে ক্রয় অনুরোধ পাঠাবে।", "ta": "இது விவசாயியின் பரிசீலனைக்காக கொள்முதல் கோரிக்கையை அனுப்பும்.", "te": "ఇది సమీక్ష కోసం రైతుకు కొనుగోలు అభ్యర్థనను పంపుతుంది.", "bho": "ई खरीद अनुरोध किसान के समीक्षा खातिर भेजी.", "as": "ই কৃষকৰ পৰ্যালোচনাৰ বাবে ক্ৰয় অনুৰোধ পঠিয়াব।"}, "CANCEL": {"en": "CANCEL", "hi": "रद्द करें", "or": "ବାତିଲ୍ କରନ୍ତୁ", "mr": "रद्द करा", "bn": "বাতিল করুন", "ta": "ரத்து செய்", "te": "రద్దు చేయండి", "bho": "रद्द करीं", "as": "বাতিল কৰক"}, "SEND REQUEST": {"en": "SEND REQUEST", "hi": "अनुरोध भेजें", "or": "ଅନୁରୋଧ ପଠାନ୍ତୁ", "mr": "विनंती पाठवा", "bn": "অনুরোধ পাঠান", "ta": "கோரிக்கையை அனுப்புங்கள்", "te": "అభ్యర్థనను పంపండి", "bho": "अनुरोध भेजीं", "as": "অনুৰোধ পঠিয়াওক"}, "Requested Quantity (kg)": {"en": "Requested Quantity (kg)", "hi": "आवश्यक मात्रा (किग्रा)", "or": "ଅନୁରୋଧିତ ପରିମାଣ (କିଗ୍ରା)", "mr": "विनंती केलेले प्रमाण (किलो)", "bn": "অনুরোধ করা পরিমাণ (কেজি)", "ta": "கோரப்பட்ட அளவு (கிலோ)", "te": "అభ్యర్థించిన పరిమాణం (కిలో)", "bho": "मंगावल मात्रा (किलो)", "as": "অনুৰোধ কৰা পৰিমাণ (কেজি)"}, "Proposed Price (₹/kg)": {"en": "Proposed Price (₹/kg)", "hi": "प्रस्तावित कीमत (₹/किग्रा)", "or": "ପ୍ରସ୍ତାବିତ ମୂଲ୍ୟ (₹/କିଗ୍ରା)", "mr": "प्रस्तावित किंमत (₹/किलो)", "bn": "প্রস্তাবিত মূল্য (₹/কেজি)", "ta": "முன்மொழியப்பட்ட விலை (₹/கிலோ)", "te": "ప్రతిపాదిత ధర (₹/కిలో)", "bho": "प्रस्तावित दाम (₹/किलो)", "as": "প্ৰস্তাৱিত মূল্য (₹/কেজি)"}, "Failed to load products.": {"en": "Failed to load products.", "hi": "उत्पाद लोड नहीं हो सके।", "or": "ଉତ୍ପାଦ ଲୋଡ୍ ହୋଇପାରିଲା ନାହିଁ।", "mr": "उत्पादने लोड करता आली नाहीत.", "bn": "পণ্য লোড করা যায়নি।", "ta": "பொருட்களை ஏற்ற முடியவில்லை.", "te": "ఉత్పత్తులను లోడ్ చేయడం సాధ్యం కాలేదు.", "bho": "उत्पाद लोड ना हो पावल।", "as": "উৎপাদ লোড কৰিব পৰা নগ'ল।"}, "Could not connect to the AgriConnect server.": {"en": "Could not connect to the AgriConnect server.", "hi": "AgriConnect सर्वर से कनेक्ट नहीं हो सका।", "or": "AgriConnect ସର୍ଭର ସହିତ ସଂଯୋଗ ହୋଇପାରିଲା ନାହିଁ।", "mr": "AgriConnect सर्व्हरशी कनेक्ट होऊ शकले नाही.", "bn": "AgriConnect সার্ভারের সঙ্গে সংযোগ করা যায়নি।", "ta": "AgriConnect சேவையகத்துடன் இணைக்க முடியவில்லை.", "te": "AgriConnect సర్వర్‌కు కనెక్ట్ కాలేకపోయాము.", "bho": "AgriConnect सर्वर से कनेक्ट ना हो पावल।", "as": "AgriConnect ছাৰ্ভাৰৰ সৈতে সংযোগ কৰিব পৰা নগ'ল।"}, "Search failed.": {"en": "Search failed.", "hi": "खोज विफल रही।", "or": "ସନ୍ଧାନ ବିଫଳ ହେଲା।", "mr": "शोध अयशस्वी झाला.", "bn": "অনুসন্ধান ব্যর্থ হয়েছে।", "ta": "தேடல் தோல்வியடைந்தது.", "te": "శోధన విఫలమైంది.", "bho": "खोज फेल हो गइल।", "as": "সন্ধান ব্যৰ্থ হ'ল।"}, "No listings found matching your criteria.": {"en": "No listings found matching your criteria.", "hi": "आपकी खोज के अनुसार कोई सूची नहीं मिली।", "or": "ଆପଣଙ୍କ ମାନଦଣ୍ଡ ଅନୁଯାୟୀ କୌଣସି ତାଲିକା ମିଳିଲା ନାହିଁ।", "mr": "तुमच्या निकषांशी जुळणारी कोणतीही नोंद सापडली नाही.", "bn": "আপনার মানদণ্ড অনুযায়ী কোনো তালিকা পাওয়া যায়নি।", "ta": "உங்கள் அளவுகோலுக்கு பொருந்தும் பட்டியல்கள் எதுவும் இல்லை.", "te": "మీ ప్రమాణాలకు సరిపోయే జాబితాలు ఏవీ కనుగొనబడలేదు.", "bho": "रउआ के मानदंड से मिले वाला कवनो लिस्टिंग ना मिलल।", "as": "আপোনাৰ মাপকাঠীৰ সৈতে মিল থকা কোনো তালিকা পোৱা নগ'ল।"}, "Unknown": {"en": "Unknown", "hi": "अज्ञात", "or": "ଅଜଣା", "mr": "अज्ञात", "bn": "অজানা", "ta": "தெரியவில்லை", "te": "తెలియదు", "bho": "अज्ञात", "as": "অজ্ঞাত"}, "Quantity:": {"en": "Quantity:", "hi": "मात्रा:", "or": "ପରିମାଣ:", "mr": "प्रमाण:", "bn": "পরিমাণ:", "ta": "அளவு:", "te": "పరిమాణం:", "bho": "मात्रा:", "as": "পৰিমাণ:"}, "Price:": {"en": "Price:", "hi": "कीमत:", "or": "ମୂଲ୍ୟ:", "mr": "किंमत:", "bn": "মূল্য:", "ta": "விலை:", "te": "ధర:", "bho": "दाम:", "as": "মূল্য:"}, "Location:": {"en": "Location:", "hi": "स्थान:", "or": "ସ୍ଥାନ:", "mr": "स्थान:", "bn": "অবস্থান:", "ta": "இடம்:", "te": "స్థానం:", "bho": "स्थान:", "as": "স্থান:"}, "Farmer:": {"en": "Farmer:", "hi": "किसान:", "or": "ଚାଷୀ:", "mr": "शेतकरी:", "bn": "কৃষক:", "ta": "விவசாயி:", "te": "రైతు:", "bho": "किसान:", "as": "কৃষক:"}, "🛒 Request Purchase": {"en": "🛒 Request Purchase", "hi": "🛒 अनुरोध भेजें", "or": "🛒 କ୍ରୟ ଅନୁରୋଧ", "mr": "🛒 खरेदीची विनंती", "bn": "🛒 ক্রয়ের অনুরোধ", "ta": "🛒 கொள்முதல் கோரிக்கை", "te": "🛒 కొనుగోలు అభ్యర్థన", "bho": "🛒 खरीद अनुरोध भेजीं", "as": "🛒 ক্ৰয় অনুৰোধ"}, "I'm Interested": {"en": "I'm Interested", "hi": "मैं इच्छुक हूँ", "or": "ମୁଁ ଆଗ୍ରହୀ", "mr": "मला स्वारस्य आहे", "bn": "আমি আগ্রহী", "ta": "எனக்கு ஆர்வம் உள்ளது", "te": "నాకు ఆసక్తి ఉంది", "bho": "हम इच्छुक बानी", "as": "মই আগ্ৰহী"}, "Please log in as a buyer.": {"en": "Please log in as a buyer.", "hi": "कृपया खरीदार के रूप में लॉग इन करें।", "or": "ଦୟାକରି କ୍ରେତା ଭାବେ ଲଗ୍ ଇନ୍ କରନ୍ତୁ।", "mr": "कृपया खरेदीदार म्हणून लॉग इन करा.", "bn": "অনুগ্রহ করে ক্রেতা হিসেবে লগ ইন করুন।", "ta": "வாங்குபவராக உள்நுழையவும்.", "te": "దయచేసి కొనుగోలుదారుగా లాగిన్ చేయండి.", "bho": "कृपया खरीदार के रूप में लॉगिन करीं।", "as": "অনুগ্ৰহ কৰি ক্ৰেতা হিচাপে লগ ইন কৰক।"}, "Available:": {"en": "Available:", "hi": "उपलब्ध:", "or": "ଉପଲବ୍ଧ:", "mr": "उपलब्ध:", "bn": "উপলব্ধ:", "ta": "கிடைக்கும்:", "te": "అందుబాటులో:", "bho": "उपलब्ध:", "as": "উপলব্ধ:"}, "Listed price:": {"en": "Listed price:", "hi": "सूचीबद्ध कीमत:", "or": "ତାଲିକାଭୁକ୍ତ ମୂଲ୍ୟ:", "mr": "नोंदवलेली किंमत:", "bn": "তালিকাভুক্ত মূল্য:", "ta": "பட்டியலிடப்பட்ட விலை:", "te": "జాబితా ధర:", "bho": "लिस्ट कइल दाम:", "as": "তালিকাভুক্ত মূল্য:"}, "Enter a valid quantity.": {"en": "Enter a valid quantity.", "hi": "कृपया सही मात्रा दर्ज करें।", "or": "ଦୟାକରି ସଠିକ୍ ପରିମାଣ ଦିଅନ୍ତୁ।", "mr": "कृपया योग्य प्रमाण प्रविष्ट करा.", "bn": "সঠিক পরিমাণ লিখুন।", "ta": "சரியான அளவை உள்ளிடவும்.", "te": "సరైన పరిమాణాన్ని నమోదు చేయండి.", "bho": "सही मात्रा दर्ज करीं।", "as": "সঠিক পৰিমাণ দিয়ক।"}, "Requested quantity cannot exceed available stock.": {"en": "Requested quantity cannot exceed available stock.", "hi": "मात्रा उपलब्ध स्टॉक से अधिक नहीं हो सकती।", "or": "ଅନୁରୋଧିତ ପରିମାଣ ଉପଲବ୍ଧ ଷ୍ଟକ୍ ଠାରୁ ଅଧିକ ହୋଇପାରିବ ନାହିଁ।", "mr": "विनंती केलेले प्रमाण उपलब्ध साठ्यापेक्षा जास्त असू शकत नाही.", "bn": "অনুরোধ করা পরিমাণ উপলব্ধ মজুদের চেয়ে বেশি হতে পারে না।", "ta": "கோரப்பட்ட அளவு கிடைக்கும் இருப்பை விட அதிகமாக இருக்க முடியாது.", "te": "అభ్యర్థించిన పరిమాణం అందుబాటులో ఉన్న నిల్వను మించకూడదు.", "bho": "मंगावल मात्रा उपलब्ध स्टॉक से जादे ना हो सकेला।", "as": "অনুৰোধ কৰা পৰিমাণ উপলব্ধ মজুততকৈ বেছি হ'ব নোৱাৰে।"}, "Enter a valid proposed price.": {"en": "Enter a valid proposed price.", "hi": "कृपया सही कीमत दर्ज करें।", "or": "ଦୟାକରି ସଠିକ୍ ପ୍ରସ୍ତାବିତ ମୂଲ୍ୟ ଦିଅନ୍ତୁ।", "mr": "कृपया योग्य प्रस्तावित किंमत प्रविष्ट करा.", "bn": "সঠিক প্রস্তাবিত মূল্য লিখুন।", "ta": "சரியான முன்மொழியப்பட்ட விலையை உள்ளிடவும்.", "te": "సరైన ప్రతిపాదిత ధరను నమోదు చేయండి.", "bho": "सही प्रस्तावित दाम दर्ज करीं।", "as": "সঠিক প্ৰস্তাৱিত মূল্য দিয়ক।"}, "Could not send the purchase request.": {"en": "Could not send the purchase request.", "hi": "खरीद अनुरोध भेजा नहीं जा सका।", "or": "କ୍ରୟ ଅନୁରୋଧ ପଠାଯାଇପାରିଲା ନାହିଁ।", "mr": "खरेदीची विनंती पाठवता आली नाही.", "bn": "ক্রয় অনুরোধ পাঠানো যায়নি।", "ta": "கொள்முதல் கோரிக்கையை அனுப்ப முடியவில்லை.", "te": "కొనుగోలు అభ్యర్థనను పంపడం సాధ్యం కాలేదు.", "bho": "खरीद अनुरोध ना भेजल जा सकल।", "as": "ক্ৰয় অনুৰোধ পঠিয়াব পৰা নগ'ল।"}, "Request Sent ✓": {"en": "Request Sent ✓", "hi": "अनुरोध भेजा ✓", "or": "ଅନୁରୋଧ ପଠାଗଲା ✓", "mr": "विनंती पाठवली ✓", "bn": "অনুরোধ পাঠানো হয়েছে ✓", "ta": "கோரிக்கை அனுப்பப்பட்டது ✓", "te": "అభ్యర్థన పంపబడింది ✓", "bho": "अनुरोध भेजल गइल ✓", "as": "অনুৰোধ পঠিওৱা হ'ল ✓"}, "Purchase request sent to the farmer!": {"en": "Purchase request sent to the farmer!", "hi": "खरीद अनुरोध किसान को भेज दिया गया!", "or": "କ୍ରୟ ଅନୁରୋଧ ଚାଷୀଙ୍କୁ ପଠାଯାଇଛି!", "mr": "खरेदीची विनंती शेतकऱ्याला पाठवली आहे!", "bn": "কৃষকের কাছে ক্রয় অনুরোধ পাঠানো হয়েছে!", "ta": "விவசாயிக்கு கொள்முதல் கோரிக்கை அனுப்பப்பட்டது!", "te": "రైతుకు కొనుగోలు అభ్యర్థన పంపబడింది!", "bho": "खरीद अनुरोध किसान के भेज दिहल गइल!", "as": "কৃষকলৈ ক্ৰয় অনুৰোধ পঠিওৱা হৈছে!"}, "Could not record interest.": {"en": "Could not record interest.", "hi": "रुचि दर्ज नहीं की जा सकी।", "or": "ଆଗ୍ରହ ରେକର୍ଡ କରାଯାଇପାରିଲା ନାହିଁ।", "mr": "स्वारस्य नोंदवता आले नाही.", "bn": "আগ্রহ নথিভুক্ত করা যায়নি।", "ta": "ஆர்வத்தைப் பதிவு செய்ய முடியவில்லை.", "te": "ఆసక్తిని నమోదు చేయడం సాధ్యం కాలేదు.", "bho": "रुचि दर्ज ना हो पावल।", "as": "আগ্ৰহ নথিভুক্ত কৰিব পৰা নগ'ল।"}, "Interest recorded successfully!": {"en": "Interest recorded successfully!", "hi": "रुचि सफलतापूर्वक दर्ज की गई!", "or": "ଆଗ୍ରହ ସଫଳତାର ସହ ରେକର୍ଡ ହେଲା!", "mr": "स्वारस्य यशस्वीरित्या नोंदवले!", "bn": "আগ্রহ সফলভাবে নথিভুক্ত হয়েছে!", "ta": "ஆர்வம் வெற்றிகரமாகப் பதிவு செய்யப்பட்டது!", "te": "ఆసక్తి విజయవంతంగా నమోదు చేయబడింది!", "bho": "रुचि सफलतापूर्वक दर्ज हो गइल!", "as": "আগ্ৰহ সফলভাৱে নথিভুক্ত কৰা হ'ল!"}, "Interest Recorded ✓": {"en": "Interest Recorded ✓", "hi": "रुचि दर्ज ✓", "or": "ଆଗ୍ରହ ରେକର୍ଡ ହେଲା ✓", "mr": "स्वारस्य नोंदवले ✓", "bn": "আগ্রহ নথিভুক্ত ✓", "ta": "ஆர்வம் பதிவு ✓", "te": "ఆసక్తి నమోదు ✓", "bho": "रुचि दर्ज ✓", "as": "আগ্ৰহ নথিভুক্ত ✓"}, "Exact crop match": {"en": "Exact crop match", "hi": "फसल का सटीक मिलान", "or": "ଫସଲର ସଠିକ୍ ମେଳ", "mr": "पिकाचा अचूक मेळ", "bn": "ফসলের সঠিক মিল", "ta": "சரியான பயிர் பொருத்தம்", "te": "ఖచ్చితమైన పంట మ్యాచ్", "bho": "फसल के सही मिलान", "as": "শস্যৰ সঠিক মিল"}, "Strong crop match": {"en": "Strong crop match", "hi": "फसल का अच्छा मिलान", "or": "ଫସଲର ଭଲ ମେଳ", "mr": "पिकाचा चांगला मेळ", "bn": "ফসলের ভালো মিল", "ta": "நல்ல பயிர் பொருத்தம்", "te": "బలమైన పంట మ్యాచ్", "bho": "फसल के बढ़िया मिलान", "as": "শস্যৰ ভাল মিল"}, "Exact location match": {"en": "Exact location match", "hi": "स्थान का सटीक मिलान", "or": "ସ୍ଥାନର ସଠିକ୍ ମେଳ", "mr": "स्थानाचा अचूक मेळ", "bn": "অবস্থানের সঠিক মিল", "ta": "சரியான இட பொருத்தம்", "te": "ఖచ్చితమైన స్థానం మ్యాచ్", "bho": "स्थान के सही मिलान", "as": "স্থানৰ সঠিক মিল"}, "Nearby/location match": {"en": "Nearby/location match", "hi": "स्थान का अच्छा मिलान", "or": "ସ୍ଥାନର ଭଲ ମେଳ", "mr": "जवळचे/स्थान जुळते", "bn": "কাছাকাছি/অবস্থানের মিল", "ta": "அருகாமை/இட பொருத்தம்", "te": "సమీప/స్థాన మ్యాచ్", "bho": "नजदीकी/स्थान के मिलान", "as": "ওচৰৰ/স্থানৰ মিল"}, "Price within budget": {"en": "Price within budget", "hi": "कीमत आपके बजट में", "or": "ମୂଲ୍ୟ ଆପଣଙ୍କ ବଜେଟ୍ ମଧ୍ୟରେ", "mr": "किंमत तुमच्या बजेटमध्ये", "bn": "মূল্য আপনার বাজেটের মধ্যে", "ta": "விலை உங்கள் பட்ஜெட்டுக்குள்", "te": "ధర మీ బడ్జెట్‌లో ఉంది", "bho": "दाम रउआ के बजट में बा", "as": "মূল্য আপোনাৰ বাজেটৰ ভিতৰত"}, "Price above budget": {"en": "Price above budget", "hi": "कीमत बजट से ऊपर", "or": "ମୂଲ୍ୟ ବଜେଟ୍ ଠାରୁ ଅଧିକ", "mr": "किंमत बजेटपेक्षा जास्त", "bn": "মূল্য বাজেটের বেশি", "ta": "விலை பட்ஜெட்டை விட அதிகம்", "te": "ధర బడ్జెట్ కంటే ఎక్కువ", "bho": "दाम बजट से ऊपर बा", "as": "মূল্য বাজেটতকৈ বেছি"}, "Enough quantity available": {"en": "Enough quantity available", "hi": "पर्याप्त मात्रा उपलब्ध", "or": "ପର୍ଯ୍ୟାପ୍ତ ପରିମାଣ ଉପଲବ୍ଧ", "mr": "पुरेसे प्रमाण उपलब्ध", "bn": "পর্যাপ্ত পরিমাণ উপলব্ধ", "ta": "போதுமான அளவு கிடைக்கிறது", "te": "తగినంత పరిమాణం అందుబాటులో ఉంది", "bho": "पर्याप्त मात्रा उपलब्ध बा", "as": "পৰ্যাপ্ত পৰিমাণ উপলব্ধ"}, "Available quantity is below requirement": {"en": "Available quantity is below requirement", "hi": "मात्रा आपकी जरूरत से कम", "or": "ଉପଲବ୍ଧ ପରିମାଣ ଆବଶ୍ୟକତାଠାରୁ କମ୍", "mr": "उपलब्ध प्रमाण गरजेपेक्षा कमी", "bn": "উপলব্ধ পরিমাণ প্রয়োজনের চেয়ে কম", "ta": "கிடைக்கும் அளவு தேவையை விட குறைவு", "te": "అందుబాటులో ఉన్న పరిమాణం అవసరానికి తక్కువ", "bho": "उपलब्ध मात्रा जरूरत से कम बा", "as": "উপলব্ধ পৰিমাণ প্ৰয়োজনতকৈ কম"}, "There are no available listings to match yet.": {"en": "There are no available listings to match yet.", "hi": "अभी कोई उपलब्ध लिस्टिंग नहीं है।", "or": "ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଉପଲବ୍ଧ ତାଲିକା ନାହିଁ।", "mr": "अजून कोणत्याही उपलब्ध नोंदी नाहीत.", "bn": "এখনও কোনো উপলব্ধ তালিকা নেই।", "ta": "இன்னும் பொருந்தக்கூடிய பட்டியல்கள் எதுவும் இல்லை.", "te": "ఇంకా అందుబాటులో ఉన్న జాబితాలు లేవు.", "bho": "अभी कवनो उपलब्ध लिस्टिंग नइखे।", "as": "এতিয়াও কোনো উপলব্ধ তালিকা নাই।"}, "Enter at least one buying requirement.": {"en": "Enter at least one buying requirement.", "hi": "कम से कम एक खरीद आवश्यकता दर्ज करें।", "or": "ଅତି କମରେ ଗୋଟିଏ କ୍ରୟ ଆବଶ୍ୟକତା ଦିଅନ୍ତୁ।", "mr": "किमान एक खरेदीची गरज प्रविष्ट करा.", "bn": "অন্তত একটি ক্রয়ের প্রয়োজন লিখুন।", "ta": "குறைந்தது ஒரு கொள்முதல் தேவையை உள்ளிடவும்.", "te": "కనీసం ఒక కొనుగోలు అవసరాన్ని నమోదు చేయండి.", "bho": "कम से कम एगो खरीद जरूरत दर्ज करीं।", "as": "অন্তত এটা ক্ৰয়ৰ প্ৰয়োজন দিয়ক।"}, "Ranked using available listing information": {"en": "Ranked using available listing information", "hi": "उपलब्धता के आधार पर रैंक किया गया", "or": "ଉପଲବ୍ଧ ତାଲିକା ସୂଚନା ଆଧାରରେ ର୍ୟାଙ୍କ କରାଯାଇଛି", "mr": "उपलब्ध नोंदीच्या माहितीनुसार क्रमवारी लावली", "bn": "উপলব্ধ তালিকার তথ্যের ভিত্তিতে র‍্যাঙ্ক করা হয়েছে", "ta": "கிடைக்கும் பட்டியல் தகவலின் அடிப்படையில் வரிசைப்படுத்தப்பட்டது", "te": "అందుబాటులో ఉన్న జాబితా సమాచారంతో ర్యాంక్ చేయబడింది", "bho": "उपलब्ध लिस्टिंग के जानकारी से रैंक कइल गइल", "as": "উপলব্ধ তালিকাৰ তথ্যৰ ভিত্তিত ৰেংক কৰা হৈছে"}, "MATCH": {"en": "MATCH", "hi": "मैच", "or": "ମେଳ", "mr": "जुळणी", "bn": "ম্যাচ", "ta": "பொருத்தம்", "te": "మ్యాచ్", "bho": "मैच", "as": "মিল"}, "AI is thinking...": {"en": "AI is thinking...", "hi": "AI सोच रहा है...", "or": "AI ଚିନ୍ତା କରୁଛି...", "mr": "AI विचार करत आहे...", "bn": "AI ভাবছে...", "ta": "AI யோசிக்கிறது...", "te": "AI ఆలోచిస్తోంది...", "bho": "AI सोच रहल बा...", "as": "AI ভাবি আছে..."}, "The AI could not respond.": {"en": "The AI could not respond.", "hi": "AI से प्रतिक्रिया प्राप्त नहीं हुई।", "or": "AI ଠାରୁ ପ୍ରତିକ୍ରିୟା ମିଳିଲା ନାହିଁ।", "mr": "AI कडून प्रतिसाद मिळाला नाही.", "bn": "AI কোনো উত্তর দিতে পারেনি।", "ta": "AI பதிலளிக்க முடியவில்லை.", "te": "AI స్పందించలేకపోయింది.", "bho": "AI से जवाब ना मिलल।", "as": "AI-ৰ পৰা সঁহাৰি পোৱা নগ'ল।"}, "No response received.": {"en": "No response received.", "hi": "कोई प्रतिक्रिया नहीं मिली।", "or": "କୌଣସି ପ୍ରତିକ୍ରିୟା ମିଳିଲା ନାହିଁ।", "mr": "कोणताही प्रतिसाद मिळाला नाही.", "bn": "কোনো উত্তর পাওয়া যায়নি।", "ta": "எந்த பதிலும் கிடைக்கவில்லை.", "te": "ఎటువంటి స్పందన రాలేదు.", "bho": "कवनो जवाब ना मिलल।", "as": "কোনো সঁহাৰি পোৱা নগ'ল।"}, "Could not connect to the AI server. Please check that Flask is running.": {"en": "Could not connect to the AI server. Please check that Flask is running.", "hi": "AI सर्वर से कनेक्ट नहीं हो सका। कृपया Flask सर्वर जांचें।", "or": "AI ସର୍ଭର ସହିତ ସଂଯୋଗ ହୋଇପାରିଲା ନାହିଁ। ଦୟାକରି Flask ସର୍ଭର ଚାଲୁ ଅଛି କି ଯାଞ୍ଚ କରନ୍ତୁ।", "mr": "AI सर्व्हरशी कनेक्ट होऊ शकले नाही. कृपया Flask सर्व्हर सुरू आहे का ते तपासा.", "bn": "AI সার্ভারের সঙ্গে সংযোগ করা যায়নি। Flask সার্ভার চলছে কিনা দেখুন।", "ta": "AI சேவையகத்துடன் இணைக்க முடியவில்லை. Flask சேவையகம் இயங்குகிறதா எனச் சரிபார்க்கவும்.", "te": "AI సర్వర్‌కు కనెక్ట్ కాలేకపోయాము. Flask సర్వర్ నడుస్తోందో తనిఖీ చేయండి.", "bho": "AI सर्वर से कनेक्ट ना हो पावल। कृपया Flask सर्वर चलत बा कि ना देखीं।", "as": "AI ছাৰ্ভাৰৰ সৈতে সংযোগ কৰিব পৰা নগ'ল। Flask ছাৰ্ভাৰ চলি আছে নে নাই পৰীক্ষা কৰক।"}};
 
-      if (language === 'hi') {
+    function t(key) {
+      const language = languageSelect.value || 'en';
+      return TRANSLATIONS[key]?.[language] || TRANSLATIONS[key]?.en || key;
+    }
 
-        aiToggleText.textContent =
-          'AgriConnect AI';
-
-        aiTitle.textContent =
-          'AgriConnect AI';
-
-        aiSubtitle.textContent =
-          'आपका स्मार्ट कृषि बाज़ार सहायक';
-
-        aiInput.placeholder =
-          'फसल, कीमत, किसान या लिस्टिंग के बारे में पूछें...';
-
-      } else {
-
-        aiToggleText.textContent =
-          'AgriConnect AI';
-
-        aiTitle.textContent =
-          'AgriConnect AI';
-
-        aiSubtitle.textContent =
-          'Your smart farming marketplace assistant';
-
-        aiInput.placeholder =
-          'Ask about crops, prices, farmers, or listings...';
-
-      }
+    function tSummary(count, strongCount) {
+      const language = languageSelect.value || 'en';
+      const summaries = {
+        en: `AgriConnect ranked the top ${count} listings. ${strongCount} are strong matches.`,
+        hi: `AgriConnect ने ${count} शीर्ष लिस्टिंग खोजीं। ${strongCount} को मजबूत मैच माना गया।`,
+        or: `AgriConnect ଶୀର୍ଷ ${count}ଟି ତାଲିକାକୁ ର୍ୟାଙ୍କ କରିଛି। ${strongCount}ଟି ଭଲ ମେଳ ଅଟେ।`,
+        mr: `AgriConnect ने शीर्ष ${count} नोंदी क्रमवारीत लावल्या. ${strongCount} मजबूत जुळण्या आहेत.`,
+        bn: `AgriConnect শীর্ষ ${count}টি তালিকা র‍্যাঙ্ক করেছে। ${strongCount}টি শক্তিশালী ম্যাচ।`,
+        ta: `AgriConnect முதல் ${count} பட்டியல்களை வரிசைப்படுத்தியது. ${strongCount} சிறந்த பொருத்தங்கள்.`,
+        te: `AgriConnect అగ్ర ${count} జాబితాలను ర్యాంక్ చేసింది. ${strongCount} బలమైన మ్యాచ్‌లు.`,
+        bho: `AgriConnect ऊपर के ${count} लिस्टिंग के रैंक कइलस। ${strongCount} मजबूत मैच बाड़ें।`,
+        as: `AgriConnect শীৰ্ষ ${count}টা তালিকা ৰেংক কৰিছে। ${strongCount}টা শক্তিশালী মিল।`
+      };
+      return summaries[language] || summaries.en;
     }
 
     const savedLanguage =
-      localStorage.getItem(
-        'agriconnect_language'
-      ) || 'en';
+      localStorage.getItem('agriconnect_language') || 'en';
 
     languageSelect.value =
       savedLanguage;
@@ -927,6 +1356,10 @@
         renderProducts(
           lastProducts
         );
+
+        if (matchResults.children.length > 0) {
+          runSmartMatching();
+        }
 
       }
     );
@@ -1004,9 +1437,7 @@
           showMessage(
             data.error ||
             (
-              languageSelect.value === 'hi'
-                ? 'उत्पाद लोड नहीं हो सके।'
-                : 'Failed to load products.'
+              t("Failed to load products.")
             ),
             true
           );
@@ -1029,9 +1460,7 @@
         );
 
         showMessage(
-          languageSelect.value === 'hi'
-            ? 'AgriConnect सर्वर से कनेक्ट नहीं हो सका।'
-            : 'Could not connect to the AgriConnect server.',
+          t("Could not connect to the AgriConnect server."),
           true
         );
 
@@ -1128,9 +1557,7 @@
             showMessage(
               data.error ||
               (
-                languageSelect.value === 'hi'
-                  ? 'खोज विफल रही।'
-                  : 'Search failed.'
+                t("Search failed.")
               ),
               true
             );
@@ -1153,9 +1580,7 @@
           );
 
           showMessage(
-            languageSelect.value === 'hi'
-              ? 'AgriConnect सर्वर से कनेक्ट नहीं हो सका।'
-              : 'Could not connect to the AgriConnect server.',
+            t("Could not connect to the AgriConnect server."),
             true
           );
 
@@ -1198,9 +1623,7 @@
             "
           >
             ${
-              languageSelect.value === 'hi'
-                ? 'आपकी खोज के अनुसार कोई सूची नहीं मिली।'
-                : 'No listings found matching your criteria.'
+              t("No listings found matching your criteria.")
             }
           </p>
 
@@ -1234,9 +1657,7 @@
             escapeHtml(
               product.farmer_name ||
               (
-                languageSelect.value === 'hi'
-                  ? 'अज्ञात'
-                  : 'Unknown'
+                t("Unknown")
               )
             );
 
@@ -1251,9 +1672,7 @@
               <div class="product-detail">
 
                 ${
-                  languageSelect.value === 'hi'
-                    ? 'मात्रा:'
-                    : 'Quantity:'
+                  t("Quantity:")
                 }
 
                 <strong>
@@ -1265,9 +1684,7 @@
               <div class="product-detail">
 
                 ${
-                  languageSelect.value === 'hi'
-                    ? 'कीमत:'
-                    : 'Price:'
+                  t("Price:")
                 }
 
                 <strong>
@@ -1279,9 +1696,7 @@
               <div class="product-detail">
 
                 ${
-                  languageSelect.value === 'hi'
-                    ? 'स्थान:'
-                    : 'Location:'
+                  t("Location:")
                 }
 
                 📍
@@ -1295,9 +1710,7 @@
               <div class="product-detail">
 
                 ${
-                  languageSelect.value === 'hi'
-                    ? 'किसान:'
-                    : 'Farmer:'
+                  t("Farmer:")
                 }
 
                 <strong>
@@ -1307,6 +1720,16 @@
               </div>
 
             </div>
+
+            <button
+              class="purchase-request-btn"
+              data-product-id="${product.id}"
+              onclick="openPurchaseRequest(product)"
+            >
+              ${
+                t("🛒 Request Purchase")
+              }
+            </button>
 
             <button
               class="btn-interest"
@@ -1319,9 +1742,7 @@
             >
 
               ${
-                languageSelect.value === 'hi'
-                  ? 'मैं इच्छुक हूँ'
-                  : "I'm Interested"
+                t("I'm Interested")
               }
 
             </button>
@@ -1337,6 +1758,153 @@
 
     }
 
+
+    function openPurchaseRequest(product) {
+      if (!currentUser || currentUser.role !== 'buyer') {
+        showMessage(
+          t("Please log in as a buyer."),
+          true
+        );
+        return;
+      }
+
+      selectedRequestProduct = product;
+
+      const crop = escapeHtml(product.crop);
+      const farmer = escapeHtml(
+        product.farmer_name ||
+        (t("Unknown"))
+      );
+      const location = escapeHtml(product.location);
+      const available = Number(product.quantity) || 0;
+      const listedPrice = Number(product.price) || 0;
+
+      requestProductSummary.innerHTML = `
+        <strong>🌱 ${crop}</strong><br>
+        ${t("Farmer:")} ${farmer}<br>
+        ${t("Location:")} 📍 ${location}<br>
+        ${t("Available:")} ${available.toLocaleString()} kg<br>
+        ${t("Listed price:")} ₹${listedPrice.toLocaleString()}/kg
+      `;
+
+      requestQuantity.max = available > 0 ? available : '';
+      requestQuantity.value = available > 0 ? Math.min(available, 100) : '';
+      requestPrice.value = listedPrice > 0 ? listedPrice : '';
+      requestMessage.value = '';
+
+      requestModal.classList.add('open');
+      requestQuantity.focus();
+    }
+
+    function closePurchaseRequest() {
+      requestModal.classList.remove('open');
+      selectedRequestProduct = null;
+      purchaseRequestForm.reset();
+    }
+
+    async function submitPurchaseRequest(event) {
+      event.preventDefault();
+
+      if (!selectedRequestProduct || !currentUser) {
+        return;
+      }
+
+      const quantity = Number(requestQuantity.value);
+      const proposedPrice = Number(requestPrice.value);
+      const availableQuantity = Number(selectedRequestProduct.quantity);
+
+      if (!Number.isFinite(quantity) || quantity <= 0) {
+        showMessage(
+          t("Enter a valid quantity."),
+          true
+        );
+        return;
+      }
+
+      if (Number.isFinite(availableQuantity) && quantity > availableQuantity) {
+        showMessage(
+          t("Requested quantity cannot exceed available stock."),
+          true
+        );
+        return;
+      }
+
+      if (!Number.isFinite(proposedPrice) || proposedPrice <= 0) {
+        showMessage(
+          t("Enter a valid proposed price."),
+          true
+        );
+        return;
+      }
+
+      requestSubmit.disabled = true;
+
+      try {
+        const response = await fetch('/purchase-requests', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            product_id: selectedRequestProduct.id,
+            quantity: quantity,
+            proposed_price: proposedPrice,
+            message: requestMessage.value.trim()
+          })
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          showMessage(
+            data.error ||
+            (
+              t("Could not send the purchase request.")
+            ),
+            true
+          );
+          return;
+        }
+
+        const sentProductId = Number(selectedRequestProduct.id);
+        closePurchaseRequest();
+
+        document.querySelectorAll('.purchase-request-btn').forEach(button => {
+          if (Number(button.dataset.productId) === sentProductId) {
+            button.disabled = true;
+            button.textContent =
+              t("Request Sent ✓");
+          }
+        });
+
+        showMessage(
+          t("Purchase request sent to the farmer!")
+        );
+
+      } catch (error) {
+        console.error('Purchase request error:', error);
+
+        showMessage(
+          t("Could not connect to the AgriConnect server."),
+          true
+        );
+      } finally {
+        requestSubmit.disabled = false;
+      }
+    }
+
+    requestClose.addEventListener('click', closePurchaseRequest);
+    requestCancel.addEventListener('click', closePurchaseRequest);
+
+    requestModal.addEventListener('click', function(event) {
+      if (event.target === requestModal) {
+        closePurchaseRequest();
+      }
+    });
+
+    purchaseRequestForm.addEventListener('submit', submitPurchaseRequest);
+
     async function expressInterest(
       productId,
       button
@@ -1348,9 +1916,7 @@
       ) {
 
         showMessage(
-          languageSelect.value === 'hi'
-            ? 'कृपया खरीदार के रूप में लॉग इन करें।'
-            : 'Please log in as a buyer.',
+          t("Please log in as a buyer."),
           true
         );
 
@@ -1391,9 +1957,7 @@
           showMessage(
             data.error ||
             (
-              languageSelect.value === 'hi'
-                ? 'रुचि दर्ज नहीं की जा सकी।'
-                : 'Could not record interest.'
+              t("Could not record interest.")
             ),
             true
           );
@@ -1402,15 +1966,11 @@
         }
 
         showMessage(
-          languageSelect.value === 'hi'
-            ? 'रुचि सफलतापूर्वक दर्ज की गई!'
-            : 'Interest recorded successfully!'
+          t("Interest recorded successfully!")
         );
 
         button.textContent =
-          languageSelect.value === 'hi'
-            ? 'रुचि दर्ज ✓'
-            : 'Interest Recorded ✓';
+          t("Interest Recorded ✓");
 
         button.disabled =
           true;
@@ -1423,15 +1983,248 @@
         );
 
         showMessage(
-          languageSelect.value === 'hi'
-            ? 'AgriConnect सर्वर से कनेक्ट नहीं हो सका।'
-            : 'Could not connect to the AgriConnect server.',
+          t("Could not connect to the AgriConnect server."),
           true
         );
 
       }
 
     }
+
+
+    const matchForm =
+      document.getElementById('matchForm');
+
+    const matchResults =
+      document.getElementById('matchResults');
+
+    function normalizeText(value) {
+      return String(value || '').trim().toLowerCase();
+    }
+
+    function calculateMatch(product, preferences) {
+      let score = 0;
+      const reasons = [];
+
+      const cropWanted = normalizeText(preferences.crop);
+      const cropActual = normalizeText(product.crop);
+
+      if (cropWanted) {
+        if (cropActual === cropWanted) {
+          score += 45;
+          reasons.push(t("Exact crop match"));
+        } else if (
+          cropActual.includes(cropWanted) ||
+          cropWanted.includes(cropActual)
+        ) {
+          score += 30;
+          reasons.push(t("Strong crop match"));
+        }
+      } else {
+        score += 25;
+      }
+
+      const wantedLocation = normalizeText(preferences.location);
+      const actualLocation = normalizeText(
+        product.location || product.farmer_location
+      );
+
+      if (wantedLocation) {
+        if (actualLocation === wantedLocation) {
+          score += 25;
+          reasons.push(t("Exact location match"));
+        } else if (
+          actualLocation.includes(wantedLocation) ||
+          wantedLocation.includes(actualLocation)
+        ) {
+          score += 18;
+          reasons.push(t("Nearby/location match"));
+        }
+      } else {
+        score += 12;
+      }
+
+      const maxPrice = Number(preferences.maxPrice);
+      const productPrice = Number(product.price);
+
+      if (Number.isFinite(maxPrice) && maxPrice > 0) {
+        if (productPrice <= maxPrice) {
+          score += 20;
+          reasons.push(t("Price within budget"));
+        } else {
+          const over = productPrice - maxPrice;
+          const penalty = Math.min(20, (over / maxPrice) * 20);
+          score += Math.max(0, 20 - penalty);
+          reasons.push(t("Price above budget"));
+        }
+      } else {
+        score += 10;
+      }
+
+      const requiredQuantity = Number(preferences.quantity);
+      const availableQuantity = Number(product.quantity);
+
+      if (Number.isFinite(requiredQuantity) && requiredQuantity > 0) {
+        if (availableQuantity >= requiredQuantity) {
+          score += 10;
+          reasons.push(t("Enough quantity available"));
+        } else {
+          const coverage = Math.max(
+            0,
+            Math.min(1, availableQuantity / requiredQuantity)
+          );
+          score += Math.round(10 * coverage);
+          reasons.push(t("Available quantity is below requirement"));
+        }
+      } else {
+        score += 5;
+      }
+
+      return {
+        score: Math.min(100, Math.round(score)),
+        reasons
+      };
+    }
+
+    function runSmartMatching() {
+      if (!lastProducts || lastProducts.length === 0) {
+        matchResults.innerHTML = `
+          <div class="match-empty">
+            ${
+              t("There are no available listings to match yet.")
+            }
+          </div>
+        `;
+        return;
+      }
+
+      const preferences = {
+        crop: document.getElementById('matchCrop').value.trim(),
+        location: document.getElementById('matchLocation').value.trim(),
+        quantity: document.getElementById('matchQuantity').value,
+        maxPrice: document.getElementById('matchMaxPrice').value
+      };
+
+      if (
+        !preferences.crop &&
+        !preferences.location &&
+        !preferences.quantity &&
+        !preferences.maxPrice
+      ) {
+        showMessage(
+          t("Enter at least one buying requirement."),
+          true
+        );
+        return;
+      }
+
+      const ranked = lastProducts
+        .map(product => ({
+          product,
+          match: calculateMatch(product, preferences)
+        }))
+        .sort((a, b) => {
+          if (b.match.score !== a.match.score) {
+            return b.match.score - a.match.score;
+          }
+          return Number(a.product.price) - Number(b.product.price);
+        })
+        .slice(0, 6);
+
+      const matchedCount = ranked.filter(
+        item => item.match.score >= 60
+      ).length;
+
+      matchResults.innerHTML = `
+        <div class="match-summary">
+          ${
+            tSummary(ranked.length, matchedCount)
+          }
+        </div>
+      `;
+
+      ranked.forEach(({ product, match }) => {
+        const farmer = escapeHtml(
+          product.farmer_name ||
+          (t("Unknown"))
+        );
+
+        const crop = escapeHtml(product.crop);
+        const location = escapeHtml(product.location);
+        const reasons = match.reasons
+          .slice(0, 3)
+          .map(reason => escapeHtml(reason))
+          .join(' • ');
+
+        const card = document.createElement('div');
+        card.className = 'match-result';
+
+        card.innerHTML = `
+          <div>
+            <div class="match-result-title">
+              🌱 ${crop}
+            </div>
+            <div class="product-detail">
+              ${
+                t("Farmer:")
+              }
+              <strong>${farmer}</strong>
+            </div>
+            <div class="product-detail">
+              ${
+                t("Price:")
+              }
+              <strong>₹${Number(product.price).toLocaleString()}/kg</strong>
+            </div>
+            <div class="product-detail">
+              ${
+                t("Available:")
+              }
+              <strong>${Number(product.quantity).toLocaleString()} kg</strong>
+            </div>
+            <div class="product-detail">
+              📍 <strong>${location}</strong>
+            </div>
+            <div class="match-reasons">
+              ${reasons || (
+                t("Ranked using available listing information")
+              )}
+            </div>
+          </div>
+
+          <div>
+            <button
+              class="purchase-request-btn"
+              data-product-id="${product.id}"
+              onclick="openPurchaseRequest(product)"
+            >
+              ${
+                t("🛒 Request Purchase")
+              }
+            </button>
+
+            <div class="match-score">
+              ${match.score}%
+              <span class="match-score-label">
+                ${
+                  t("MATCH")
+                }
+              </span>
+            </div>
+          </div>
+        `;
+
+        matchResults.appendChild(card);
+      });
+    }
+
+    matchForm.addEventListener(
+      'submit',
+      function(event) {
+        event.preventDefault();
+        runSmartMatching();
+      }
+    );
 
     function escapeHtml(
       value
@@ -1508,19 +2301,19 @@
     }
 
     function getAIWelcomeMessage() {
-
-      if (
-        languageSelect.value === 'hi'
-      ) {
-
-        return `नमस्ते ${currentUser?.name || 'Buyer'} 👋
-मैं AgriConnect AI हूँ। मैं उपलब्ध फसलों, कीमतों, किसानों और आपकी खरीदारी से संबंधित सवालों में मदद कर सकता हूँ।`;
-
-      }
-
-      return `Hello ${currentUser?.name || 'Buyer'} 👋
-I'm AgriConnect AI. I can help you with available crops, prices, farmers, listings, and your buying decisions.`;
-
+      const name = currentUser?.name || 'Buyer';
+      const welcomes = {
+        en: `Hello ${name} 👋\nI'm AgriConnect AI. I can help you with available crops, prices, farmers, listings, and your buying decisions.`,
+        hi: `नमस्ते ${name} 👋\nमैं AgriConnect AI हूँ। मैं उपलब्ध फसलों, कीमतों, किसानों और आपकी खरीदारी से संबंधित सवालों में मदद कर सकता हूँ।`,
+        or: `ନମସ୍କାର ${name} 👋\nମୁଁ AgriConnect AI। ଉପଲବ୍ଧ ଫସଲ, ମୂଲ୍ୟ, ଚାଷୀ, ତାଲିକା ଏବଂ ଆପଣଙ୍କ କ୍ରୟ ନିଷ୍ପତ୍ତି ବିଷୟରେ ମୁଁ ସାହାଯ୍ୟ କରିପାରିବି।`,
+        mr: `नमस्कार ${name} 👋\nमी AgriConnect AI आहे. उपलब्ध पिके, किंमती, शेतकरी, नोंदी आणि तुमच्या खरेदीच्या निर्णयांमध्ये मी मदत करू शकतो.`,
+        bn: `নমস্কার ${name} 👋\nআমি AgriConnect AI। উপলব্ধ ফসল, দাম, কৃষক, তালিকা এবং আপনার ক্রয়ের সিদ্ধান্তে আমি সাহায্য করতে পারি।`,
+        ta: `வணக்கம் ${name} 👋\nநான் AgriConnect AI. கிடைக்கும் பயிர்கள், விலைகள், விவசாயிகள், பட்டியல்கள் மற்றும் உங்கள் கொள்முதல் முடிவுகளில் உதவ முடியும்.`,
+        te: `నమస్కారం ${name} 👋\nనేను AgriConnect AI. అందుబాటులో ఉన్న పంటలు, ధరలు, రైతులు, జాబితాలు మరియు మీ కొనుగోలు నిర్ణయాలలో నేను సహాయం చేయగలను.`,
+        bho: `नमस्कार ${name} 👋\nहम AgriConnect AI बानी। उपलब्ध फसल, दाम, किसान, लिस्टिंग आ रउआ के खरीद के फैसला में मदद कर सकेनी।`,
+        as: `নমস্কাৰ ${name} 👋\nমই AgriConnect AI। উপলব্ধ শস্য, মূল্য, কৃষক, তালিকা আৰু আপোনাৰ ক্ৰয়ৰ সিদ্ধান্তত সহায় কৰিব পাৰোঁ।`
+      };
+      return welcomes[languageSelect.value] || welcomes.en;
     }
 
     function openAI() {
@@ -1579,9 +2372,7 @@ I'm AgriConnect AI. I can help you with available crops, prices, farmers, listin
 
       const typingMessage =
         addAIMessage(
-          languageSelect.value === 'hi'
-            ? 'AI सोच रहा है...'
-            : 'AI is thinking...',
+          t("AI is thinking..."),
           'assistant'
         );
 
@@ -1628,9 +2419,7 @@ I'm AgriConnect AI. I can help you with available crops, prices, farmers, listin
           addAIMessage(
             data.error ||
             (
-              languageSelect.value === 'hi'
-                ? 'AI से प्रतिक्रिया प्राप्त नहीं हुई।'
-                : 'The AI could not respond.'
+              t("The AI could not respond.")
             ),
             'assistant'
           );
@@ -1641,9 +2430,7 @@ I'm AgriConnect AI. I can help you with available crops, prices, farmers, listin
         addAIMessage(
           data.reply ||
           (
-            languageSelect.value === 'hi'
-              ? 'कोई प्रतिक्रिया नहीं मिली।'
-              : 'No response received.'
+            t("No response received.")
           ),
           'assistant'
         );
@@ -1658,9 +2445,7 @@ I'm AgriConnect AI. I can help you with available crops, prices, farmers, listin
         typingMessage.remove();
 
         addAIMessage(
-          languageSelect.value === 'hi'
-            ? 'AI सर्वर से कनेक्ट नहीं हो सका। कृपया Flask सर्वर जांचें।'
-            : 'Could not connect to the AI server. Please check that Flask is running.',
+          t("Could not connect to the AI server. Please check that Flask is running."),
           'assistant'
         );
 
