@@ -23,10 +23,19 @@ CORS(app, supports_credentials=True)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-openrouter_client = OpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key=os.environ.get("OPENROUTER_API_KEY")
-)
+openrouter_client = None
+
+def get_openrouter_client():
+    global openrouter_client
+    api_key = os.environ.get("OPENROUTER_API_KEY") or os.environ.get("MY_API_KEY")
+    if not api_key:
+        return None
+    if openrouter_client is None:
+        openrouter_client = OpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=api_key
+        )
+    return openrouter_client
 
 
 class DatabaseConnection:
@@ -1482,14 +1491,15 @@ def chat():
             "understand and use the platform."
         )
 
-    if not os.environ.get("OPENROUTER_API_KEY"):
+    client = get_openrouter_client()
+    if client is None:
         return jsonify({
             "error": "AI service is not configured"
         }), 503
 
     try:
 
-        response = openrouter_client.chat.completions.create(
+        response = client.chat.completions.create(
             model="openrouter/free",
             messages=[
                 {
