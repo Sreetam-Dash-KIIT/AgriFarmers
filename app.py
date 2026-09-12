@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, send_from_directory, send_file, session
 from flask_cors import CORS
-import sqlite3
+import psycopg2
+from psycopg2.extras import RealDictCursor
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from openai import OpenAI
@@ -24,107 +25,124 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 openrouter_client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.environ.get("MY_API_KEY")
+    api_key=os.environ.get("OPENROUTER_API_KEY")
 )
 
 
+class DatabaseConnection:
+    def __init__(self, connection):
+        self._connection = connection
+
+    def cursor(self):
+        return self._connection.cursor(cursor_factory=RealDictCursor)
+
+    def execute(self, query, params=()):
+        cursor = self.cursor()
+        cursor.execute(query, params)
+        return cursor
+
+    def commit(self):
+        self._connection.commit()
+
+    def rollback(self):
+        self._connection.rollback()
+
+    def close(self):
+        self._connection.close()
+
+
 def get_database():
-    db_path = os.path.join(BASE_DIR, "agriconnect.db")
-    connection = sqlite3.connect(db_path)
-    connection.row_factory = sqlite3.Row
-    connection.execute("PRAGMA foreign_keys = ON")
-    return connection
+    database_url = os.environ.get("DATABASE_URL")
+    if not database_url:
+        raise RuntimeError(
+            "DATABASE_URL is not set. Please set the PostgreSQL connection URL."
+        )
+    return DatabaseConnection(psycopg2.connect(database_url))
 
 
 def init_database():
     connection = get_database()
     cursor = connection.cursor()
 
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT NOT NULL UNIQUE,
-            password TEXT NOT NULL,
-            role TEXT NOT NULL,
-            location TEXT NOT NULL
-        )
-    """)
+    try:
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id SERIAL PRIMARY KEY,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL UNIQUE,
+                password TEXT NOT NULL,
+                role TEXT NOT NULL CHECK (role IN ('farmer', 'buyer', 'driver')),
+                location TEXT NOT NULL
+            )
+        """)
 
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS products (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            farmer_id INTEGER,
-            crop TEXT NOT NULL,
-            quantity REAL NOT NULL,
-            price REAL NOT NULL,
-            location TEXT NOT NULL,
-            FOREIGN KEY (farmer_id) REFERENCES users(id)
-        )
-    """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS products (
+                id SERIAL PRIMARY KEY,
+                farmer_id INTEGER,
+                crop TEXT NOT NULL,
+                quantity DOUBLE PRECISION NOT NULL,
+                price DOUBLE PRECISION NOT NULL,
+                location TEXT NOT NULL,
+                FOREIGN KEY (farmer_id) REFERENCES users(id) ON DELETE SET NULL
+            )
+        """)
 
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS interests (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            buyer_id INTEGER NOT NULL,
-            product_id INTEGER NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (buyer_id) REFERENCES users(id),
-            FOREIGN KEY (product_id) REFERENCES products(id),
-            UNIQUE(buyer_id, product_id)
-        )
-    """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS interests (
+                id SERIAL PRIMARY KEY,
+                buyer_id INTEGER NOT NULL,
+                product_id INTEGER NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (buyer_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+                UNIQUE(buyer_id, product_id)
+            )
+        """)
 
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS vehicles (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            driver_id INTEGER NOT NULL UNIQUE,
-            vehicle_type TEXT NOT NULL,
-            vehicle_number TEXT NOT NULL UNIQUE,
-            capacity REAL NOT NULL,
-            fuel_type TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (driver_id) REFERENCES users(id)
-        )
-    """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS vehicles (
+                id SERIAL PRIMARY KEY,
+                driver_id INTEGER NOT NULL UNIQUE,
+                vehicle_type TEXT NOT NULL,
+                vehicle_number TEXT NOT NULL UNIQUE,
+                capacity DOUBLE PRECISION NOT NULL,
+                fuel_type TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (driver_id) REFERENCES users(id) ON DELETE CASCADE
+            )
+        """)
 
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS purchase_requests (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            buyer_id INTEGER NOT NULL,
-            farmer_id INTEGER NOT NULL,
-            product_id INTEGER NOT NULL,
-            quantity REAL NOT NULL,
-            proposed_price REAL NOT NULL,
-            message TEXT,
-            status TEXT NOT NULL DEFAULT 'pending',
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (buyer_id) REFERENCES users(id),
-            FOREIGN KEY (farmer_id) REFERENCES users(id),
-            FOREIGN KEY (product_id) REFERENCES products(id)
-        )
-    """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS purchase_requests (
+                id SERIAL PRIMARY KEY,
+                buyer_id INTEGER NOT NULL,
+                farmer_id INTEGER NOT NULL,
+                product_id INTEGER NOT NULL,
+                quantity DOUBLE PRECISION NOT NULL,
+                proposed_price DOUBLE PRECISION NOT NULL,
+                message TEXT,
+                status TEXT NOT NULL DEFAULT 'pending',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (buyer_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (farmer_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+            )
+        """)
 
-    cursor.execute("""
-        CREATE INDEX IF NOT EXISTS idx_purchase_requests_buyer
-        ON purchase_requests(buyer_id)
-    """)
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_products_farmer_id ON products(farmer_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_interests_buyer_id ON interests(buyer_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_interests_product_id ON interests(product_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_purchase_requests_buyer ON purchase_requests(buyer_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_purchase_requests_farmer ON purchase_requests(farmer_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_purchase_requests_product ON purchase_requests(product_id)")
 
-    cursor.execute("""
-        CREATE INDEX IF NOT EXISTS idx_purchase_requests_farmer
-        ON purchase_requests(farmer_id)
-    """)
-
-    cursor.execute("""
-        CREATE INDEX IF NOT EXISTS idx_purchase_requests_product
-        ON purchase_requests(product_id)
-    """)
-
-    connection.commit()
-    connection.close()
-
-    print("Database initialized successfully!")
+        connection.commit()
+        print("PostgreSQL database initialized successfully!")
+    finally:
+        cursor.close()
+        connection.close()
 
 
 def get_current_user():
@@ -139,7 +157,7 @@ def get_current_user():
         """
         SELECT id, name, email, role, location
         FROM users
-        WHERE id = ?
+        WHERE id = %s
         """,
         (user_id,)
     ).fetchone()
@@ -389,7 +407,7 @@ def add_product():
             price,
             location
         )
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (%s, %s, %s, %s, %s)
         """,
         (
             farmer["id"],
@@ -477,7 +495,8 @@ def add_user():
                 role,
                 location
             )
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s, %s)
+            RETURNING id
             """,
             (
                 name,
@@ -488,11 +507,11 @@ def add_user():
             )
         )
 
+        user_id = cursor.fetchone()["id"]
+        cursor.close()
         connection.commit()
 
-        user_id = cursor.lastrowid
-
-    except sqlite3.IntegrityError:
+    except psycopg2.IntegrityError:
         connection.close()
 
         return jsonify({
@@ -539,7 +558,7 @@ def login():
         """
         SELECT *
         FROM users
-        WHERE email = ?
+        WHERE email = %s
         """,
         (email,)
     ).fetchone()
@@ -659,7 +678,7 @@ def register_vehicle():
         """
         SELECT id
         FROM vehicles
-        WHERE driver_id = ?
+        WHERE driver_id = %s
         """,
         (driver["id"],)
     ).fetchone()
@@ -671,11 +690,11 @@ def register_vehicle():
                 """
                 UPDATE vehicles
                 SET
-                    vehicle_type = ?,
-                    vehicle_number = ?,
-                    capacity = ?,
-                    fuel_type = ?
-                WHERE driver_id = ?
+                    vehicle_type = %s,
+                    vehicle_number = %s,
+                    capacity = %s,
+                    fuel_type = %s
+                WHERE driver_id = %s
                 """,
                 (
                     vehicle_type,
@@ -686,7 +705,7 @@ def register_vehicle():
                 )
             )
 
-        except sqlite3.IntegrityError:
+        except psycopg2.IntegrityError:
             connection.close()
 
             return jsonify({
@@ -706,7 +725,7 @@ def register_vehicle():
                     capacity,
                     fuel_type
                 )
-                VALUES (?, ?, ?, ?, ?)
+                VALUES (%s, %s, %s, %s, %s)
                 """,
                 (
                     driver["id"],
@@ -717,7 +736,7 @@ def register_vehicle():
                 )
             )
 
-        except sqlite3.IntegrityError:
+        except psycopg2.IntegrityError:
             connection.close()
 
             return jsonify({
@@ -737,7 +756,7 @@ def register_vehicle():
             fuel_type,
             created_at
         FROM vehicles
-        WHERE driver_id = ?
+        WHERE driver_id = %s
         """,
         (driver["id"],)
     ).fetchone()
@@ -775,7 +794,7 @@ def get_vehicle(driver_id):
             fuel_type,
             created_at
         FROM vehicles
-        WHERE driver_id = ?
+        WHERE driver_id = %s
         """,
         (driver_id,)
     ).fetchone()
@@ -822,7 +841,7 @@ def search_products():
     if crop:
         query += """
             AND LOWER(products.crop)
-            LIKE LOWER(?)
+            LIKE LOWER(%s)
         """
 
         parameters.append(
@@ -832,7 +851,7 @@ def search_products():
     if location:
         query += """
             AND LOWER(products.location)
-            LIKE LOWER(?)
+            LIKE LOWER(%s)
         """
 
         parameters.append(
@@ -864,7 +883,7 @@ def search_products():
             }), 400
 
         query += """
-            AND products.price >= ?
+            AND products.price >= %s
         """
 
         parameters.append(
@@ -893,7 +912,7 @@ def search_products():
             }), 400
 
         query += """
-            AND products.price <= ?
+            AND products.price <= %s
         """
 
         parameters.append(
@@ -965,7 +984,7 @@ def add_interest():
         """
         SELECT *
         FROM products
-        WHERE id = ?
+        WHERE id = %s
         """,
         (product_id,)
     ).fetchone()
@@ -985,7 +1004,7 @@ def add_interest():
                 buyer_id,
                 product_id
             )
-            VALUES (?, ?)
+            VALUES (%s, %s)
             """,
             (
                 buyer["id"],
@@ -995,7 +1014,7 @@ def add_interest():
 
         connection.commit()
 
-    except sqlite3.IntegrityError:
+    except psycopg2.IntegrityError:
         connection.close()
 
         return jsonify({
@@ -1037,7 +1056,7 @@ def get_interests():
         ON interests.buyer_id = users.id
         INNER JOIN products
         ON interests.product_id = products.id
-        WHERE products.farmer_id = ?
+        WHERE products.farmer_id = %s
         ORDER BY interests.id DESC
         """,
         (farmer["id"],)
@@ -1112,7 +1131,7 @@ def create_purchase_request():
             price,
             location
         FROM products
-        WHERE id = ?
+        WHERE id = %s
         """,
         (product_id,)
     ).fetchone()
@@ -1145,8 +1164,8 @@ def create_purchase_request():
         """
         SELECT id
         FROM purchase_requests
-        WHERE buyer_id = ?
-          AND product_id = ?
+        WHERE buyer_id = %s
+          AND product_id = %s
           AND status = 'pending'
         """,
         (buyer["id"], product_id)
@@ -1170,7 +1189,8 @@ def create_purchase_request():
             message,
             status
         )
-        VALUES (?, ?, ?, ?, ?, ?, 'pending')
+        VALUES (%s, %s, %s, %s, %s, %s, 'pending')
+        RETURNING id
         """,
         (
             buyer["id"],
@@ -1182,8 +1202,9 @@ def create_purchase_request():
         )
     )
 
+    request_id = cursor.fetchone()["id"]
+    cursor.close()
     connection.commit()
-    request_id = cursor.lastrowid
     connection.close()
 
     return jsonify({
@@ -1224,7 +1245,7 @@ def get_purchase_requests():
             ON purchase_requests.farmer_id = users.id
             INNER JOIN products
             ON purchase_requests.product_id = products.id
-            WHERE purchase_requests.buyer_id = ?
+            WHERE purchase_requests.buyer_id = %s
             ORDER BY purchase_requests.id DESC
             """,
             (user["id"],)
@@ -1255,7 +1276,7 @@ def get_purchase_requests():
             ON purchase_requests.buyer_id = users.id
             INNER JOIN products
             ON purchase_requests.product_id = products.id
-            WHERE purchase_requests.farmer_id = ?
+            WHERE purchase_requests.farmer_id = %s
             ORDER BY purchase_requests.id DESC
             """,
             (user["id"],)
@@ -1311,8 +1332,8 @@ def update_purchase_request(request_id):
         FROM purchase_requests
         INNER JOIN products
         ON purchase_requests.product_id = products.id
-        WHERE purchase_requests.id = ?
-          AND purchase_requests.farmer_id = ?
+        WHERE purchase_requests.id = %s
+          AND purchase_requests.farmer_id = %s
         """,
         (request_id, farmer["id"])
     ).fetchone()
@@ -1338,12 +1359,12 @@ def update_purchase_request(request_id):
                 "error": "Requested quantity is no longer available"
             }), 409
 
-        connection.execute(
+        quantity_cursor = connection.execute(
             """
             UPDATE products
-            SET quantity = quantity - ?
-            WHERE id = ?
-              AND quantity >= ?
+            SET quantity = quantity - %s
+            WHERE id = %s
+              AND quantity >= %s
             """,
             (
                 purchase_request["quantity"],
@@ -1352,20 +1373,23 @@ def update_purchase_request(request_id):
             )
         )
 
-        if connection.total_changes == 0:
+        if quantity_cursor.rowcount == 0:
+            quantity_cursor.close()
             connection.rollback()
             connection.close()
             return jsonify({
                 "error": "Requested quantity is no longer available"
             }), 409
 
+        quantity_cursor.close()
+
     connection.execute(
         """
         UPDATE purchase_requests
         SET
-            status = ?,
+            status = %s,
             updated_at = CURRENT_TIMESTAMP
-        WHERE id = ?
+        WHERE id = %s
         """,
         (status, request_id)
     )
@@ -1379,7 +1403,7 @@ def update_purchase_request(request_id):
             status,
             updated_at
         FROM purchase_requests
-        WHERE id = ?
+        WHERE id = %s
         """,
         (request_id,)
     ).fetchone()
@@ -1458,7 +1482,7 @@ def chat():
             "understand and use the platform."
         )
 
-    if not os.environ.get("MY_API_KEY"):
+    if not os.environ.get("OPENROUTER_API_KEY"):
         return jsonify({
             "error": "AI service is not configured"
         }), 503
