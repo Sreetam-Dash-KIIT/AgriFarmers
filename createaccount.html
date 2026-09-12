@@ -379,6 +379,13 @@
       >
         <option value="en">English</option>
         <option value="hi">हिन्दी</option>
+        <option value="or">ଓଡ଼ିଆ</option>
+        <option value="mr">मराठी</option>
+        <option value="bn">বাংলা</option>
+        <option value="ta">தமிழ்</option>
+        <option value="te">తెలుగు</option>
+        <option value="bho">भोजपुरी</option>
+        <option value="as">অসমীয়া</option>
       </select>
 
     </div>
@@ -900,9 +907,7 @@
             'var(--error-color)';
 
           locationStatus.textContent =
-            languageSelect.value === 'hi'
-              ? 'आपके ब्राउज़र में स्थान सुविधा उपलब्ध नहीं है।'
-              : 'Geolocation is not supported by your browser.';
+            agriAuthTranslate("Geolocation is not supported by your browser.");
 
           return;
 
@@ -916,9 +921,7 @@
           'var(--text-muted)';
 
         locationStatus.textContent =
-          languageSelect.value === 'hi'
-            ? 'आपका स्थान खोजा जा रहा है...'
-            : 'Detecting your location...';
+          agriAuthTranslate("Detecting your location...");
 
 
         navigator.geolocation.getCurrentPosition(
@@ -979,9 +982,7 @@
 
 
                 locationStatus.textContent =
-                  languageSelect.value === 'hi'
-                    ? 'स्थान सफलतापूर्वक खोज लिया गया!'
-                    : 'Location detected successfully!';
+                  agriAuthTranslate("Location detected successfully!");
 
               } else {
 
@@ -992,9 +993,7 @@
                   'var(--primary)';
 
                 locationStatus.textContent =
-                  languageSelect.value === 'hi'
-                    ? 'निर्देशांक प्राप्त हुए!'
-                    : 'Coordinates detected!';
+                  agriAuthTranslate("Coordinates detected!");
 
               }
 
@@ -1007,9 +1006,7 @@
                 'var(--primary)';
 
               locationStatus.textContent =
-                languageSelect.value === 'hi'
-                  ? 'निर्देशांक प्राप्त हुए!'
-                  : 'Coordinates detected!';
+                agriAuthTranslate("Coordinates detected!");
 
             }
 
@@ -1293,9 +1290,7 @@
           if (response.ok) {
 
             alert(
-              languageSelect.value === 'hi'
-                ? 'खाता सफलतापूर्वक बनाया गया!'
-                : 'Account created successfully!'
+              agriAuthTranslate("Account created successfully!")
             );
 
 
@@ -1308,9 +1303,7 @@
             alert(
               data.error ||
               (
-                languageSelect.value === 'hi'
-                  ? 'खाता बनाने में समस्या हुई।'
-                  : 'Failed to create account.'
+                agriAuthTranslate("Failed to create account.")
               )
             );
 
@@ -1326,9 +1319,7 @@
 
 
           alert(
-            languageSelect.value === 'hi'
-              ? 'AgriConnect सर्वर से कनेक्ट नहीं हो सका।'
-              : 'Could not connect to the AgriConnect server.'
+            agriAuthTranslate("Could not connect to the AgriConnect server.")
           );
 
         }
@@ -1337,6 +1328,92 @@
     );
 
   </script>
+
+
+<script>
+(function () {
+  const LANGS = ["en","hi","or","mr","bn","ta","te","bho","as"];
+  const translations = {
+    en: {
+      "Invalid email or password.":"Invalid email or password.",
+      "Invalid login response from server.":"Invalid login response from server.",
+      "Login successful!":"Login successful!",
+      "Unknown user role.":"Unknown user role.",
+      "Could not connect to the AgriConnect server.":"Could not connect to the AgriConnect server.",
+      "Logging in...":"Logging in...",
+      "Account created successfully!":"Account created successfully!",
+      "Failed to create account.":"Failed to create account.",
+      "AgriConnect server connection failed.":"AgriConnect server connection failed.",
+      "Location permission denied.":"Location permission denied.",
+      "Location information unavailable.":"Location information unavailable.",
+      "Location request timed out.":"Location request timed out.",
+      "An error occurred fetching location.":"An error occurred fetching location."
+    },
+    hi: {
+      "Invalid email or password.":"ईमेल या पासवर्ड गलत है.","Invalid login response from server.":"लॉगिन प्रतिक्रिया अमान्य है।","Login successful!":"लॉग इन सफल रहा!","Unknown user role.":"अज्ञात उपयोगकर्ता भूमिका।","Could not connect to the AgriConnect server.":"AgriConnect सर्वर से कनेक्ट नहीं हो सका।","Logging in...":"लॉग इन हो रहा है...","Account created successfully!":"खाता सफलतापूर्वक बनाया गया!","Failed to create account.":"खाता बनाने में समस्या हुई।","AgriConnect server connection failed.":"AgriConnect सर्वर से कनेक्शन विफल हुआ।","Location permission denied.":"लोकेशन की अनुमति नहीं दी गई।","Location information unavailable.":"लोकेशन की जानकारी उपलब्ध नहीं है।","Location request timed out.":"लोकेशन अनुरोध का समय समाप्त हो गया।","An error occurred fetching location.":"लोकेशन प्राप्त करते समय त्रुटि हुई।"
+    },
+    or: {
+      "Invalid email or password.":"ଇମେଲ୍ କିମ୍ବା ପାସୱାର୍ଡ ଭୁଲ୍ ଅଛି।","Invalid login response from server.":"ସର୍ଭରରୁ ଅବୈଧ ଲଗଇନ୍ ପ୍ରତିକ୍ରିୟା।","Login successful!":"ଲଗଇନ୍ ସଫଳ ହେଲା!","Unknown user role.":"ଅଜଣା ବ୍ୟବହାରକାରୀ ଭୂମିକା।","Could not connect to the AgriConnect server.":"AgriConnect ସର୍ଭର ସହିତ ସଂଯୋଗ ହୋଇପାରିଲା ନାହିଁ।","Logging in...":"ଲଗଇନ୍ ହେଉଛି...","Account created successfully!":"ଖାତା ସଫଳତାର ସହିତ ତିଆରି ହେଲା!","Failed to create account.":"ଖାତା ତିଆରି କରିବାରେ ବିଫଳ।","AgriConnect server connection failed.":"AgriConnect ସର୍ଭର ସହିତ ସଂଯୋଗ ବିଫଳ।","Location permission denied.":"ସ୍ଥାନ ଅନୁମତି ଦିଆଯାଇନାହିଁ।","Location information unavailable.":"ସ୍ଥାନ ସୂଚନା ଉପଲବ୍ଧ ନାହିଁ।","Location request timed out.":"ସ୍ଥାନ ଅନୁରୋଧର ସମୟ ସମାପ୍ତ ହେଲା।","An error occurred fetching location.":"ସ୍ଥାନ ଆଣିବା ସମୟରେ ତ୍ରୁଟି ଘଟିଲା।"
+    },
+    mr: {
+      "Invalid email or password.":"ईमेल किंवा पासवर्ड चुकीचा आहे.","Invalid login response from server.":"सर्व्हरकडून अवैध लॉगिन प्रतिसाद मिळाला.","Login successful!":"लॉग इन यशस्वी झाले!","Unknown user role.":"अज्ञात वापरकर्ता भूमिका.","Could not connect to the AgriConnect server.":"AgriConnect सर्व्हरशी कनेक्ट होता आले नाही.","Logging in...":"लॉग इन होत आहे...","Account created successfully!":"खाते यशस्वीपणे तयार झाले!","Failed to create account.":"खाते तयार करता आले नाही.","AgriConnect server connection failed.":"AgriConnect सर्व्हरशी कनेक्शन अयशस्वी झाले.","Location permission denied.":"स्थानाची परवानगी नाकारली.","Location information unavailable.":"स्थानाची माहिती उपलब्ध नाही.","Location request timed out.":"स्थान विनंतीची वेळ संपली.","An error occurred fetching location.":"स्थान मिळवताना त्रुटी आली."
+    },
+    bn: {
+      "Invalid email or password.":"ইমেল বা পাসওয়ার্ড ভুল।","Invalid login response from server.":"সার্ভার থেকে অবৈধ লগইন প্রতিক্রিয়া।","Login successful!":"লগইন সফল হয়েছে!","Unknown user role.":"অজানা ব্যবহারকারীর ভূমিকা।","Could not connect to the AgriConnect server.":"AgriConnect সার্ভারের সঙ্গে সংযোগ করা যায়নি।","Logging in...":"লগইন করা হচ্ছে...","Account created successfully!":"অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!","Failed to create account.":"অ্যাকাউন্ট তৈরি করা যায়নি।","AgriConnect server connection failed.":"AgriConnect সার্ভারের সঙ্গে সংযোগ ব্যর্থ হয়েছে।","Location permission denied.":"লোকেশনের অনুমতি দেওয়া হয়নি।","Location information unavailable.":"লোকেশনের তথ্য পাওয়া যাচ্ছে না।","Location request timed out.":"লোকেশন অনুরোধের সময় শেষ হয়েছে।","An error occurred fetching location.":"লোকেশন আনতে একটি ত্রুটি হয়েছে।"
+    },
+    ta: {
+      "Invalid email or password.":"மின்னஞ்சல் அல்லது கடவுச்சொல் தவறாக உள்ளது.","Invalid login response from server.":"சேவையகத்திலிருந்து தவறான உள்நுழைவு பதில்.","Login successful!":"உள்நுழைவு வெற்றிகரமாக முடிந்தது!","Unknown user role.":"அறியப்படாத பயனர் பங்கு.","Could not connect to the AgriConnect server.":"AgriConnect சேவையகத்துடன் இணைக்க முடியவில்லை.","Logging in...":"உள்நுழைகிறது...","Account created successfully!":"கணக்கு வெற்றிகரமாக உருவாக்கப்பட்டது!","Failed to create account.":"கணக்கை உருவாக்க முடியவில்லை.","AgriConnect server connection failed.":"AgriConnect சேவையக இணைப்பு தோல்வியடைந்தது.","Location permission denied.":"இருப்பிட அனுமதி மறுக்கப்பட்டது.","Location information unavailable.":"இருப்பிடத் தகவல் கிடைக்கவில்லை.","Location request timed out.":"இருப்பிடக் கோரிக்கையின் நேரம் முடிந்தது.","An error occurred fetching location.":"இருப்பிடத்தைப் பெறும்போது பிழை ஏற்பட்டது."
+    },
+    te: {
+      "Invalid email or password.":"ఇమెయిల్ లేదా పాస్‌వర్డ్ తప్పుగా ఉంది.","Invalid login response from server.":"సర్వర్ నుంచి చెల్లని లాగిన్ ప్రతిస్పందన.","Login successful!":"లాగిన్ విజయవంతమైంది!","Unknown user role.":"తెలియని వినియోగదారు పాత్ర.","Could not connect to the AgriConnect server.":"AgriConnect సర్వర్‌కు కనెక్ట్ కాలేకపోయాము.","Logging in...":"లాగిన్ అవుతోంది...","Account created successfully!":"ఖాతా విజయవంతంగా సృష్టించబడింది!","Failed to create account.":"ఖాతాను సృష్టించలేకపోయాము.","AgriConnect server connection failed.":"AgriConnect సర్వర్ కనెక్షన్ విఫలమైంది.","Location permission denied.":"స్థాన అనుమతి నిరాకరించబడింది.","Location information unavailable.":"స్థాన సమాచారం అందుబాటులో లేదు.","Location request timed out.":"స్థాన అభ్యర్థన సమయం ముగిసింది.","An error occurred fetching location.":"స్థానాన్ని పొందడంలో లోపం జరిగింది."
+    },
+    bho: {
+      "Invalid email or password.":"ईमेल भा पासवर्ड गलत बा.","Invalid login response from server.":"सर्वर से गलत लॉगिन जवाब मिलल।","Login successful!":"लॉग इन सफल भइल!","Unknown user role.":"अज्ञात यूजर भूमिका।","Could not connect to the AgriConnect server.":"AgriConnect सर्वर से कनेक्ट ना हो पावल।","Logging in...":"लॉग इन हो रहल बा...","Account created successfully!":"खाता सफलतापूर्वक बन गइल!","Failed to create account.":"खाता बनावे में दिक्कत भइल।","AgriConnect server connection failed.":"AgriConnect सर्वर से कनेक्शन फेल भइल।","Location permission denied.":"लोकेशन के अनुमति ना मिलल।","Location information unavailable.":"लोकेशन के जानकारी उपलब्ध नइखे।","Location request timed out.":"लोकेशन अनुरोध के समय खतम हो गइल।","An error occurred fetching location.":"लोकेशन ले आवे में दिक्कत भइल।"
+    },
+    as: {
+      "Invalid email or password.":"ইমেইল বা পাছৱৰ্ড ভুল।","Invalid login response from server.":"চাৰ্ভাৰৰ পৰা অবৈধ লগইন সঁহাৰি।","Login successful!":"লগইন সফল হ'ল!","Unknown user role.":"অজ্ঞাত ব্যৱহাৰকাৰীৰ ভূমিকা।","Could not connect to the AgriConnect server.":"AgriConnect চাৰ্ভাৰৰ সৈতে সংযোগ কৰিব পৰা নগ'ল।","Logging in...":"লগইন হৈ আছে...","Account created successfully!":"একাউণ্ট সফলভাৱে সৃষ্টি কৰা হৈছে!","Failed to create account.":"একাউণ্ট সৃষ্টি কৰিব পৰা নগ'ল।","AgriConnect server connection failed.":"AgriConnect চাৰ্ভাৰৰ সংযোগ বিফল হ'ল।","Location permission denied.":"স্থানৰ অনুমতি দিয়া হোৱা নাই।","Location information unavailable.":"স্থানৰ তথ্য উপলব্ধ নহয়।","Location request timed out.":"স্থানৰ অনুৰোধৰ সময় শেষ হ'ল।","An error occurred fetching location.":"স্থানৰ তথ্য আনোতে এটা ত্ৰুটি ঘটিল।"
+    }
+  };
+
+  function currentLang() {
+    return LANGS.includes(localStorage.getItem("agriconnect_language"))
+      ? localStorage.getItem("agriconnect_language")
+      : "en";
+  }
+
+  function t(text) {
+    return (translations[currentLang()] && translations[currentLang()][text]) || text;
+  }
+
+  function applyLanguage(lang) {
+    if (!LANGS.includes(lang)) lang = "en";
+    localStorage.setItem("agriconnect_language", lang);
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll("[data-en]").forEach(el => {
+      const value = el.getAttribute("data-" + lang) || el.getAttribute("data-en");
+      if (value !== null) el.textContent = value;
+    });
+
+    const select = document.getElementById("languageSelect");
+    if (select) select.value = lang;
+
+    // Translate native labels/options that use data attributes.
+    document.querySelectorAll("[data-placeholder-en]").forEach(el => {
+      el.placeholder = el.getAttribute("data-placeholder-" + lang) || el.getAttribute("data-placeholder-en");
+    });
+  }
+
+  const select = document.getElementById("languageSelect");
+  if (select) {
+    select.addEventListener("change", () => applyLanguage(select.value));
+    applyLanguage(currentLang());
+  }
+
+  window.agriAuthTranslate = t;
+  window.agriAuthApplyLanguage = applyLanguage;
+})();
+</script>
 
 </body>
 </html>
