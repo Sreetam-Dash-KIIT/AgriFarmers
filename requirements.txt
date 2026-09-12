@@ -1,0 +1,6 @@
+Flask
+Flask-CORS
+Werkzeug
+openai
+psycopg2-binary
+gunicorn
