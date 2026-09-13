@@ -23,13 +23,17 @@ CORS(app, supports_credentials=True)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+
+
 openrouter_client = None
+
 
 def get_openrouter_client():
     global openrouter_client
     api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
         return None
+
     if openrouter_client is None:
         openrouter_client = OpenAI(
             base_url="https://openrouter.ai",
@@ -43,6 +47,7 @@ def get_openrouter_client():
             },
             timeout=30.0
         )
+
     return openrouter_client
 
 class DatabaseConnection:
