@@ -27,16 +27,23 @@ openrouter_client = None
 
 def get_openrouter_client():
     global openrouter_client
-    api_key = os.environ.get("OPENROUTER_API_KEY") or os.environ.get("MY_API_KEY")
+    api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
         return None
     if openrouter_client is None:
         openrouter_client = OpenAI(
-            base_url="https://openrouter.ai/api/v1",
-            api_key=api_key
+            base_url="https://openrouter.ai",
+            api_key=api_key,
+            default_headers={
+                "HTTP-Referer": os.environ.get(
+                    "APP_URL",
+                    "https://onrender.com"
+                ),
+                "X-Title": "AgriConnect"
+            },
+            timeout=30.0
         )
     return openrouter_client
-
 
 class DatabaseConnection:
     def __init__(self, connection):
@@ -63,15 +70,14 @@ class DatabaseConnection:
 def get_database():
     database_url = os.environ.get("DATABASE_URL")
     if not database_url:
-        raise RuntimeError(
-            "DATABASE_URL is not set. Please set the PostgreSQL connection URL."
-        )
+                return None
     return DatabaseConnection(psycopg2.connect(database_url))
 
 
 def init_database():
     connection = get_database()
-    cursor = connection.cursor()
+    if connection is None:
+        return None
 
     try:
         cursor.execute("""
@@ -1496,11 +1502,14 @@ def chat():
         return jsonify({
             "error": "AI service is not configured"
         }), 503
-
+    
     try:
 
         response = client.chat.completions.create(
-            model="openrouter/free",
+            model=os.environ.get(
+                "OPENROUTER_MODEL",
+                "openai/gpt-4o-mini"
+            ),
             messages=[
                 {
                     "role": "system",
@@ -1510,26 +1519,30 @@ def chat():
                     "role": "user",
                     "content": message
                 }
-            ]
+            ],
+            temperature=0.7,
+            max_tokens=500
         )
-
+        
+        if not response.choices:
+            return jsonify({
+                "error": "The AI returned no choices"
+            }), 502
+            
         reply = response.choices[0].message.content
+        if not reply:
+            return jsonify({
+                "error": "The AI returned an empty response"
+            }), 502
+            
+        return jsonify({"reply": reply}), 200
 
-        return jsonify({
-            "reply": reply
-        }), 200
-
-    except Exception as e:
-
-        print(
-            "OPENROUTER ERROR:",
-            e
-        )
-
+    except Exception:
+        app.logger.exception("OpenRouter request failed")
         return jsonify({
             "error": "Unable to get a response from the AI assistant"
-        }), 500
-
+        }), 502
+    
 
 @app.route("/health", methods=["GET"])
 def health():
