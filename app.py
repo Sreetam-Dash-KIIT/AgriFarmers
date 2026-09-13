@@ -1512,30 +1512,47 @@ def chat():
             "error": "AI service is not configured"
         }), 503
 
-  try:
-      
-    response = client.chat.completions.create(
-        model=os.environ.get(
-            "OPENROUTER_MODEL",
-            "openai/gpt-4o-mini"
-        ),
-        messages=[
-            {
-                "role": "system",
-                "content": system_prompt
-            },
-            {
-                "role": "user",
-                "content": message
-            }
-        ],
-        temperature=0.7,
-        max_tokens=500
-    )
+     try:
+        response = client.chat.completions.create(
+            model=os.environ.get(
+                "OPENROUTER_MODEL",
+                "openai/gpt-4o-mini"
+            ),
+            messages=[
+                {
+                    "role": "system",
+                    "content": system_prompt
+                },
+                {
+                    "role": "user",
+                    "content": message
+                }
+            ],
+            temperature=0.7,
+            max_tokens=500
+        )
 
-    if not response.choices:
+        if not response.choices:
+            return jsonify({
+                "error": "The AI returned no choices"
+            }), 502
+
+        reply = response.choices[0].message.content
+
+        if not reply:
+            return jsonify({
+                "error": "The AI returned an empty response"
+            }), 502
+
         return jsonify({
-            "error": "The AI returned no choices"
+            "reply": reply
+        }), 200
+
+    except Exception:
+        app.logger.exception("OpenRouter request failed")
+
+        return jsonify({
+            "error": "Unable to get a response from the AI assistant"
         }), 502
 
     reply = response.choices[0].message.content
