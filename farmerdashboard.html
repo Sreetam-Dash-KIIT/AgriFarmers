@@ -3041,18 +3041,24 @@
       try {
 
         const response =
-         await fetch("/chat", {
-  method: "POST",
-  credentials: "include",
-  headers: {
-    "Content-Type": "application/json"
-  },
+          await fetch(
+            "/chat",
+            {
+              method: "POST",
+              credentials: "include",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
               body:
                 JSON.stringify({
                   message:
                     userMessage,
 
-                 role: loggedInUser.role,
+                  role:
+                    loggedInUser.role,
 
                   user_id:
                     loggedInUser.id
