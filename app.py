@@ -23,32 +23,20 @@ CORS(app, supports_credentials=True)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-
-
 openrouter_client = None
-
 
 def get_openrouter_client():
     global openrouter_client
-    api_key = os.environ.get("OPENROUTER_API_KEY")
+    api_key = os.environ.get("OPENROUTER_API_KEY") or os.environ.get("MY_API_KEY")
     if not api_key:
         return None
-
     if openrouter_client is None:
         openrouter_client = OpenAI(
-            base_url="https://openrouter.ai",
-            api_key=api_key,
-            default_headers={
-                "HTTP-Referer": os.environ.get(
-                    "APP_URL",
-                    "https://onrender.com"
-                ),
-                "X-Title": "AgriConnect"
-            },
-            timeout=30.0
+            base_url="https://openrouter.ai/api/v1",
+            api_key=api_key
         )
-
     return openrouter_client
+
 
 class DatabaseConnection:
     def __init__(self, connection):
@@ -75,16 +63,20 @@ class DatabaseConnection:
 def get_database():
     database_url = os.environ.get("DATABASE_URL")
     if not database_url:
-                return None
+        raise RuntimeError(
+            "DATABASE_URL is not set. Please set the PostgreSQL connection URL."
+        )
     return DatabaseConnection(psycopg2.connect(database_url))
 
 
 def init_database():
-    connection = get_database()
-    if connection is None:
-        return None
+    connection = None
+    cursor = None
 
     try:
+        connection = get_database()
+        cursor = connection.cursor()
+
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
@@ -151,18 +143,38 @@ def init_database():
             )
         """)
 
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_products_farmer_id ON products(farmer_id)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_interests_buyer_id ON interests(buyer_id)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_interests_product_id ON interests(product_id)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_purchase_requests_buyer ON purchase_requests(buyer_id)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_purchase_requests_farmer ON purchase_requests(farmer_id)")
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_purchase_requests_product ON purchase_requests(product_id)")
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_products_farmer_id ON products(farmer_id)"
+        )
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_interests_buyer_id ON interests(buyer_id)"
+        )
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_interests_product_id ON interests(product_id)"
+        )
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_purchase_requests_buyer ON purchase_requests(buyer_id)"
+        )
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_purchase_requests_farmer ON purchase_requests(farmer_id)"
+        )
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_purchase_requests_product ON purchase_requests(product_id)"
+        )
 
         connection.commit()
         print("PostgreSQL database initialized successfully!")
+
+    except Exception:
+        if connection is not None:
+            connection.rollback()
+        raise
+
     finally:
-        cursor.close()
-        connection.close()
+        if cursor is not None:
+            cursor.close()
+        if connection is not None:
+            connection.close()
 
 
 def get_current_user():
@@ -1507,14 +1519,11 @@ def chat():
         return jsonify({
             "error": "AI service is not configured"
         }), 503
-    
+
     try:
 
         response = client.chat.completions.create(
-            model=os.environ.get(
-                "OPENROUTER_MODEL",
-                "openai/gpt-4o-mini"
-            ),
+            model="openrouter/free",
             messages=[
                 {
                     "role": "system",
@@ -1524,30 +1533,26 @@ def chat():
                     "role": "user",
                     "content": message
                 }
-            ],
-            temperature=0.7,
-            max_tokens=500
+            ]
         )
-        
-        if not response.choices:
-            return jsonify({
-                "error": "The AI returned no choices"
-            }), 502
-            
-        reply = response.choices[0].message.content
-        if not reply:
-            return jsonify({
-                "error": "The AI returned an empty response"
-            }), 502
-            
-        return jsonify({"reply": reply}), 200
 
-    except Exception:
-        app.logger.exception("OpenRouter request failed")
+        reply = response.choices[0].message.content
+
+        return jsonify({
+            "reply": reply
+        }), 200
+
+    except Exception as e:
+
+        print(
+            "OPENROUTER ERROR:",
+            e
+        )
+
         return jsonify({
             "error": "Unable to get a response from the AI assistant"
-        }), 502
-    
+        }), 500
+
 
 @app.route("/health", methods=["GET"])
 def health():
