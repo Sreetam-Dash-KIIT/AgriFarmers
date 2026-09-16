@@ -23,20 +23,6 @@ CORS(app, supports_credentials=True)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-openrouter_client = None
-
-def get_openrouter_client():
-    global openrouter_client
-    api_key = os.environ.get("OPENROUTER_API_KEY") or os.environ.get("MY_API_KEY")
-    if not api_key:
-        return None
-    if openrouter_client is None:
-        openrouter_client = OpenAI(
-            base_url="https://openrouter.ai/api/v1",
-            api_key=api_key
-        )
-    return openrouter_client
-
 
 class DatabaseConnection:
     def __init__(self, connection):
@@ -62,21 +48,37 @@ class DatabaseConnection:
 
 def get_database():
     database_url = os.environ.get("DATABASE_URL")
+
     if not database_url:
         raise RuntimeError(
             "DATABASE_URL is not set. Please set the PostgreSQL connection URL."
         )
-    return DatabaseConnection(psycopg2.connect(database_url))
+
+    return DatabaseConnection(
+        psycopg2.connect(database_url)
+    )
+
+
+def get_openrouter_client():
+    api_key = os.environ.get("OPENROUTER_API_KEY")
+
+    if not api_key:
+        api_key = os.environ.get("MY_ROUTER_KEY")
+
+    if not api_key:
+        return None
+
+    return OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=api_key
+    )
 
 
 def init_database():
-    connection = None
-    cursor = None
+    connection = get_database()
+    cursor = connection.cursor()
 
     try:
-        connection = get_database()
-        cursor = connection.cursor()
-
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
@@ -95,9 +97,31 @@ def init_database():
                 crop TEXT NOT NULL,
                 quantity DOUBLE PRECISION NOT NULL,
                 price DOUBLE PRECISION NOT NULL,
-                location TEXT NOT NULL,
-                FOREIGN KEY (farmer_id) REFERENCES users(id) ON DELETE SET NULL
+                location TEXT NOT NULL
             )
+        """)
+
+        cursor.execute("""
+            ALTER TABLE products
+            ADD COLUMN IF NOT EXISTS farmer_id INTEGER
+        """)
+
+        cursor.execute("""
+            DO $$
+            BEGIN
+                IF NOT EXISTS (
+                    SELECT 1
+                    FROM pg_constraint
+                    WHERE conname = 'products_farmer_id_fkey'
+                ) THEN
+                    ALTER TABLE products
+                    ADD CONSTRAINT products_farmer_id_fkey
+                    FOREIGN KEY (farmer_id)
+                    REFERENCES users(id)
+                    ON DELETE SET NULL;
+                END IF;
+            END
+            $$
         """)
 
         cursor.execute("""
@@ -143,38 +167,47 @@ def init_database():
             )
         """)
 
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_products_farmer_id ON products(farmer_id)"
-        )
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_interests_buyer_id ON interests(buyer_id)"
-        )
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_interests_product_id ON interests(product_id)"
-        )
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_purchase_requests_buyer ON purchase_requests(buyer_id)"
-        )
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_purchase_requests_farmer ON purchase_requests(farmer_id)"
-        )
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_purchase_requests_product ON purchase_requests(product_id)"
-        )
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_products_farmer_id
+            ON products(farmer_id)
+        """)
+
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_interests_buyer_id
+            ON interests(buyer_id)
+        """)
+
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_interests_product_id
+            ON interests(product_id)
+        """)
+
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_purchase_requests_buyer
+            ON purchase_requests(buyer_id)
+        """)
+
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_purchase_requests_farmer
+            ON purchase_requests(farmer_id)
+        """)
+
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_purchase_requests_product
+            ON purchase_requests(product_id)
+        """)
 
         connection.commit()
+
         print("PostgreSQL database initialized successfully!")
 
     except Exception:
-        if connection is not None:
-            connection.rollback()
+        connection.rollback()
         raise
 
     finally:
-        if cursor is not None:
-            cursor.close()
-        if connection is not None:
-            connection.close()
+        cursor.close()
+        connection.close()
 
 
 def get_current_user():
@@ -185,18 +218,25 @@ def get_current_user():
 
     connection = get_database()
 
-    user = connection.execute(
-        """
-        SELECT id, name, email, role, location
-        FROM users
-        WHERE id = %s
-        """,
-        (user_id,)
-    ).fetchone()
+    try:
+        user = connection.execute(
+            """
+            SELECT
+                id,
+                name,
+                email,
+                role,
+                location
+            FROM users
+            WHERE id = %s
+            """,
+            (user_id,)
+        ).fetchone()
 
-    connection.close()
+        return user
 
-    return user
+    finally:
+        connection.close()
 
 
 def require_login():
@@ -235,42 +275,66 @@ init_database()
 
 @app.route("/")
 def home():
-    return send_from_directory(BASE_DIR, "index.html")
+    return send_from_directory(
+        BASE_DIR,
+        "index.html"
+    )
 
 
 @app.route("/createaccount.html")
 def create_account_page():
-    return send_from_directory(BASE_DIR, "createaccount.html")
+    return send_from_directory(
+        BASE_DIR,
+        "createaccount.html"
+    )
 
 
 @app.route("/login.html")
 def login_page():
-    return send_from_directory(BASE_DIR, "login.html")
+    return send_from_directory(
+        BASE_DIR,
+        "login.html"
+    )
 
 
 @app.route("/farmerdashboard.html")
 def farmer_dashboard():
-    return send_from_directory(BASE_DIR, "farmerdashboard.html")
+    return send_from_directory(
+        BASE_DIR,
+        "farmerdashboard.html"
+    )
 
 
 @app.route("/consumerdashboard.html")
 def consumer_dashboard():
-    return send_from_directory(BASE_DIR, "consumerdashboard.html")
+    return send_from_directory(
+        BASE_DIR,
+        "consumerdashboard.html"
+    )
 
 
 @app.route("/driverdashboard.html")
 def driver_dashboard():
-    return send_from_directory(BASE_DIR, "driverdashboard.html")
+    return send_from_directory(
+        BASE_DIR,
+        "driverdashboard.html"
+    )
 
 
 @app.route("/driver-dashboard.html")
 def driver_dashboard_alt():
-    return send_from_directory(BASE_DIR, "driverdashboard.html")
+    return send_from_directory(
+        BASE_DIR,
+        "driverdashboard.html"
+    )
 
 
 @app.route("/myinsurance.html")
 def my_insurance_page():
-    insurance_path = os.path.join(BASE_DIR, "myinsurance.html")
+    insurance_path = os.path.join(
+        BASE_DIR,
+        "myinsurance.html"
+    )
 
     if not os.path.isfile(insurance_path):
         return f"""
@@ -349,28 +413,30 @@ def coconut_image():
 def get_products():
     connection = get_database()
 
-    products = connection.execute("""
-        SELECT
-            products.id,
-            products.crop,
-            products.quantity,
-            products.price,
-            products.location,
-            products.farmer_id,
-            users.name AS farmer_name,
-            users.location AS farmer_location
-        FROM products
-        LEFT JOIN users
-        ON products.farmer_id = users.id
-        ORDER BY products.id DESC
-    """).fetchall()
+    try:
+        products = connection.execute("""
+            SELECT
+                products.id,
+                products.crop,
+                products.quantity,
+                products.price,
+                products.location,
+                products.farmer_id,
+                users.name AS farmer_name,
+                users.location AS farmer_location
+            FROM products
+            LEFT JOIN users
+            ON products.farmer_id = users.id
+            ORDER BY products.id DESC
+        """).fetchall()
 
-    connection.close()
+        return jsonify([
+            dict(product)
+            for product in products
+        ])
 
-    return jsonify([
-        dict(product)
-        for product in products
-    ])
+    finally:
+        connection.close()
 
 
 @app.route("/products", methods=["POST"])
@@ -429,33 +495,71 @@ def add_product():
 
     connection = get_database()
 
-    connection.execute(
-        """
-        INSERT INTO products
-        (
-            farmer_id,
-            crop,
-            quantity,
-            price,
-            location
+    try:
+        cursor = connection.execute(
+            """
+            INSERT INTO products
+            (
+                farmer_id,
+                crop,
+                quantity,
+                price,
+                location
+            )
+            VALUES (%s, %s, %s, %s, %s)
+            RETURNING
+                id,
+                farmer_id,
+                crop,
+                quantity,
+                price,
+                location
+            """,
+            (
+                farmer["id"],
+                crop,
+                quantity,
+                price,
+                location
+            )
         )
-        VALUES (%s, %s, %s, %s, %s)
-        """,
-        (
-            farmer["id"],
-            crop,
-            quantity,
-            price,
-            location
+
+        product = cursor.fetchone()
+        cursor.close()
+
+        connection.commit()
+
+        return jsonify({
+            "message": "Product added successfully!",
+            "product": dict(product)
+        }), 201
+
+    except psycopg2.Error as e:
+        connection.rollback()
+
+        print(
+            "PRODUCT INSERT ERROR:",
+            e
         )
-    )
 
-    connection.commit()
-    connection.close()
+        return jsonify({
+            "error": f"Database error while adding product: {str(e)}"
+        }), 500
 
-    return jsonify({
-        "message": "Product added successfully!"
-    }), 201
+    except Exception as e:
+        connection.rollback()
+
+        print(
+            "PRODUCT ERROR:",
+            e
+        )
+
+        return jsonify({
+            "error": "Unable to add product"
+        }), 500
+
+    finally:
+        connection.close()
 
 
 @app.route("/users", methods=["POST"])
@@ -540,17 +644,32 @@ def add_user():
         )
 
         user_id = cursor.fetchone()["id"]
+
         cursor.close()
+
         connection.commit()
 
     except psycopg2.IntegrityError:
-        connection.close()
+        connection.rollback()
 
         return jsonify({
             "error": "Email already registered"
         }), 409
 
-    connection.close()
+    except Exception as e:
+        connection.rollback()
+
+        print(
+            "USER CREATION ERROR:",
+            e
+        )
+
+        return jsonify({
+            "error": "Unable to create user"
+        }), 500
+
+    finally:
+        connection.close()
 
     return jsonify({
         "message": "User created successfully!",
@@ -586,16 +705,18 @@ def login():
 
     connection = get_database()
 
-    user = connection.execute(
-        """
-        SELECT *
-        FROM users
-        WHERE email = %s
-        """,
-        (email,)
-    ).fetchone()
+    try:
+        user = connection.execute(
+            """
+            SELECT *
+            FROM users
+            WHERE email = %s
+            """,
+            (email,)
+        ).fetchone()
 
-    connection.close()
+    finally:
+        connection.close()
 
     if not user:
         return jsonify({
@@ -706,99 +827,99 @@ def register_vehicle():
 
     connection = get_database()
 
-    existing_driver_vehicle = connection.execute(
-        """
-        SELECT id
-        FROM vehicles
-        WHERE driver_id = %s
-        """,
-        (driver["id"],)
-    ).fetchone()
+    try:
+        existing_driver_vehicle = connection.execute(
+            """
+            SELECT id
+            FROM vehicles
+            WHERE driver_id = %s
+            """,
+            (driver["id"],)
+        ).fetchone()
 
-    if existing_driver_vehicle:
-
-        try:
-            connection.execute(
-                """
-                UPDATE vehicles
-                SET
-                    vehicle_type = %s,
-                    vehicle_number = %s,
-                    capacity = %s,
-                    fuel_type = %s
-                WHERE driver_id = %s
-                """,
-                (
-                    vehicle_type,
-                    vehicle_number,
-                    capacity,
-                    fuel_type,
-                    driver["id"]
+        if existing_driver_vehicle:
+            try:
+                connection.execute(
+                    """
+                    UPDATE vehicles
+                    SET
+                        vehicle_type = %s,
+                        vehicle_number = %s,
+                        capacity = %s,
+                        fuel_type = %s
+                    WHERE driver_id = %s
+                    """,
+                    (
+                        vehicle_type,
+                        vehicle_number,
+                        capacity,
+                        fuel_type,
+                        driver["id"]
+                    )
                 )
-            )
 
-        except psycopg2.IntegrityError:
-            connection.close()
+            except psycopg2.IntegrityError:
+                connection.rollback()
 
-            return jsonify({
-                "error": "This vehicle registration number is already registered"
-            }), 409
+                return jsonify({
+                    "error": "This vehicle registration number is already registered"
+                }), 409
 
-    else:
-
-        try:
-            connection.execute(
-                """
-                INSERT INTO vehicles
-                (
-                    driver_id,
-                    vehicle_type,
-                    vehicle_number,
-                    capacity,
-                    fuel_type
+        else:
+            try:
+                connection.execute(
+                    """
+                    INSERT INTO vehicles
+                    (
+                        driver_id,
+                        vehicle_type,
+                        vehicle_number,
+                        capacity,
+                        fuel_type
+                    )
+                    VALUES (%s, %s, %s, %s, %s)
+                    """,
+                    (
+                        driver["id"],
+                        vehicle_type,
+                        vehicle_number,
+                        capacity,
+                        fuel_type
+                    )
                 )
-                VALUES (%s, %s, %s, %s, %s)
-                """,
-                (
-                    driver["id"],
-                    vehicle_type,
-                    vehicle_number,
-                    capacity,
-                    fuel_type
-                )
-            )
 
-        except psycopg2.IntegrityError:
-            connection.close()
+            except psycopg2.IntegrityError:
+                connection.rollback()
 
-            return jsonify({
-                "error": "This vehicle registration number is already registered"
-            }), 409
+                return jsonify({
+                    "error": "This vehicle registration number is already registered"
+                }), 409
 
-    connection.commit()
+        connection.commit()
 
-    vehicle = connection.execute(
-        """
-        SELECT
-            id,
-            driver_id,
-            vehicle_type,
-            vehicle_number,
-            capacity,
-            fuel_type,
-            created_at
-        FROM vehicles
-        WHERE driver_id = %s
-        """,
-        (driver["id"],)
-    ).fetchone()
+        vehicle = connection.execute(
+            """
+            SELECT
+                id,
+                driver_id,
+                vehicle_type,
+                vehicle_number,
+                capacity,
+                fuel_type,
+                created_at
+            FROM vehicles
+            WHERE driver_id = %s
+            """,
+            (driver["id"],)
+        ).fetchone()
 
-    connection.close()
+        return jsonify({
+            "message": "Vehicle registered successfully!",
+            "vehicle": dict(vehicle)
+        }), 201
 
-    return jsonify({
-        "message": "Vehicle registered successfully!",
-        "vehicle": dict(vehicle)
-    }), 201
+    finally:
+        connection.close()
 
 
 @app.route("/vehicles/<int:driver_id>", methods=["GET"])
@@ -815,32 +936,34 @@ def get_vehicle(driver_id):
 
     connection = get_database()
 
-    vehicle = connection.execute(
-        """
-        SELECT
-            id,
-            driver_id,
-            vehicle_type,
-            vehicle_number,
-            capacity,
-            fuel_type,
-            created_at
-        FROM vehicles
-        WHERE driver_id = %s
-        """,
-        (driver_id,)
-    ).fetchone()
+    try:
+        vehicle = connection.execute(
+            """
+            SELECT
+                id,
+                driver_id,
+                vehicle_type,
+                vehicle_number,
+                capacity,
+                fuel_type,
+                created_at
+            FROM vehicles
+            WHERE driver_id = %s
+            """,
+            (driver_id,)
+        ).fetchone()
 
-    connection.close()
+        if not vehicle:
+            return jsonify({
+                "error": "Vehicle not registered"
+            }), 404
 
-    if not vehicle:
-        return jsonify({
-            "error": "Vehicle not registered"
-        }), 404
+        return jsonify(
+            dict(vehicle)
+        ), 200
 
-    return jsonify(
-        dict(vehicle)
-    ), 200
+    finally:
+        connection.close()
 
 
 @app.route("/search", methods=["GET"])
@@ -852,131 +975,121 @@ def search_products():
 
     connection = get_database()
 
-    query = """
-        SELECT
-            products.id,
-            products.crop,
-            products.quantity,
-            products.price,
-            products.location,
-            products.farmer_id,
-            users.name AS farmer_name,
-            users.location AS farmer_location
-        FROM products
-        LEFT JOIN users
-        ON products.farmer_id = users.id
-        WHERE 1=1
-    """
-
-    parameters = []
-
-    if crop:
-        query += """
-            AND LOWER(products.crop)
-            LIKE LOWER(%s)
+    try:
+        query = """
+            SELECT
+                products.id,
+                products.crop,
+                products.quantity,
+                products.price,
+                products.location,
+                products.farmer_id,
+                users.name AS farmer_name,
+                users.location AS farmer_location
+            FROM products
+            LEFT JOIN users
+            ON products.farmer_id = users.id
+            WHERE 1=1
         """
 
-        parameters.append(
-            f"%{crop.strip()}%"
-        )
+        parameters = []
 
-    if location:
-        query += """
-            AND LOWER(products.location)
-            LIKE LOWER(%s)
-        """
+        if crop:
+            query += """
+                AND LOWER(products.crop)
+                LIKE LOWER(%s)
+            """
 
-        parameters.append(
-            f"%{location.strip()}%"
-        )
-
-    min_price_value = None
-    max_price_value = None
-
-    if min_price:
-
-        try:
-            min_price_value = float(
-                min_price
+            parameters.append(
+                f"%{crop.strip()}%"
             )
 
-        except ValueError:
-            connection.close()
+        if location:
+            query += """
+                AND LOWER(products.location)
+                LIKE LOWER(%s)
+            """
 
-            return jsonify({
-                "error": "Minimum price must be a number"
-            }), 400
-
-        if min_price_value < 0:
-            connection.close()
-
-            return jsonify({
-                "error": "Minimum price cannot be negative"
-            }), 400
-
-        query += """
-            AND products.price >= %s
-        """
-
-        parameters.append(
-            min_price_value
-        )
-
-    if max_price:
-
-        try:
-            max_price_value = float(
-                max_price
+            parameters.append(
+                f"%{location.strip()}%"
             )
 
-        except ValueError:
-            connection.close()
+        min_price_value = None
+        max_price_value = None
 
+        if min_price:
+            try:
+                min_price_value = float(
+                    min_price
+                )
+
+            except ValueError:
+                return jsonify({
+                    "error": "Minimum price must be a number"
+                }), 400
+
+            if min_price_value < 0:
+                return jsonify({
+                    "error": "Minimum price cannot be negative"
+                }), 400
+
+            query += """
+                AND products.price >= %s
+            """
+
+            parameters.append(
+                min_price_value
+            )
+
+        if max_price:
+            try:
+                max_price_value = float(
+                    max_price
+                )
+
+            except ValueError:
+                return jsonify({
+                    "error": "Maximum price must be a number"
+                }), 400
+
+            if max_price_value < 0:
+                return jsonify({
+                    "error": "Maximum price cannot be negative"
+                }), 400
+
+            query += """
+                AND products.price <= %s
+            """
+
+            parameters.append(
+                max_price_value
+            )
+
+        if (
+            min_price_value is not None
+            and max_price_value is not None
+            and min_price_value > max_price_value
+        ):
             return jsonify({
-                "error": "Maximum price must be a number"
-            }), 400
-
-        if max_price_value < 0:
-            connection.close()
-
-            return jsonify({
-                "error": "Maximum price cannot be negative"
+                "error": "Minimum price cannot be greater than maximum price"
             }), 400
 
         query += """
-            AND products.price <= %s
+            ORDER BY products.id DESC
         """
 
-        parameters.append(
-            max_price_value
-        )
+        products = connection.execute(
+            query,
+            parameters
+        ).fetchall()
 
-    if (
-        min_price_value is not None
-        and max_price_value is not None
-        and min_price_value > max_price_value
-    ):
+        return jsonify([
+            dict(product)
+            for product in products
+        ])
+
+    finally:
         connection.close()
-
-        return jsonify({
-            "error": "Minimum price cannot be greater than maximum price"
-        }), 400
-
-    query += """
-        ORDER BY products.id DESC
-    """
-
-    products = connection.execute(
-        query,
-        parameters
-    ).fetchall()
-
-    connection.close()
-
-    return jsonify([
-        dict(product)
-        for product in products
-    ])
 
 
 @app.route("/interests", methods=["POST"])
@@ -1001,9 +1114,7 @@ def add_interest():
         }), 400
 
     try:
-        product_id = int(
-            product_id
-        )
+        product_id = int(product_id)
 
     except (TypeError, ValueError):
         return jsonify({
@@ -1012,52 +1123,52 @@ def add_interest():
 
     connection = get_database()
 
-    product = connection.execute(
-        """
-        SELECT *
-        FROM products
-        WHERE id = %s
-        """,
-        (product_id,)
-    ).fetchone()
-
-    if not product:
-        connection.close()
-
-        return jsonify({
-            "error": "Product not found"
-        }), 404
-
     try:
-        connection.execute(
+        product = connection.execute(
             """
-            INSERT INTO interests
-            (
-                buyer_id,
-                product_id
-            )
-            VALUES (%s, %s)
+            SELECT *
+            FROM products
+            WHERE id = %s
             """,
-            (
-                buyer["id"],
-                product_id
+            (product_id,)
+        ).fetchone()
+
+        if not product:
+            return jsonify({
+                "error": "Product not found"
+            }), 404
+
+        try:
+            connection.execute(
+                """
+                INSERT INTO interests
+                (
+                    buyer_id,
+                    product_id
+                )
+                VALUES (%s, %s)
+                """,
+                (
+                    buyer["id"],
+                    product_id
+                )
             )
-        )
 
-        connection.commit()
+            connection.commit()
 
-    except psycopg2.IntegrityError:
-        connection.close()
+        except psycopg2.IntegrityError:
+            connection.rollback()
+
+            return jsonify({
+                "error": "You have already shown interest in this product"
+            }), 409
 
         return jsonify({
-            "error": "You have already shown interest in this product"
-        }), 409
+            "message": "Interest recorded successfully!"
+        }), 201
 
-    connection.close()
-
-    return jsonify({
-        "message": "Interest recorded successfully!"
-    }), 201
+    finally:
+        connection.close()
 
 
 @app.route("/interests", methods=["GET"])
@@ -1069,38 +1180,39 @@ def get_interests():
 
     connection = get_database()
 
-    interests = connection.execute(
-        """
-        SELECT
-            interests.id AS interest_id,
-            users.id AS buyer_id,
-            users.name AS buyer_name,
-            users.email AS buyer_email,
-            users.location AS buyer_location,
-            products.id AS product_id,
-            products.crop AS product_crop,
-            products.quantity AS product_quantity,
-            products.price AS product_price,
-            products.location AS product_location,
-            interests.created_at AS created_at
-        FROM interests
-        INNER JOIN users
-        ON interests.buyer_id = users.id
-        INNER JOIN products
-        ON interests.product_id = products.id
-        WHERE products.farmer_id = %s
-        ORDER BY interests.id DESC
-        """,
-        (farmer["id"],)
-    ).fetchall()
+    try:
+        interests = connection.execute(
+            """
+            SELECT
+                interests.id AS interest_id,
+                users.id AS buyer_id,
+                users.name AS buyer_name,
+                users.email AS buyer_email,
+                users.location AS buyer_location,
+                products.id AS product_id,
+                products.crop AS product_crop,
+                products.quantity AS product_quantity,
+                products.price AS product_price,
+                products.location AS product_location,
+                interests.created_at AS created_at
+            FROM interests
+            INNER JOIN users
+            ON interests.buyer_id = users.id
+            INNER JOIN products
+            ON interests.product_id = products.id
+            WHERE products.farmer_id = %s
+            ORDER BY interests.id DESC
+            """,
+            (farmer["id"],)
+        ).fetchall()
 
-    connection.close()
+        return jsonify([
+            dict(interest)
+            for interest in interests
+        ]), 200
 
-    return jsonify([
-        dict(interest)
-        for interest in interests
-    ]), 200
-
+    finally:
+        connection.close()
 
 
 @app.route("/purchase-requests", methods=["POST"])
@@ -1120,9 +1232,15 @@ def create_purchase_request():
     product_id = data.get("product_id")
     quantity = data.get("quantity")
     proposed_price = data.get("proposed_price")
-    message = str(data.get("message", "")).strip()
+    message = str(
+        data.get("message", "")
+    ).strip()
 
-    if product_id is None or quantity is None or proposed_price is None:
+    if (
+        product_id is None
+        or quantity is None
+        or proposed_price is None
+    ):
         return jsonify({
             "error": "Product, quantity and proposed price are required"
         }), 400
@@ -1131,6 +1249,7 @@ def create_purchase_request():
         product_id = int(product_id)
         quantity = float(quantity)
         proposed_price = float(proposed_price)
+
     except (TypeError, ValueError):
         return jsonify({
             "error": "Product ID, quantity and proposed price must be valid numbers"
@@ -1153,96 +1272,99 @@ def create_purchase_request():
 
     connection = get_database()
 
-    product = connection.execute(
-        """
-        SELECT
-            id,
-            farmer_id,
-            crop,
-            quantity,
-            price,
-            location
-        FROM products
-        WHERE id = %s
-        """,
-        (product_id,)
-    ).fetchone()
+    try:
+        product = connection.execute(
+            """
+            SELECT
+                id,
+                farmer_id,
+                crop,
+                quantity,
+                price,
+                location
+            FROM products
+            WHERE id = %s
+            """,
+            (product_id,)
+        ).fetchone()
 
-    if not product:
-        connection.close()
-        return jsonify({
-            "error": "Product not found"
-        }), 404
+        if not product:
+            return jsonify({
+                "error": "Product not found"
+            }), 404
 
-    if not product["farmer_id"]:
-        connection.close()
-        return jsonify({
-            "error": "This product is not linked to a farmer"
-        }), 400
+        if not product["farmer_id"]:
+            return jsonify({
+                "error": "This product is not linked to a farmer"
+            }), 400
 
-    if product["farmer_id"] == buyer["id"]:
-        connection.close()
-        return jsonify({
-            "error": "You cannot request your own product"
-        }), 400
+        if product["farmer_id"] == buyer["id"]:
+            return jsonify({
+                "error": "You cannot request your own product"
+            }), 400
 
-    if quantity > float(product["quantity"]):
-        connection.close()
-        return jsonify({
-            "error": "Requested quantity exceeds available quantity"
-        }), 400
+        if quantity > float(product["quantity"]):
+            return jsonify({
+                "error": "Requested quantity exceeds available quantity"
+            }), 400
 
-    existing = connection.execute(
-        """
-        SELECT id
-        FROM purchase_requests
-        WHERE buyer_id = %s
-          AND product_id = %s
-          AND status = 'pending'
-        """,
-        (buyer["id"], product_id)
-    ).fetchone()
+        existing = connection.execute(
+            """
+            SELECT id
+            FROM purchase_requests
+            WHERE buyer_id = %s
+              AND product_id = %s
+              AND status = 'pending'
+            """,
+            (
+                buyer["id"],
+                product_id
+            )
+        ).fetchone()
 
-    if existing:
-        connection.close()
-        return jsonify({
-            "error": "You already have a pending request for this product"
-        }), 409
+        if existing:
+            return jsonify({
+                "error": "You already have a pending request for this product"
+            }), 409
 
-    cursor = connection.execute(
-        """
-        INSERT INTO purchase_requests
-        (
-            buyer_id,
-            farmer_id,
-            product_id,
-            quantity,
-            proposed_price,
-            message,
-            status
+        cursor = connection.execute(
+            """
+            INSERT INTO purchase_requests
+            (
+                buyer_id,
+                farmer_id,
+                product_id,
+                quantity,
+                proposed_price,
+                message,
+                status
+            )
+            VALUES (%s, %s, %s, %s, %s, %s, 'pending')
+            RETURNING id
+            """,
+            (
+                buyer["id"],
+                product["farmer_id"],
+                product_id,
+                quantity,
+                proposed_price,
+                message
+            )
         )
-        VALUES (%s, %s, %s, %s, %s, %s, 'pending')
-        RETURNING id
-        """,
-        (
-            buyer["id"],
-            product["farmer_id"],
-            product_id,
-            quantity,
-            proposed_price,
-            message
-        )
-    )
 
-    request_id = cursor.fetchone()["id"]
-    cursor.close()
-    connection.commit()
-    connection.close()
+        request_id = cursor.fetchone()["id"]
 
-    return jsonify({
-        "message": "Purchase request sent successfully!",
-        "request_id": request_id
-    }), 201
+        cursor.close()
+
+        connection.commit()
+
+        return jsonify({
+            "message": "Purchase request sent successfully!",
+            "request_id": request_id
+        }), 201
+
+    finally:
+        connection.close()
 
 
 @app.route("/purchase-requests", methods=["GET"])
@@ -1254,78 +1376,79 @@ def get_purchase_requests():
 
     connection = get_database()
 
-    if user["role"] == "buyer":
-        requests = connection.execute(
-            """
-            SELECT
-                purchase_requests.id AS request_id,
-                purchase_requests.product_id,
-                purchase_requests.farmer_id,
-                users.name AS farmer_name,
-                users.email AS farmer_email,
-                users.location AS farmer_location,
-                products.crop,
-                products.location AS product_location,
-                purchase_requests.quantity,
-                purchase_requests.proposed_price,
-                purchase_requests.message,
-                purchase_requests.status,
-                purchase_requests.created_at,
-                purchase_requests.updated_at
-            FROM purchase_requests
-            INNER JOIN users
-            ON purchase_requests.farmer_id = users.id
-            INNER JOIN products
-            ON purchase_requests.product_id = products.id
-            WHERE purchase_requests.buyer_id = %s
-            ORDER BY purchase_requests.id DESC
-            """,
-            (user["id"],)
-        ).fetchall()
+    try:
+        if user["role"] == "buyer":
+            requests = connection.execute(
+                """
+                SELECT
+                    purchase_requests.id AS request_id,
+                    purchase_requests.product_id,
+                    purchase_requests.farmer_id,
+                    users.name AS farmer_name,
+                    users.email AS farmer_email,
+                    users.location AS farmer_location,
+                    products.crop,
+                    products.location AS product_location,
+                    purchase_requests.quantity,
+                    purchase_requests.proposed_price,
+                    purchase_requests.message,
+                    purchase_requests.status,
+                    purchase_requests.created_at,
+                    purchase_requests.updated_at
+                FROM purchase_requests
+                INNER JOIN users
+                ON purchase_requests.farmer_id = users.id
+                INNER JOIN products
+                ON purchase_requests.product_id = products.id
+                WHERE purchase_requests.buyer_id = %s
+                ORDER BY purchase_requests.id DESC
+                """,
+                (user["id"],)
+            ).fetchall()
 
-    elif user["role"] == "farmer":
-        requests = connection.execute(
-            """
-            SELECT
-                purchase_requests.id AS request_id,
-                purchase_requests.product_id,
-                purchase_requests.buyer_id,
-                users.name AS buyer_name,
-                users.email AS buyer_email,
-                users.location AS buyer_location,
-                products.crop,
-                products.location AS product_location,
-                products.quantity AS available_quantity,
-                products.price AS listed_price,
-                purchase_requests.quantity,
-                purchase_requests.proposed_price,
-                purchase_requests.message,
-                purchase_requests.status,
-                purchase_requests.created_at,
-                purchase_requests.updated_at
-            FROM purchase_requests
-            INNER JOIN users
-            ON purchase_requests.buyer_id = users.id
-            INNER JOIN products
-            ON purchase_requests.product_id = products.id
-            WHERE purchase_requests.farmer_id = %s
-            ORDER BY purchase_requests.id DESC
-            """,
-            (user["id"],)
-        ).fetchall()
+        elif user["role"] == "farmer":
+            requests = connection.execute(
+                """
+                SELECT
+                    purchase_requests.id AS request_id,
+                    purchase_requests.product_id,
+                    purchase_requests.buyer_id,
+                    users.name AS buyer_name,
+                    users.email AS buyer_email,
+                    users.location AS buyer_location,
+                    products.crop,
+                    products.location AS product_location,
+                    products.quantity AS available_quantity,
+                    products.price AS listed_price,
+                    purchase_requests.quantity,
+                    purchase_requests.proposed_price,
+                    purchase_requests.message,
+                    purchase_requests.status,
+                    purchase_requests.created_at,
+                    purchase_requests.updated_at
+                FROM purchase_requests
+                INNER JOIN users
+                ON purchase_requests.buyer_id = users.id
+                INNER JOIN products
+                ON purchase_requests.product_id = products.id
+                WHERE purchase_requests.farmer_id = %s
+                ORDER BY purchase_requests.id DESC
+                """,
+                (user["id"],)
+            ).fetchall()
 
-    else:
+        else:
+            return jsonify({
+                "error": "Only buyers and farmers can view purchase requests"
+            }), 403
+
+        return jsonify([
+            dict(item)
+            for item in requests
+        ]), 200
+
+    finally:
         connection.close()
-        return jsonify({
-            "error": "Only buyers and farmers can view purchase requests"
-        }), 403
-
-    connection.close()
-
-    return jsonify([
-        dict(item)
-        for item in requests
-    ]), 200
 
 
 @app.route("/purchase-requests/<int:request_id>", methods=["PATCH"])
@@ -1346,110 +1469,121 @@ def update_purchase_request(request_id):
         data.get("status", "")
     ).strip().lower()
 
-    if status not in ["accepted", "rejected"]:
+    if status not in [
+        "accepted",
+        "rejected"
+    ]:
         return jsonify({
             "error": "Status must be accepted or rejected"
         }), 400
 
     connection = get_database()
 
-    purchase_request = connection.execute(
-        """
-        SELECT
-            purchase_requests.id,
-            purchase_requests.product_id,
-            purchase_requests.quantity,
-            purchase_requests.status,
-            products.quantity AS available_quantity
-        FROM purchase_requests
-        INNER JOIN products
-        ON purchase_requests.product_id = products.id
-        WHERE purchase_requests.id = %s
-          AND purchase_requests.farmer_id = %s
-        """,
-        (request_id, farmer["id"])
-    ).fetchone()
-
-    if not purchase_request:
-        connection.close()
-        return jsonify({
-            "error": "Purchase request not found"
-        }), 404
-
-    if purchase_request["status"] != "pending":
-        connection.close()
-        return jsonify({
-            "error": "This purchase request has already been processed"
-        }), 409
-
-    if status == "accepted":
-        if float(purchase_request["quantity"]) > float(
-            purchase_request["available_quantity"]
-        ):
-            connection.close()
-            return jsonify({
-                "error": "Requested quantity is no longer available"
-            }), 409
-
-        quantity_cursor = connection.execute(
+    try:
+        purchase_request = connection.execute(
             """
-            UPDATE products
-            SET quantity = quantity - %s
-            WHERE id = %s
-              AND quantity >= %s
+            SELECT
+                purchase_requests.id,
+                purchase_requests.product_id,
+                purchase_requests.quantity,
+                purchase_requests.status,
+                products.quantity AS available_quantity
+            FROM purchase_requests
+            INNER JOIN products
+            ON purchase_requests.product_id = products.id
+            WHERE purchase_requests.id = %s
+              AND purchase_requests.farmer_id = %s
             """,
             (
-                purchase_request["quantity"],
-                purchase_request["product_id"],
+                request_id,
+                farmer["id"]
+            )
+        ).fetchone()
+
+        if not purchase_request:
+            return jsonify({
+                "error": "Purchase request not found"
+            }), 404
+
+        if purchase_request["status"] != "pending":
+            return jsonify({
+                "error": "This purchase request has already been processed"
+            }), 409
+
+        if status == "accepted":
+            if float(
                 purchase_request["quantity"]
+            ) > float(
+                purchase_request["available_quantity"]
+            ):
+                return jsonify({
+                    "error": "Requested quantity is no longer available"
+                }), 409
+
+            quantity_cursor = connection.execute(
+                """
+                UPDATE products
+                SET quantity = quantity - %s
+                WHERE id = %s
+                  AND quantity >= %s
+                """,
+                (
+                    purchase_request["quantity"],
+                    purchase_request["product_id"],
+                    purchase_request["quantity"]
+                )
+            )
+
+            if quantity_cursor.rowcount == 0:
+                quantity_cursor.close()
+
+                connection.rollback()
+
+                return jsonify({
+                    "error": "Requested quantity is no longer available"
+                }), 409
+
+            quantity_cursor.close()
+
+        connection.execute(
+            """
+            UPDATE purchase_requests
+            SET
+                status = %s,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = %s
+            """,
+            (
+                status,
+                request_id
             )
         )
 
-        if quantity_cursor.rowcount == 0:
-            quantity_cursor.close()
-            connection.rollback()
-            connection.close()
-            return jsonify({
-                "error": "Requested quantity is no longer available"
-            }), 409
+        connection.commit()
 
-        quantity_cursor.close()
+        updated = connection.execute(
+            """
+            SELECT
+                id AS request_id,
+                status,
+                updated_at
+            FROM purchase_requests
+            WHERE id = %s
+            """,
+            (request_id,)
+        ).fetchone()
 
-    connection.execute(
-        """
-        UPDATE purchase_requests
-        SET
-            status = %s,
-            updated_at = CURRENT_TIMESTAMP
-        WHERE id = %s
-        """,
-        (status, request_id)
-    )
+        return jsonify({
+            "message": (
+                "Purchase request accepted!"
+                if status == "accepted"
+                else "Purchase request rejected."
+            ),
+            "request": dict(updated)
+        }), 200
 
-    connection.commit()
-
-    updated = connection.execute(
-        """
-        SELECT
-            id AS request_id,
-            status,
-            updated_at
-        FROM purchase_requests
-        WHERE id = %s
-        """,
-        (request_id,)
-    ).fetchone()
-
-    connection.close()
-
-    return jsonify({
-        "message": (
-            "Purchase request accepted!"
-            if status == "accepted"
-            else "Purchase request rejected."
-        ),
-        "request": dict(updated)
-    }), 200
+    finally:
+        connection.close()
 
 
 @app.route("/chat", methods=["POST"])
@@ -1474,13 +1608,13 @@ def chat():
 
     if user:
         role = user["role"]
+
     else:
         role = str(
             data.get("role", "")
         ).strip().lower()
 
     if role == "farmer":
-
         system_prompt = (
             "You are AgriConnect AI, an assistant for farmers using the "
             "AgriConnect agricultural marketplace. Help with farming, crops, "
@@ -1489,7 +1623,6 @@ def chat():
         )
 
     elif role == "buyer":
-
         system_prompt = (
             "You are AgriConnect AI, an assistant for buyers using the "
             "AgriConnect agricultural marketplace. Help with buying agricultural "
@@ -1498,7 +1631,6 @@ def chat():
         )
 
     elif role == "driver":
-
         system_prompt = (
             "You are AgriConnect AI, an assistant for delivery drivers using "
             "the AgriConnect agricultural marketplace. Help with deliveries, "
@@ -1507,22 +1639,21 @@ def chat():
         )
 
     else:
-
         system_prompt = (
             "You are AgriConnect AI, a helpful assistant for the AgriConnect "
             "agricultural marketplace. Answer questions clearly and help users "
             "understand and use the platform."
         )
 
-    client = get_openrouter_client()
-    if client is None:
+    openrouter_client = get_openrouter_client()
+
+    if not openrouter_client:
         return jsonify({
             "error": "AI service is not configured"
         }), 503
 
     try:
-
-        response = client.chat.completions.create(
+        response = openrouter_client.chat.completions.create(
             model="openrouter/free",
             messages=[
                 {
@@ -1543,7 +1674,6 @@ def chat():
         }), 200
 
     except Exception as e:
-
         print(
             "OPENROUTER ERROR:",
             e
