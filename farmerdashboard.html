@@ -896,6 +896,12 @@
         >
           <option value="en">English</option>
           <option value="hi">हिन्दी</option>
+          <option value="or">ଓଡ଼ିଆ</option>
+          <option value="ta">தமிழ்</option>
+          <option value="te">తెలుగు</option>
+          <option value="bn">বাংলা</option>
+          <option value="bho">भोजपुरी</option>
+          <option value="mr">मराठी</option>
         </select>
 
         <button
@@ -1800,8 +1806,70 @@
       }
     };
 
+    const extraTranslations = {
+      en: {
+        "High Stock":"High Stock",
+        "Could not connect to the AgriConnect server.":"Could not connect to the AgriConnect server.",
+        "Could not get a response from the AI.":"Could not get a response from the AI.",
+        "The AI did not return a response.":"The AI did not return a response.",
+        "Could not connect to the AI. Please try again.":"Could not connect to the AI. Please try again."
+      },
+      hi: {
+        "High Stock":"उच्च स्टॉक",
+        "Could not connect to the AgriConnect server.":"AgriConnect सर्वर से कनेक्ट नहीं हो सका।",
+        "Could not get a response from the AI.":"AI से जवाब प्राप्त नहीं हो सका।",
+        "The AI did not return a response.":"AI ने कोई जवाब नहीं दिया।",
+        "Could not connect to the AI. Please try again.":"AI से कनेक्ट नहीं हो सका। कृपया दोबारा प्रयास करें।"
+      },
+      or: {
+        "High Stock":"ଅଧିକ ଷ୍ଟକ୍",
+        "Could not connect to the AgriConnect server.":"AgriConnect ସର୍ଭର ସହିତ ସଂଯୋଗ ହୋଇପାରିଲା ନାହିଁ।",
+        "Could not get a response from the AI.":"AI ଠାରୁ ଉତ୍ତର ମିଳିଲା ନାହିଁ।",
+        "The AI did not return a response.":"AI କୌଣସି ଉତ୍ତର ଦେଇନାହିଁ।",
+        "Could not connect to the AI. Please try again.":"AI ସହିତ ସଂଯୋଗ ହୋଇପାରିଲା ନାହିଁ। ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।"
+      },
+      ta: {
+        "High Stock":"அதிக இருப்பு",
+        "Could not connect to the AgriConnect server.":"AgriConnect சேவையகத்துடன் இணைக்க முடியவில்லை.",
+        "Could not get a response from the AI.":"AI இலிருந்து பதிலைப் பெற முடியவில்லை.",
+        "The AI did not return a response.":"AI எந்த பதிலும் வழங்கவில்லை.",
+        "Could not connect to the AI. Please try again.":"AI-யுடன் இணைக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்."
+      },
+      te: {
+        "High Stock":"అధిక నిల్వ",
+        "Could not connect to the AgriConnect server.":"AgriConnect సర్వర్‌కు కనెక్ట్ కాలేకపోయాము.",
+        "Could not get a response from the AI.":"AI నుండి సమాధానం పొందలేకపోయాము.",
+        "The AI did not return a response.":"AI ఎలాంటి సమాధానం ఇవ్వలేదు.",
+        "Could not connect to the AI. Please try again.":"AIకి కనెక్ట్ కాలేకపోయాము. మళ్లీ ప్రయత్నించండి."
+      },
+      bn: {
+        "High Stock":"উচ্চ স্টক",
+        "Could not connect to the AgriConnect server.":"AgriConnect সার্ভারের সাথে সংযোগ করা যায়নি।",
+        "Could not get a response from the AI.":"AI থেকে উত্তর পাওয়া যায়নি।",
+        "The AI did not return a response.":"AI কোনো উত্তর দেয়নি।",
+        "Could not connect to the AI. Please try again.":"AI-এর সাথে সংযোগ করা যায়নি। আবার চেষ্টা করুন।"
+      },
+      bho: {
+        "High Stock":"बहुत स्टॉक",
+        "Could not connect to the AgriConnect server.":"AgriConnect सर्वर से कनेक्ट ना हो पावल।",
+        "Could not get a response from the AI.":"AI से जवाब ना मिल पावल।",
+        "The AI did not return a response.":"AI कवनो जवाब ना दिहलस।",
+        "Could not connect to the AI. Please try again.":"AI से कनेक्ट ना हो पावल। फेरु कोशिश करीं।"
+      },
+      mr: {
+        "High Stock":"उच्च साठा",
+        "Could not connect to the AgriConnect server.":"AgriConnect सर्व्हरशी कनेक्ट करता आले नाही.",
+        "Could not get a response from the AI.":"AI कडून उत्तर मिळू शकले नाही.",
+        "The AI did not return a response.":"AI ने कोणतेही उत्तर दिले नाही.",
+        "Could not connect to the AI. Please try again.":"AI शी कनेक्ट करता आले नाही. पुन्हा प्रयत्न करा."
+      }
+    };
+
     function t(text) {
       const language = languageSelect.value || "en";
+      if (extraTranslations[language] && extraTranslations[language][text]) {
+        return extraTranslations[language][text];
+      }
       if (language === "en") return text;
       if (language === "hi") return uiTranslations.hi[text] || text;
       const all = {
@@ -1861,9 +1929,20 @@
         document.getElementById(
           "lastUpdated"
         ).textContent =
-          languageSelect.value === "hi"
-            ? `अंतिम अपडेट: ${now.toLocaleTimeString()}`
-            : `Last updated: ${now.toLocaleTimeString()}`;
+          (() => {
+          const time = now.toLocaleTimeString();
+          const updated = {
+            en: `Last updated: ${time}`,
+            hi: `अंतिम अपडेट: ${time}`,
+            or: `ଶେଷ ଅପଡେଟ୍: ${time}`,
+            ta: `கடைசியாக புதுப்பிக்கப்பட்டது: ${time}`,
+            te: `చివరి నవీకరణ: ${time}`,
+            bn: `সর্বশেষ আপডেট: ${time}`,
+            bho: `आखिरी अपडेट: ${time}`,
+            mr: `शेवटचे अपडेट: ${time}`
+          };
+          return updated[languageSelect.value] || updated.en;
+        })();
 
       } catch (error) {
 
@@ -1895,9 +1974,7 @@
         <div class="interest-empty">
 
           ${
-            languageSelect.value === "hi"
-              ? "रुचि रखने वाले ग्राहक लोड हो रहे हैं..."
-              : "Loading interested customers..."
+            t("Loading interested customers...")
           }
 
         </div>
@@ -2491,9 +2568,7 @@
           } else {
 
             stockText =
-              languageSelect.value === "hi"
-                ? "उच्च स्टॉक"
-                : "High Stock";
+              t("High Stock");
 
             stockClass =
               "stock-high";
@@ -2616,9 +2691,7 @@
         highestEl.textContent = "—";
         verdictEl.className = "price-verdict neutral";
         verdictEl.textContent =
-          languageSelect.value === "hi"
-            ? "बाजार जानकारी देखने के लिए फसल दर्ज करें।"
-            : "Enter a crop to see market insight.";
+          t("Enter a crop to see market insight.");
         return;
       }
 
@@ -2637,9 +2710,7 @@
         highestEl.textContent = "—";
         verdictEl.className = "price-verdict neutral";
         verdictEl.textContent =
-          languageSelect.value === "hi"
-            ? "इस फसल के लिए अभी पर्याप्त AgriConnect बाजार डेटा उपलब्ध नहीं है।"
-            : "Not enough AgriConnect marketplace data for this crop yet.";
+          t("Not enough AgriConnect marketplace data for this crop yet.");
         return;
       }
 
@@ -2654,9 +2725,21 @@
       if (!Number.isFinite(yourPrice) || yourPrice <= 0) {
         verdictEl.className = "price-verdict neutral";
         verdictEl.textContent =
-          languageSelect.value === "hi"
-            ? `${prices.length} मौजूदा सूची मिली। अपनी कीमत दर्ज करके तुलना करें।`
-            : `${prices.length} current listing${prices.length === 1 ? "" : "s"} found. Enter your price to compare.`;
+          (() => {
+          const n = prices.length;
+          const lang = languageSelect.value;
+          const texts = {
+            en: `${n} current listing${n === 1 ? "" : "s"} found. Enter your price to compare.`,
+            hi: `${n} मौजूदा सूची मिली। अपनी कीमत दर्ज करके तुलना करें।`,
+            or: `${n}ଟି ବର୍ତ୍ତମାନର ତାଲିକା ମିଳିଲା। ତୁଳନା ପାଇଁ ଆପଣଙ୍କ ମୂଲ୍ୟ ଦିଅନ୍ତୁ।`,
+            ta: `${n} தற்போதைய பட்டியல் கிடைத்தது. ஒப்பிட உங்கள் விலையை உள்ளிடுங்கள்.`,
+            te: `${n} ప్రస్తుత జాబితాలు కనుగొనబడ్డాయి. పోల్చడానికి మీ ధరను నమోదు చేయండి.`,
+            bn: `${n}টি বর্তমান তালিকা পাওয়া গেছে। তুলনা করতে আপনার দাম লিখুন।`,
+            bho: `${n} गो वर्तमान लिस्टिंग मिलल। तुलना खातिर आपन दाम भरीं।`,
+            mr: `${n} विद्यमान नोंदी सापडल्या. तुलना करण्यासाठी तुमची किंमत भरा.`
+          };
+          return texts[lang] || texts.en;
+        })();
         return;
       }
 
@@ -2665,21 +2748,50 @@
       if (differencePercent <= -10) {
         verdictEl.className = "price-verdict good";
         verdictEl.textContent =
-          languageSelect.value === "hi"
-            ? `🟢 अच्छी कीमत — आपकी कीमत बाजार औसत से ${Math.abs(differencePercent).toFixed(1)}% कम है।`
-            : `🟢 Good price — your price is ${Math.abs(differencePercent).toFixed(1)}% below the current marketplace average.`;
+          (() => {
+          const pct = Math.abs(differencePercent).toFixed(1);
+          const texts = {
+            en: `🟢 Good price — your price is ${pct}% below the current marketplace average.`,
+            hi: `🟢 अच्छी कीमत — आपकी कीमत बाजार औसत से ${pct}% कम है।`,
+            or: `🟢 ଭଲ ମୂଲ୍ୟ — ଆପଣଙ୍କ ମୂଲ୍ୟ ବଜାର ହାରାହାରିଠାରୁ ${pct}% କମ୍।`,
+            ta: `🟢 நல்ல விலை — உங்கள் விலை சந்தை சராசரியைவிட ${pct}% குறைவு.`,
+            te: `🟢 మంచి ధర — మీ ధర మార్కెట్ సగటు కంటే ${pct}% తక్కువ.`,
+            bn: `🟢 ভালো দাম — আপনার দাম বাজারের গড়ের তুলনায় ${pct}% কম।`,
+            bho: `🟢 बढ़िया दाम — रउआ के दाम बाजार के औसत से ${pct}% कम बा।`,
+            mr: `🟢 चांगली किंमत — तुमची किंमत बाजाराच्या सरासरीपेक्षा ${pct}% कमी आहे.`
+          };
+          return texts[languageSelect.value] || texts.en;
+        })();
       } else if (differencePercent <= 10) {
         verdictEl.className = "price-verdict fair";
         verdictEl.textContent =
-          languageSelect.value === "hi"
-            ? `🟡 उचित कीमत — आपकी कीमत बाजार औसत के लगभग बराबर है।`
-            : `🟡 Fair price — your price is within about 10% of the current marketplace average.`;
+          (() => ({
+          en: `🟡 Fair price — your price is within about 10% of the current marketplace average.`,
+          hi: `🟡 उचित कीमत — आपकी कीमत बाजार औसत के लगभग बराबर है।`,
+          or: `🟡 ଉଚିତ ମୂଲ୍ୟ — ଆପଣଙ୍କ ମୂଲ୍ୟ ବଜାର ହାରାହାରିର ପ୍ରାୟ 10% ମଧ୍ୟରେ ଅଛି।`,
+          ta: `🟡 நியாயமான விலை — உங்கள் விலை சந்தை சராசரியின் சுமார் 10%க்குள் உள்ளது.`,
+          te: `🟡 సరైన ధర — మీ ధర మార్కెట్ సగటు నుంచి సుమారు 10% లోపల ఉంది.`,
+          bn: `🟡 ন্যায্য দাম — আপনার দাম বাজারের গড়ের প্রায় ১০% এর মধ্যে।`,
+          bho: `🟡 ठीक दाम — रउआ के दाम बाजार के औसत के करीब 10% के भीतर बा।`,
+          mr: `🟡 योग्य किंमत — तुमची किंमत बाजाराच्या सरासरीच्या सुमारे 10% मर्यादेत आहे.`
+        })[languageSelect.value] || `🟡 Fair price — your price is within about 10% of the current marketplace average.`);
       } else {
         verdictEl.className = "price-verdict high";
         verdictEl.textContent =
-          languageSelect.value === "hi"
-            ? `🔴 ऊंची कीमत — आपकी कीमत बाजार औसत से ${differencePercent.toFixed(1)}% अधिक है।`
-            : `🔴 Above average — your price is ${differencePercent.toFixed(1)}% above the current marketplace average.`;
+          (() => {
+          const pct = differencePercent.toFixed(1);
+          const texts = {
+            en: `🔴 Above average — your price is ${pct}% above the current marketplace average.`,
+            hi: `🔴 ऊंची कीमत — आपकी कीमत बाजार औसत से ${pct}% अधिक है।`,
+            or: `🔴 ଅଧିକ ମୂଲ୍ୟ — ଆପଣଙ୍କ ମୂଲ୍ୟ ବଜାର ହାରାହାରିଠାରୁ ${pct}% ଅଧିକ।`,
+            ta: `🔴 சராசரியை விட அதிகம் — உங்கள் விலை சந்தை சராசரியைவிட ${pct}% அதிகம்.`,
+            te: `🔴 సగటు కంటే ఎక్కువ — మీ ధర మార్కెట్ సగటు కంటే ${pct}% ఎక్కువ.`,
+            bn: `🔴 গড়ের চেয়ে বেশি — আপনার দাম বাজারের গড়ের তুলনায় ${pct}% বেশি।`,
+            bho: `🔴 जादे दाम — रउआ के दाम बाजार के औसत से ${pct}% अधिक बा।`,
+            mr: `🔴 सरासरीपेक्षा जास्त — तुमची किंमत बाजाराच्या सरासरीपेक्षा ${pct}% जास्त आहे.`
+          };
+          return texts[languageSelect.value] || texts.en;
+        })();
       }
     }
 
@@ -2821,9 +2933,7 @@
             );
 
             showMessage(
-              languageSelect.value === "hi"
-                ? "AgriConnect सर्वर से कनेक्ट नहीं हो सका।"
-                : "Could not connect to the AgriConnect server.",
+              t("Could not connect to the AgriConnect server."),
               "error"
             );
 
@@ -2992,9 +3102,16 @@
       ) {
 
         addAIMessage(
-          languageSelect.value === "hi"
-            ? `नमस्ते ${loggedInUser.name}! मैं AgriConnect AI हूँ। खेती, फसलों, उत्पाद बेचने या AgriConnect के बारे में कुछ भी पूछें।`
-            : `Hello ${loggedInUser.name}! I'm AgriConnect AI. Ask me anything about farming, crops, selling products, or using AgriConnect.`,
+          ({
+            en: `Hello ${loggedInUser.name}! I'm AgriConnect AI. Ask me anything about farming, crops, selling products, or using AgriConnect.`,
+            hi: `नमस्ते ${loggedInUser.name}! मैं AgriConnect AI हूँ। खेती, फसलों, उत्पाद बेचने या AgriConnect के बारे में कुछ भी पूछें।`,
+            or: `ନମସ୍କାର ${loggedInUser.name}! ମୁଁ AgriConnect AI। ଚାଷ, ଫସଲ, ଉତ୍ପାଦ ବିକ୍ରୟ କିମ୍ବା AgriConnect ବିଷୟରେ ପଚାରନ୍ତୁ।`,
+            ta: `வணக்கம் ${loggedInUser.name}! நான் AgriConnect AI. விவசாயம், பயிர்கள், பொருட்கள் விற்பனை அல்லது AgriConnect பற்றி கேளுங்கள்.`,
+            te: `నమస్తే ${loggedInUser.name}! నేను AgriConnect AI. వ్యవసాయం, పంటలు, ఉత్పత్తుల విక్రయం లేదా AgriConnect గురించి అడగండి.`,
+            bn: `নমস্কার ${loggedInUser.name}! আমি AgriConnect AI। কৃষি, ফসল, পণ্য বিক্রি বা AgriConnect সম্পর্কে জিজ্ঞাসা করুন।`,
+            bho: `नमस्ते ${loggedInUser.name}! हम AgriConnect AI हईं। खेती, फसल, सामान बेचे आ AgriConnect के बारे में पूछीं।`,
+            mr: `नमस्कार ${loggedInUser.name}! मी AgriConnect AI आहे. शेती, पिके, उत्पादने विक्री किंवा AgriConnect बद्दल विचारा.`
+          })[languageSelect.value] || `Hello ${loggedInUser.name}! I'm AgriConnect AI. Ask me anything about farming, crops, selling products, or using AgriConnect.`,
           "bot"
         );
 
@@ -3032,9 +3149,16 @@
 
       const typingMessage =
         addAIMessage(
-          languageSelect.value === "hi"
-            ? "AI सोच रहा है..."
-            : "AI is thinking...",
+          ({
+            en: "AI is thinking...",
+            hi: "AI सोच रहा है...",
+            or: "AI ଚିନ୍ତା କରୁଛି...",
+            ta: "AI யோசித்துக் கொண்டிருக்கிறது...",
+            te: "AI ఆలోచిస్తోంది...",
+            bn: "AI ভাবছে...",
+            bho: "AI सोचत बा...",
+            mr: "AI विचार करत आहे..."
+          })[languageSelect.value] || "AI is thinking...",
           "bot typing"
         );
 
@@ -3045,7 +3169,6 @@
             "/chat",
             {
               method: "POST",
-              credentials: "include",
 
               headers: {
                 "Content-Type":
@@ -3058,7 +3181,7 @@
                     userMessage,
 
                   role:
-                    loggedInUser.role,
+                    "farmer",
 
                   user_id:
                     loggedInUser.id
@@ -3076,9 +3199,7 @@
           addAIMessage(
             data.error ||
             (
-              languageSelect.value === "hi"
-                ? "AI से जवाब प्राप्त नहीं हो सका।"
-                : "Could not get a response from the AI."
+              t("Could not get a response from the AI.")
             ),
             "bot"
           );
@@ -3090,9 +3211,7 @@
         addAIMessage(
           data.reply ||
           (
-            languageSelect.value === "hi"
-              ? "AI ने कोई जवाब नहीं दिया।"
-              : "The AI did not return a response."
+            t("The AI did not return a response.")
           ),
           "bot"
         );
@@ -3107,9 +3226,7 @@
         typingMessage.remove();
 
         addAIMessage(
-          languageSelect.value === "hi"
-            ? "AI से कनेक्ट नहीं हो सका। कृपया दोबारा प्रयास करें।"
-            : "Could not connect to the AI. Please try again.",
+          t("Could not connect to the AI. Please try again."),
           "bot"
         );
 
